@@ -1624,14 +1624,6 @@ main (int argc, char **argv)
               quoting_style_args, quoting_style_vals));
     }
 
-  /* Restore default color before exiting */
-  if (print_with_color)
-    {
-      put_indicator (&color_indicator[C_LEFT]);
-      put_indicator (&color_indicator[C_NORM]); // BUG: Missing - AEK
-      put_indicator (&color_indicator[C_RIGHT]);
-    }
-
   exit (exit_status);
 }
 
