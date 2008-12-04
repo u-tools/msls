@@ -4400,10 +4400,8 @@ put_indicator (const struct bin_str *ind)
     // Output escape sequences a la Unix.  Only do this if we
     // are running under a GUI, e.g., under Emacs or rxvt.
     //
-    if (!_HasConsole()) {
-      for (i = ind->len; i > 0; --i)
-    more_putchar (*(p++));
-    }
+    for (i = ind->len; i > 0; --i)
+      more_putchar (*(p++));
     return;
   }
 
