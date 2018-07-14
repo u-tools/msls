@@ -1,0 +1,2353 @@
+<!DOCTYPE HTML !>
+<html lang="en"><head><title>msls - GNU ls directory utility for Microsoft Windows</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta content="msls - GNU ls directory utility for Microsoft Windows" name="description">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="msapplication-config" content="none" />
+<link rel="stylesheet" type="text/css" href="msls.css">
+</head>
+
+<BODY COLOR="#FFFFFF" link="#336666" vlink="#336666" alink="#00FFFF">
+
+<P>
+<HR>
+<H1>GNU ls for Microsoft Windows</H1>
+
+<!-- $Id: msls.htm,v 1.28 2017/11/29 00:03:46 cvsalan Exp $ -->
+
+<HR>
+<BR>
+<H2>Introduction</H2>
+
+<P>
+<B>ls</B> is a console utility that lists information on Windows files.
+It is based on the <SMALL>GNU/Linux</SMALL> <CODE>ls</CODE> directory
+information utility.
+It displays exhaustive information on DACLs/SACLs,
+integrity levels,
+reparse points, shortcuts, hard links, symbolic links,
+hidden streams, encryption,
+compaction, virtualization,
+volume serial number, object tracking identifier,
+and offline status.</P>
+
+<P>
+<B>ls</B> is free software.
+For download information see the
+<A HREF="http://utools.com/msls.asp"><B>GNU ls web page</B></A> at
+the <A HREF="http://utools.com/"><B>UTools</B></A> web site.
+</P>
+
+<!-- ------------------------------------------------------------ -->
+
+<HR>
+
+<H2>Table of Contents</H2>
+<UL>
+  <LI><A 
+	  href="#Basic Information">Basic Information</A> 
+
+  <LI><A 
+	  href="#Mode%20Structure">File Permissions</A> 
+  	<UL>
+		<LI><A href="#integrity">Vista Mandatory Integrity Levels</A></LI>
+	</UL>
+
+  <LI><A 
+	  href="#pretty">Prettifying the Output</A> 
+
+  <LI><A 
+	  href="#ls%20invocation"><B>ls</B>: Files and Options</A>
+
+  <LI><A href="#options">Command Options</A>
+
+	<UL>
+      <LI><A href="#What%20information%20is%20listed">Options: What information is listed?</A> 
+	 <UL>
+		 <LI><A href="#streams">Hidden Streams in Files: --streams</A>
+		 <LI><A href="#token">Vista Elevation: Viewing Your Process Token</A>
+		 <LI><A href="#encrypted">Encrypted Files</A>
+		 <LI><A href="#objectids">Object Tracking Identifiers</A>
+  		 <LI><A href="#perf">Performance: --slow vs --fast</A>
+     </UL>
+      <LI><A href="#Which%20files%20are%20listed">Options: Which files are listed?</A> 
+	  <UL>
+		 <LI><A href="#64bit">64-bit Operating Systems</A>
+		 <LI><A href="#virtual">Vista File and Registry Virtualization</A>
+	  </UL>
+      <LI><A href="#Sorting%20the%20output">Options: Sorting the output</A> 
+	  <UL>
+        <LI><A href="#More%20details%20about%20version%20sort">More details about version sort</A> 
+	</UL>
+      <LI><A href="#General%20output%20formatting">Options: General output formatting</A> 
+	 <UL>
+	    <LI><A href="#Block%20Size">Block size</A>
+	    <LI><A href="#timestyle">Time style</A>
+     </UL>
+     <LI><A href="#Formatting%20the%20file%20names">Options: Formatting the file names</A> </LI>
+    </UL>
+
+  <LI><A href="#custom">Customizing <B>ls</B></A>
+
+  <LI><A href="#dircolors%20invocation"><B>dircolors</B>: Color setup for <B>ls</B></A>
+
+  <LI><A href="#ack">Acknowledgments</A> 
+  </LI>
+</UL>
+
+
+<!-- ----------------------------------------------------------------- -->
+
+<P>
+<HR>
+
+<A name="Basic%20information"><H2>Basic Information</H2></A>
+
+<P>To invoke <B>ls</B> simply type its name at the command prompt:
+</P>
+
+<PRE>
+&gt; <B>ls</B>
+myfile.dat  mytext.txt  word.doc
+</PRE>
+
+<P>This shows you a list of files in your current directory.
+If your system administrator has installed
+a GNU package (such as Cygnus Cygwin)
+your system administrator may have have renamed <B>ls</B> to <B>msls</B>
+to avoid a name conflict with Cygwin's pure <small>UNIX</small> version of <B>ls</B>.
+If <B>ls</B> does not work try typing <B>msls</B>.
+</P>
+
+<P>To get basic information on the available command line options
+you can use the following options.  (Every
+<SMALL>GNU</SMALL> program should accept them).
+<DL>
+  <DT><CODE>--help</CODE> 
+  <DD>Print a usage message listing all available options
+  <BR>
+  <DT><CODE>--version</CODE> 
+  <DD>Print the version number
+  </DD>
+</DL>
+
+<P>
+To get long information use the <CODE>-l</CODE> option:
+</P>
+
+<PRE>
+&gt; <B>ls -l</B>
+total 158
+-ra--a----  1 Alan       68032 Jan 28 17:59 append-only.dat
+drwxrwxrwx  1 Alan           0 Jan 27 09:57 dir
+-rwE------  1 Alan          15 Jan 27 00:53 encrypted
+-rw-r-----$ 1 Alan           5 Jan 24 08:13 file
+-rw-r-----$ 1 Alan           5 Jan 24 08:13 file:secret:$DATA
+-rwxrwxr-x  1 Alan          10 Jan 29 00:47 myprog.exe
+Srw-------  1 Ginger    432254 Jan 11 12:55 sparse-file.dat
+-rw-rw-rw-  1 Ginger      3423 Jan 29 04:41 text.txt
+-rw-rw-rw-  1 Ginger     40960 Jan 21 02:54 word.doc
+</PRE>
+
+<P>
+A long listing may scroll off the top of your screen.  To pause
+the output between each screenful
+use the option <CODE>-M</CODE> (or <CODE>--more</CODE>).  To interrupt
+the output press Control+C or Control+Break at any time.
+</P>
+
+<P>
+As with every <SMALL>GNU</SMALL> utility you can abbreviate command options to uniqueness.  So instead of typing
+</P>
+<PRE>
+&gt; <B>ls -l --acls=very-long myfile.dat</B>
+</PRE>
+<P>
+you can abbreviate the command like this,
+</P>
+<PRE>
+&gt; <B>ls -l --ac=v myfile.dat</B>
+</PRE>
+<P>
+The <CODE>-l</CODE> (long) option is implied for many options such as
+<CODE>--acls</CODE>, <CODE>--sids</CODE>, <span class="nobr"><CODE>--gids</CODE></span>, 
+<span class="nobr"><CODE>--encryption-users</CODE></NOBREAK>, and
+<span class="nobr"><CODE>--full-time</CODE></span>. 
+</P>
+
+<P>To change the current directory use the command <b>cd</b>.
+
+<PRE>
+&gt; cd \Documents and Settings\Administrator
+&gt; ls -l
+</PRE>
+
+<P>To change the drive letter (default C:) append
+the /d option to <b>cd</b>.</P>
+
+<PRE>
+&gt; cd /d <span>D:\</span>
+&gt; ls -l
+</PRE>
+
+<!-- ----------------------------------------------------------------- -->
+
+<HR>
+
+<A NAME="Mode%20Structure"><H2>File Permissions</H2></A>
+
+<P>The file permissions in Microsoft's New Technology File System (NTFS) are
+based on <DFN>Access Control Lists</DFN>, or ACLs.
+An <DFN>ACL</DFN> is a list of users and groups that are allowed or 
+denied access to a file.
+</P>
+
+<P>There are three basic types of permissions.  Each has a letter
+code: <CODE>r</CODE>, <CODE>w</CODE>, or <CODE>x</CODE>.
+</P>
+
+<UL>
+  <P></P>
+  <LI><CODE>r</CODE> - permission to read the file. For directories this means permission to 
+  view the contents of the directory. 
+  <LI><CODE>w</CODE> - permission to write to (change) the file. For directories this means 
+  permission to add and remove files in the directory. 
+  <LI><CODE>x</CODE> - permission to execute the file (run it as a program). For directories 
+  this means permission to access the files in the directory. </LI>
+
+  </UL>
+
+<P>
+(In rare cases a file may have append-only
+permission where the <CODE>w</CODE> will change to <CODE>a</CODE>.)
+</P>
+
+<P>There are three groups of <CODE>rwx</CODE> mode strings, one for
+each category of users. Each group can have different permissions to
+perform any of the above operations on a file: 
+</P>
+
+<OL type=1>
+  <P></P>
+  <LI>Yourself
+  <LI>All authenticated users, excluding anonymous users
+  <LI>Everyone, including anonymous users</LI></OL>
+
+<P>
+For example, a file that allows all permissions for yourself and
+others but denies access by anonymous users
+would have the mode string <span class="nobr"><CODE>rwxrwx---</CODE></span>.  Revoking
+write permission from other users would change it to
+<span class="nobr"><CODE>rwxr-x---</CODE></span>.
+</P>
+
+<P>
+This is only a simplified view of the file permissions.  NTFS file permissions
+are actually much more complex than this.
+To see the complete ACL use the option
+<span class="nobr"><CODE>--view-security</CODE></span>.  This will pop
+up the standard Windows dialog to show very detailed information
+on the file's ACL:
+</P>
+
+<CENTER>
+<IMG SRC="msls_perms.gif" WIDTH=369 HEIGHT=452>
+</CENTER>
+
+<BR>
+
+<P>Click on the <B>Advanced</B> button to see the
+gory details including special permission flags, auditing, ownership, and
+effective permissions.
+</P>
+
+<P>
+If you are an NTFS expert you might want to see the
+full ACL printed out.  Use <span class="nobr"><CODE>--acls=long</CODE></span>.
+</P>
+
+<PRE>
+&gt; <B>ls -l --acls=long myfile.dat</B>
+-rwxr-x--a  1 Alan         12800 Jan 21 02:54 myfile.dat
+D:AI(A;;Modify;;;Alan)(A;;0x100080;;;Ginger)(A;ID;Full;;;BA)
+(A;ID;Full;;;SY)(A;ID;Full;;;LA)(A;ID;Read+Exec;;;BU)
+</PRE>
+
+<P>
+The ACL string may be difficult to interpret by inexperienced users
+(remember this is for NTFS experts).
+For more human-readable format use <span class="nobr"><CODE>--acls=very-long</CODE></span>.
+This will write out the ACL in a very long format that is
+somewhat more readable.
+</P>
+
+<P>
+Remember the first example with <span class="nobr"><CODE>--ac=v</CODE></span> shown above?
+Here is the complete output:
+</P>
+
+<PRE>
+&gt; <B>ls --ac=v myfile.dat</B>
+-rwxr-x--a  1 Alan         12800 Jan 21 02:54 myfile.dat
+    Alan:             
+                      Read
+                      Write
+                      Execute
+                      Append Data
+                      Read Attributes
+                      Write Attributes
+                      Delete
+                      Read Security Info
+                      Synchronize
+                      Not Inherited
+    Ginger:           
+                      Read Attributes
+                      Synchronize
+                      Not Inherited
+    Administrators:   Full
+    SYSTEM:           Full
+    Administrator:    Full
+    Users:            Read + Execute
+</PRE>
+
+<P>
+Whenever a new file or directory is created it inherits the ACL of its parent
+directory.  If an ACL was created explicitly (i.e., not
+inherited), it is marked &quot;Not Inherited&quot;.  ACL inheritance
+is a standard feature of NTFS.  
+Standard inheritance only applies to newly created files
+and directories.
+</P>
+
+<P><B>ls</B> will also
+report on a type of inheritance called
+<DFN>cascade-propagation</DFN>.
+The cascade-propagation of file permissions
+was introduced in Windows 2000.  It cascades the inheritance of ACLs
+from a directory down to all existing files and directories 
+(and sub-directories and sub-sub-directories) down the directory tree.
+<B>ls</B> will report on whether changes to permissions
+will cascade down the directory tree
+(&quot;Changes will propagate to existing descendants&quot;),
+report on protection against
+auto-propagation (&quot;DACL is protected from clobbering by parent&quot;),
+and report special
+single-level propagation (&quot;Propagate one level only&quot;).
+</P>
+
+<P>
+In addition <B>ls</B>
+will report on <DFN>System Access Control Lists</DFN> (SACLs).  
+A SACL is a special form of ACL that
+is used to monitor access to sensitive files.  SACLs
+will trigger security audit messages in the 
+Event Log whenever the files are accessed (or denied access) by
+the users or groups being monitored in the SACL.  
+SACLs can only be viewed or changed by system administrators.
+Regular ACLs
+are sometimes called <DFN>Discretionary Access Control Lists</DFN>
+(DACLs) to distinguish them from SACLs.
+</P>
+
+<A NAME="integrity"><H3>Vista Mandatory Integrity Levels</H3></A>
+
+<P>In addition to DACLs, Windows Vista added a new layer of security to files and registry keys
+called <DFN>mandatory integrity levels</DFN>, sometimes called
+<DFN>mandatory labels</DFN>.</P>
+
+<P>Mandatory integrity levels are entirely separate from DACLs.  They can
+only be set by system administrators.
+There are five mandatory integrity levels:</P>
+
+<UL>
+	<LI>Low - for sandbox applications such as Internet Explorer.</LI>
+	<LI>Medium - for regular users and non-elevated administrators.</LI>
+	<LI>High - for administrators running in elevated mode.</LI>
+	<LI>System - for system services.</LI>
+	<LI>ProtectedProcess - for Digital Rights Management (DRM) processes.</LI>
+</UL>
+
+<P>If a file or a registry key has no integrity level it defaults to medium.</P>
+
+<P>To view the integrity level of a file use <code>--ac=v</code>.</P>
+
+<PRE>
+&gt; <B>ls --ac=v SystemFile.dat</B>
+
+-rw-rw---a  1 SYSTEM         13552 Oct  1 07:56 SystemFile.dat
+    Administrators:   Full
+    SYSTEM:           Full
+    Users:            Read + Execute
+System Access Control List:
+    High Mandatory Level: Integrity Level
+                      No-Write-Up
+                      Not Inherited
+</PRE>
+
+<P>The integrity level is stored in the SACL.  An integrity level
+can have associated with it up to three different types
+of mandatory protection:</P>
+
+<UL>
+	<LI>No-Write-Up - disallow writing to the file from a lower integrity level.</LI>
+	<LI>No-Read-Up - disallow reading from the file from a lower integrity level.</LI>
+	<LI>No-Execute-Up - disallow executing the file from a lower integrity level.</LI>
+</UL>
+
+<P>You can set or modify integrity levels using the console command-line
+utility <code>icacls.exe</code>.  You cannot set an integrity level
+higher than your own.  To view your integrity level see 
+<a href="#token"><b>Viewing Your Process Token</b></a>.</P>
+
+<A NAME="filetypes"><H3>File Types</H3></A>
+
+<P>
+The characters <span class="nobr"><CODE>-rwxrwxrwx</CODE></span> are called
+a <DFN>mode string</DFN> (this is <SMALL>UNIX</SMALL> jargon).  A
+mode string has an initial character that defines the type of file:
+</P>
+<UL>
+	<LI><CODE>-</CODE> for a regular file
+	<LI><CODE>d</CODE> for directory (aka folder)
+	<LI><CODE>c</CODE> for a compressed file<BR>
+	<LI><CODE>S</CODE> for a sparse file
+	<LI><CODE>l</CODE> for a link (reparse-point, shortcut, or symbolic link)</LI>
+</UL>
+<P>(<SMALL>UNIX</SMALL> supports other file types
+not listed here.)
+A <DFN>compressed</DFN> file uses NTFS compression to reduce the
+physical disk size.
+A <DFN>sparse</DFN> file reduces disk usage by
+not allocating physical disk space
+for disk sectors that contain all zeros.
+A <DFN>link</DFN> redirects the file path to another location.
+</P>
+<H4>Link Types</H4>
+<P>
+An <code>l</code> indicates a link.  There are three types of links: reparse-points, shortcuts, and symbolic links.
+A <DFN>reparse-point</DFN> 
+redirects (&quot;reparses&quot;) the directory path at that point,
+redirecting it to another location.  The location must be on the same
+file system.
+A <DFN>shortcut</DFN> is a special
+data file ending in a <CODE>.LNK</CODE> suffix.
+The Windows Shell opens a shortcut
+when a user clicks on it as an icon in a Windows folder
+or on the popup menu of the Start button.  The shortcut
+contains a text string that represents the path that the shell is to open
+to access the real file in another directory.
+A <DFN>symbolic link</DFN> (introduced in Windows Vista)
+works the same way as a soft link
+on Linux or Unix.  It redirects the file path to another location.
+The location can be anywhere, including on another drive letter
+or on a remote file share.  The use of symbolic links over a network
+requires use of Windows Vista (or later) on both the local computer
+and the remote computer.
+</P>
+
+<!-- ----------------------------------------------------------------- -->
+
+<P>
+<HR>
+<A name="pretty"><H2>Prettifying the Output</H2></A>
+
+<P>
+<B>ls</B> has several options to add colors and other distinctive
+decorations to the file names.  The most basic option is
+<span class="nobr"><CODE>--color</CODE></span>, which decorates the files
+with various distinctive colors.
+</P>
+
+<TABLE BGCOLOR=BLACK CELLSPACING=2 CELLPADDING=2 BORDER=0>
+<TR><TD>
+	<FONT COLOR="CCCCCC">Regular files are shown with </FONT><FONT COLOR="#CCCCCC">White Letters</FONT>
+</TD></TR>
+<TR><TD>
+	<FONT COLOR="CCCCCC">Directories are shown with </FONT><FONT COLOR="#00CC00">Green Letters</FONT>
+</TD></TR>
+<TR><TD>
+		<FONT COLOR="CCCCCC">Executable programs are shown with </FONT><FONT COLOR="#CCCC00">Yellow Letters</FONT>
+</TD></TR>
+<TR><TD>
+		<FONT COLOR="CCCCCC">Multimedia files (.mpg, .gif, etc) are shown with </FONT><FONT COLOR="#CC00CC">Magenta Letters</FONT>
+</TD></TR>
+<TR><TD>
+		<FONT COLOR="CCCCCC">Compressed archives (.zip, .gz, etc) are shown with </FONT><FONT COLOR="#00CCCC">Cyan Letters</FONT>
+</TD></TR>
+<TR><TD>
+		<FONT COLOR="CCCCCC">Compressed NTFS files are also shown with </FONT><FONT COLOR="#00CCCC">Cyan Letters</FONT><FONT COLOR="CCCCCC"><BR>if you use <CODE>--compressed</CODE></FONT>
+</TD></TR>
+<TR><TD>
+		<FONT COLOR="CCCCCC">Special files such as encrypted files, hidden 
+			<a href="#streams">streams</a>,
+			<BR>and symbolic links are shown with </FONT><FONT COLOR="#0000FF">Blue Letters</FONT>
+</TD></TR>
+<TR><TD>
+		<FONT COLOR="CCCCCC">Broken symbolic links are shown with </FONT><FONT COLOR="#FF0000">Red Letters</FONT>
+</TD></TR>
+<TR><TD>
+		<FONT COLOR="CCCCCC">Recently modified files are shown with </FONT><FONT COLOR="#FFFFFF">Intense White Letters</FONT><FONT COLOR="CCCCCC"><BR>if you use <CODE>--recent</CODE></FONT>
+</TD></TR>
+</TABLE>
+
+<BR>
+
+<P>
+Use <CODE>--recent=n</CODE> to show files that have been modified
+within the last <CODE>n</CODE> minutes (default n=60).
+If the recently modified file already has a non-white color, it is shown with
+inverted colors.
+</P>
+
+<P>
+If you don't like the color scheme you can change it with
+the <A HREF="#dircolors%20invocation"><B>dircolors</B></A> utility.
+</P>
+<P>
+If you are using the console window, keep in mind that you are
+limited to only 8 total colors.  This
+is a historical artifact of the console colors mimicking
+the capabilities of the original 1980 IBM PC CGI display.
+</P>
+<P>
+If you are
+using a fancier &quot;terminal window&quot; like 
+<span class="nobr"><CODE>xterm</CODE></span>, <span class="nobr"><CODE>rxvt</CODE></span>, or
+<SMALL>EMACS</SMALL>, you can use many more colors (and use different fonts
+too).
+On these smarter consoles <B>ls</B> will show 
+<span class="nobr"><CODE>--recent</CODE></span>
+files using 
+<TABLE BGCOLOR=BLACK CELLSPACING=0 CELLPADDING=4 BORDER=0>
+	<TR><TD>
+<FONT COLOR="#EEEEEE"><U>Underlined Letters</U></FONT>
+</TD></TR>
+</TABLE>
+</P>
+
+<P>If you don't like colors (or you have a disability where 
+you cannot see colors)
+you can use the <span class="nobr"><CODE>-F</CODE></span> option
+to classify the file type with a suffix,
+one of the characters <span class="nobr"><CODE>*\@$</CODE></span>.  The
+characters denote
+an executable file <CODE>*</CODE>, a directory <CODE>\</CODE>,
+		a symbolic link <CODE>@</CODE>, or a hidden stream <CODE>$</CODE>,
+respectively.
+</P>
+
+<P>Use the <CODE>-h</CODE> option to show file sizes in human-readable form,
+such as <span class="nobr"><CODE>1.5M</CODE></span> instead of <CODE>1502997</CODE>.
+The default units are powers of 1024.  To use powers of 1000
+use <span class="nobr"><CODE>--si</CODE></span>.
+SI stands for <DFN>Syst&egrave;me International</DFN> units.  (That's just
+a fancy way of saying &quot;metric system&quot;.)
+</P>
+
+<!-- ----------------------------------------------------------------- -->
+
+<P>
+<HR>
+<A name="ls%20invocation"><H2><B>ls</B>: Files and Options</H2></A>
+
+<P><B>ls</B> lists information about files of any type.
+Options and file arguments can be intermixed in any order.
+</P>
+
+<P>If the file argument is actually a directory name,
+<B>ls</B> lists its contents.
+For regular files
+<B>ls</B> lists just the file name. If no arguments 
+are specified <B>ls</B> lists the contents of the current directory. 
+</P>
+
+<P>Output to the console
+is displayed
+in columns <span class="nobr">--</span> sorted vertically.
+Unprintable characters 
+are shown as question marks (?).  If the output is redirected to
+a file (&nbsp;<span class="nobr"><CODE>ls *.dat &gt; filelist</CODE></span>&nbsp;) 
+the output is listed one file per line and 
+any unprintable characters are output as-is. 
+</P>
+
+<H3>Special names</H3>
+
+<P>Two special directory names are
+<span class="nobr">&quot;<CODE>.</CODE>&quot;</span> and <span class="nobr">&quot;<CODE>..</CODE>&quot;,</span>
+called <DFN>dot</DFN> and <span class="nobr"><DFN>dot-dot</DFN></span>.
+These represent the current directory and the parent directory.
+Thus for example <span class="nobr"><CODE>..\foo.dat</CODE></span> represents
+the file foo.dat at one directory level above the current directory.
+</P>
+
+<P>You can use wildcards such as * and ? to match
+one or more files.  The * matches any number
+of characters, while ? matches exactly one character.  Thus for
+example <span class="nobr"><CODE>*.da?</CODE></span> matches 
+<span class="nobr"><CODE>foo.dat</CODE></span> and <span class="nobr"><CODE>yum.day</CODE></span>,
+but not <span class="nobr"><CODE>fab.dog</CODE></span>.
+</P>
+
+<P>Wildcards are searched using the native NTFS Application
+Programming Interface (API) for maximum speed.
+Try
+<span class="nobr"><CODE>ls -ld \\server\c$\windows\system32\*</CODE>.</span>
+Assuming you have permission on the server, it
+will take only a few seconds to report a list of several thousand files.</P>
+
+<HR>
+
+<P>
+<A name="options"><H2>Command Options</H2></A>
+
+<P>The following is the complete list of command options for <B>ls</B>.
+Because <SMALL>GNU</SMALL> <CODE>ls</CODE>
+is such a fundamental utility, it has accumulated 
+many options over the years. 
+<B>Msls</B> adds even more options to display information on
+Microsoft's FAT and NTFS file systems.
+The options are grouped into categories and described in the sections below. 
+
+
+<UL>
+  <LI><A href="#What%20information%20is%20listed">Options: What information is listed?</A>
+  <UL>
+	<LI><A href="#streams">Hidden Streams in Files: --streams</A>
+	<LI><A href="#token">Vista Elevation: Viewing Your Process Token</A>
+	<LI><A href="#encrypted">Encrypted Files</A>
+	 <LI><A href="#objectids">Object Tracking Identifiers</A>
+  	<LI><A href="#perf">Performance: --slow vs --fast</A>
+  </UL>
+  <LI><A href="#Which%20files%20are%20listed">Options: Which files are listed?</A>
+  <UL>
+	<LI><A href="#64bit">64-bit Operating Systems</A>
+	<LI><A href="#virtual">Vista File and Registry Virtualization</A>
+  </UL>
+  <LI><A href="#Sorting%20the%20output">Options: Sorting the output</A> 
+  <UL>
+    <LI><A href="#More%20details%20about%20version%20sort">More details about version sort</A>
+  </UL>
+  <LI><A href="#General%20output%20formatting">Options: General output formatting</A>
+  <UL>
+	  <LI><A href="#Block%20Size">Block size</A>
+	  <LI><A href="#timestyle">Time style</A>
+  </UL>
+  <LI><A href="#Formatting%20the%20file%20names">Options: Formatting the file names</A> </LI>
+</UL>
+
+<!-- ================================================================ -->
+
+<P>
+<HR>
+<A NAME="What%20information%20is%20listed"><H2>Options: What information is listed?</H2></A>
+<P>These options affect kind of the information that <B>ls</B> displays.
+</P>
+<DL>
+  <DT><CODE>--acls [=<VAR>style</VAR>]</CODE> 
+  <DD>Show the Access Control Lists (ACLs).
+  <VAR>style</VAR> if specified may be one of
+  <UL>
+	  <LI><CODE>none</CODE> - Do not show the ACL at all.  Instead return
+	  the dummy mode string <span class="nobr"><CODE>-rw-rw-rw-</CODE>,</span>
+	  modulo any file attributes
+	  (such as Read Only).
+	  This is the default if the file system is not a local hard disk. 
+	  (See <span class="nobr"><CODE>--fast</CODE></span> and <span class="nobr"><CODE>--slow</CODE>.</span>)
+	  &nbsp; FAT file systems always return <span class="nobr"><CODE>-rw-rw-rw-</CODE>.</span>
+
+	  <LI><CODE>short</CODE> - Show a summary of the ACL in the mode string.
+      For the format of the mode string see <A href="#Mode%20Structure"><B>File Permissions</B></A>
+	  and <A HREF="#long"><span class="nobr"><CODE>--format=long</CODE></span></A>.
+	  This is the default if the file system
+	  is a local hard disk.  
+
+	  <LI><CODE>long</CODE> - Show the complete ACL in a long encoded
+	  SDDL string.  <B>ls</B> attempts to
+	  prettify the string somewhat by substituting user names for
+	  SID strings and by substituting common file masks with text descriptions.
+	  For example, &ldquo;Read&rdquo; is substituted for <span class="nobr"><CODE>0x1200A9</CODE>.</span>
+	  With the -n option the string is shown as-is with no substitutions.
+
+	  <LI><CODE>very-long</CODE> - Break out the entire ACL in a
+	  very verbose format.  The output style is similar to the CACLS.EXE
+	  utility.  <B>ls</B> attempts to make the descriptions
+	  as intuitive as possible, at the risk of even more verbosity.
+	  With <span class="nobr"><CODE>-n</CODE></span> display numeric SIDs in
+	  the verbose description (see <span class="nobr"><A HREF="#sids"><CODE>--sids</CODE></A>).</span> 
+	  See also <span class="nobr"><A HREF="#view-security"><CODE>--view-security</CODE></A></span>.
+
+	  <LI><CODE>exhaustive</CODE> - Same as <CODE>very-long</CODE> except
+	  show exhaustive information.  Display a complete dump of 
+	  the security descriptor.
+
+	</LI>
+  </UL>
+  <BR>
+
+  <A NAME="encryption-users"><DT><CODE>--encryption-users</CODE></DT></A>
+  <DD><P>
+  Report the names of users who hold the encryption keys
+  on encrypted files.  Also report the
+  names of the recovery agents, if any.  For more information
+  see <A HREF="#encrypted"><B>Encrypted Files</B></A>.
+  </P>
+
+  <DT><CODE>--fast</CODE>
+  <DD><P>Do not report extended information on slow media such as
+  networks, diskette, or CD-ROMs.  For
+  more information see <span class="nobr"><A HREF="#perf"><B>Performance: --slow vs --fast</B></A>.</span>
+  </P>
+
+  <DT><CODE>-g</CODE>
+  <DT><CODE>--groups [=y/n]</CODE>
+  <DD>Show POSIX group information in a long format directory listing.
+  POSIX groups are irrelevant in
+  Microsoft Windows;
+  they have no meaning except in the POSIX subsystem.
+  For this reason POSIX groups are normally not shown by the Windows version of <B>ls</B>.
+  <BR>
+  <DT><CODE>-G</CODE> 
+  <DD><P>Do not show POSIX group information in a long format directory 
+  listing.  This is enabled by default on the Windows version of <B>ls</B>. 
+  </P>
+
+  <DT><CODE>--gids [=<VAR>style</VAR>]</CODE>
+  <DD>Show the POSIX group Security Identifier.  
+  For each file it is translated to the POSIX group name unless
+  <span class="nobr"><CODE>-n</CODE></span> (numeric) is specified.
+  Implicitly sets <span class="nobr"><CODE>-g</CODE></span> if <VAR>style</VAR>
+  is not not <CODE>none</CODE>.
+  <VAR>style</VAR> if specified may be one of
+  <UL>
+	  <LI><CODE>none</CODE> - Do not fetch the POSIX group SID at all.  Instead show
+	  a dummy value (0).  This is the default 
+	  if <span class="nobr"><CODE>--fast</CODE></span> is specified
+	  and the file system is not a local hard disk.  FAT disks and
+	  CD-ROMs always return 0.
+
+	  <LI><CODE>short</CODE> - Show short POSIX group names
+	  (16 characters max).  Strip away
+	  the domain part of the name <span class="nobr">(<VAR>domain\group</VAR>)</span> leaving
+	  only <VAR>group</VAR>.  
+	  This is the default if the file system
+	  is a local hard disk or if <span class="nobr"><CODE>--slow</CODE></span> is specified.
+	  Implies <span class="nobr"><CODE>-g</CODE></span>.
+
+	  <LI><CODE>long</CODE> - Show long POSIX group names (unlimited length).
+	  Include the domain part of the name <span class="nobr">(<VAR>domain\group</VAR>).</span>
+	  Implies <span class="nobr"><CODE>-g</CODE></span>.
+  </UL>
+  </DD>
+
+  <DT><CODE>-i</CODE> 
+  <DT><CODE>--inode</CODE> 
+  <DD>Print the inode number (also called the file serial number or the
+  index number) of each file to the left of the file name. This number uniquely 
+  identifies each file on a particular disk partition. 
+  On NTFS file systems this number can be very long - over 18 digits.<BR>
+  </DD>
+  <BR>
+
+  <DT><CODE>-K</CODE> 
+  <DT><CODE>--registry</CODE> 
+  <DD>Print information on registry keys.  You can use the names
+  HKEY_LOCAL_MACHINE, HKEY_CURRENT_USER, and HKEY_USERS or their
+  abbreviations hklm, hkcu, and hku.   For example,
+  <span class="nobr"><CODE>ls -K hklm/software</CODE></span> will show all subkeys
+  under HKEY_LOCAL_MACHINE\Software.<BR>
+  </DD>
+  <BR>
+
+  <DT><CODE>-l</CODE> 
+  <A NAME="long"><DT><CODE>--format=long</CODE></DT></A>
+  <DT><CODE>--format=verbose</CODE> 
+  <DD>In addition to the name of each file, print the
+  following columns: file <A HREF="#filetypes"><B>type</B></A>,
+  ACL <A HREF="#Mode%20Structure"><B>mode string</B></A>, number of
+  <B>hard links</B>, <B>owner</B> name, <B>group</B> name (if <span class="nobr"><CODE>-g</CODE></span>),
+  <B>size</B> in bytes, and <B>timestamp</B> (by 
+  default the last modification time). 
+  </P>
+  <P>
+  For files with a time more than six months 
+  old or in the future, the timestamp contains the year instead of the time of 
+  day. If the timestamp contains today's date with the year rather than a time 
+  of day, the file's time is in the future, which means you probably have clock 
+  skew problems.
+  </P>
+  <P>For each directory that is listed, the list of files
+  is prefaced with a line that summarizes the count of
+  <VAR>blocks</VAR>, where <VAR>blocks</VAR> is the total 
+  disk allocation for all files in that directory. The block size 
+  defaults to 1024 bytes, but this can be overridden (see <A 
+  href="#Block%20size">Block size</A>).
+  </P>
+
+  <P>The ACL permissions in the mode string
+  <span class="nobr">(e.g., <CODE>-rwxrwxrwx</CODE>)</span> are explained in 
+    <A href="#Mode%20Structure"><B>File Permissions</B></A>.
+  </P>
+
+  <P><B>Windows RT Applications:</B>
+  Windows 8 introduced a new runtime (RT) system for applications.
+  These applications run in a very restricted security context
+  that revokes all permissions, except those
+  explicitly granted to <span class="nobr">ALL APPLICATION PACKAGES</span>
+  <span class="nobr">(S-1-15-2-1).</span>
+  </P>
+
+  <P>A file or directory that grants access to all WinRT apps is shown
+  with capital letters:</P>
+
+  <DL>
+	<DT><CODE>-------R--</CODE></DT>
+	<DD>The file or directory grants read access to WinRT apps.</DD>
+    <BR>
+	<DT><CODE>--------W-</CODE></DT>
+	<DD>The file or directory grants write access to WinRT apps.</DD>
+    <BR>
+	<DT><CODE>---------X</CODE></DT>
+	<DD>The file or directory grants execution access to WinRT apps.</DD>
+    <BR>
+  </DL>
+
+  <P><B>File Attributes:</B>
+  In addition to the standard Unix-style mode string,
+  the Windows version of <B>ls</B> also shows file 
+  <i>attributes</i>.   File attributes originated with the old <span class="nobr">MS-DOS FAT</span>
+  file system, which pre-dates Microsoft Windows.  File attributes 
+  operate independently of NTFS ACL permissions.  To show file attributes
+  Windows <b>ls</b> replaces the three character positions
+  used in Unix to indicate execute permission
+  <span class="nobr">(<CODE>---x--x--x</CODE>)</span> since NTFS does not support
+  execute-only files.
+  </P>
+  <DL>
+    <DT><CODE>---s------</CODE> 
+    <DD>The file has the System attribute set.  Files with this bit
+	are normally invisible in Windows Explorer and cannot be modified.
+    <BR>
+    <DT><CODE>------h---</CODE> 
+	<DD>The file has the Hidden attribute set.    Files with this bit
+	are normally invisible in Windows Explorer.
+    <BR>
+    <DT><CODE>---------a</CODE> 
+	<DD>The file has the Archive attribute set.  This bit is set when
+	the file becomes dirty.  A file backup operation will clear this bit.
+	<BR>
+    <DT><CODE>---E------</CODE> 
+	<DD>The file is encrypted.  See 
+	<A HREF="#encryption-users"><span class="nobr"><CODE>--encryption-users</CODE></span></A>
+	<BR>
+    <DT><CODE>------T---</CODE> 
+	<DD>The file is temporary.  Files opened in the %TEMP% folder
+	may sometimes have this bit set.
+	<BR>
+    <DT><CODE>---------O</CODE> 
+	<DD>The file is offline.  This usually indicates the presence
+	of a Hierarchical Storage Management (HSM) system.  An HSM
+	moves infrequently
+	accessed files to tape or some other offline storage medium.
+    <DT><CODE>---------V</CODE> 
+	<DD>The file is virtual.  On Windows Vista this indicates that the
+	file is being redirected from <span class="nobr"><span>C:\</span>Program Files</span>
+	to a private per-user location
+	(<span>C:\</span>Users\ &lt;username&gt; \AppData\Local\VirtualStore\Program Files).
+	This is for legacy applications
+	that are unaware of User Account Control (UAC).
+	You must use the <code><span class="nobr">--virtual</span></code> option to
+	view virtual files or registry keys.
+	See <A href="#virtual"><b>Vista File and Registry Virtualization</b></A>.
+	<BR>
+  </DL>
+  <BR>
+
+  <P>
+  If a file has the Read-Only attribute set this is indicated with a
+  capital <CODE>R</CODE> instead of the normal <CODE>r</CODE>.
+  Thus a file with all four attributes set (Read-Only, System, Hidden,
+  and Archive) will have a mode string of <span class="nobr"><CODE>-R-s--h---a</CODE>.</span>
+  (File attributes can be changed with the utility ATTRIB.EXE.)
+  </P>
+
+  <P>Finally, if a file contains embedded hidden 
+  <a href="#streams">streams</a> the character <CODE>$</CODE>
+  is appended to the end of the mode string.  To view the names
+  of the <a href="#streams">hidden streams</a>, use <span class="nobr"><CODE>--streams</CODE></span>.
+  <BR></P>
+
+  <DT><CODE>-o</CODE> 
+  <DD><P>Produce long format directory listings, but don't display POSIX group 
+  information. It is equivalent to using
+  <span class="nobr"><CODE>--format=long</CODE></span> or <span class="nobr"><CODE>-l</CODE></span> with 
+  <span class="nobr"><CODE>-G</CODE>.</span>
+  Since the Windows version of <B>ls</B> enables <span class="nobr"><CODE>-G</CODE></span> by default,
+  this option is equivalent to <span class="nobr"><CODE>-l</CODE></span>.
+  </P>
+
+  <A NAME="object-id"><DT><CODE>--object-id</CODE></DT></A>
+  <DD><P>
+  Display the object tracking identifier for the file (if any).
+  For more information see <A HREF="#objectids"><B>Object Tracking Identifiers</B></A>.
+  </P>
+
+  <DT><CODE>--phys-size</CODE>
+  <DD>
+  Use with <CODE>-l</CODE> or <CODE>-s</CODE> to
+  report the physical size of the file instead of the logical size.
+  If the file is compressed or sparse the physical size is usually less
+  than the file's logical size.
+  (However if the file is poorly compressed
+  the physical size might actually be larger.)
+
+  <DT><CODE>-s</CODE> 
+  <DT><CODE>--size</CODE> 
+  <DD>Print the size of each file to the left of the file name. This 
+  is the logical size of the file.  Add the option
+  <span class="nobr"><CODE>--phys-size</CODE></span> to see the physical size.
+  </P>
+  <P>Normally the disk allocation is printed in units of 1024 bytes, but this 
+  can be overridden (see <A 
+  href="#Block%20size">Block 
+  size</A>). 
+  <BR>
+  </DD>
+  <BR>
+
+  <DT><CODE>--short-names</CODE>
+  <DD><P>
+  Show short 8.3 letter names, as in <span class="nobr">MS-DOS.</span>  For example, instead
+  of showing the file name <span class="nobr"><CODE>Information.txt</CODE>,</span>
+  show <span class="nobr"><CODE>INFORM~1.TXT</CODE>.</span>
+  </P>
+
+  <A NAME="sids"><DT><CODE>--sids [=<VAR>style</VAR>]</CODE></DT></A>
+  <DD>Show the file owner Security Identifiers (SIDs).
+  For each file the SID is translated to the user name unless
+  <span class="nobr"><CODE>-n</CODE></span> (numeric) is specified.
+  <VAR>style</VAR> if specified may be one of
+  <UL>
+	  <LI><CODE>none</CODE> - Do not fetch the owner SID at all.  Instead show
+	  a dummy value (0).
+	  This is the default if <span class="nobr"><CODE>--fast</CODE></span>
+	  and the file system is not a local hard disk.  FAT disks and
+	  CD-ROMs always return 0.
+
+	  <LI><CODE>short</CODE> - Show short user names (16 characters max).  Strip away
+	  the domain part of the name <span class="nobr">(<VAR>domain\user</VAR>)</span> leaving
+	  only <VAR>user</VAR>.  This is the default if the file system
+	  is a local hard disk or if <span class="nobr"><CODE>--slow</CODE></span> is specified.
+	  With <span class="nobr"><CODE>-n</CODE></span> show abbreviated numeric SIDs,
+	  e.g., <span class="nobr"><CODE>S-1-5-...-500</CODE>.</span>
+
+	  <LI><CODE>long</CODE> - Show long user names (unlimited length).
+	  Include the domain part of the name <span class="nobr">(<VAR>domain\user</VAR>).</span>
+	  With <span class="nobr"><CODE>-n</CODE></span> show long numeric SIDs
+	  e.g.,
+	  <CODE>S-1-5-21-56435836665-432874238743289-9874326432543-500</CODE>.
+  </UL>
+  </DD>
+
+  <DT><CODE>--slow</CODE>
+  <DD><P>Get extended information from slow media such as
+  networks, diskette, or CD-ROMs.  For
+  more information see <span class="nobr"><A HREF="#perf"><B>Performance: --slow vs --fast</B></A>.</span>
+  </P>
+
+  <DT><CODE>--streams [=y/n]</CODE>
+  <DD><P>Highlight files that contain one or more embedded hidden streams.
+  For more information
+  see <B><A HREF="#streams">Hidden Streams in Files: <span class="nobr">--streams</span></A></B>.
+  If <span class="nobr"><CODE>--color</CODE></span> is specified, the file is
+  shown with a distinctive color.  If <span class="nobr"><CODE>-F</CODE> or <CODE>-p</CODE></span>
+  are specified, the file name is appended with a dollar sign ($).
+  In a long listing (<span class="nobr"><CODE>-l</CODE></span>)
+  the mode string is appended with
+  a dollar sign ($); see <A HREF="#long"><span class="nobr"><CODE>--format=long</CODE></span></A>.
+  </P>
+
+  <DT><CODE>--token</CODE>
+  <DD><P>
+  Show your process token.  This can be used to determine
+  your elevation status on Windows Vista or Windows 7.
+  See <a href="#token"><b>Viewing Your Process Token</b></A>.</P>
+
+  <DT><CODE>--user=<VAR>name</VAR></CODE>
+  <DD><P>
+  Report the file permissions from the viewpoint of the user <VAR>name</VAR>.
+  The mode string will be altered to show
+  the effective file permissions from the viewpoint of the named user. </P>
+
+  <A NAME="view-security"><DT><CODE>--view-security</CODE></DT></A>
+  <DD><P>
+  This will pop
+  up the standard Windows dialog to show very detailed information
+  on the file's ACL.
+  The information
+  includes special permission flags, auditing, ownership, and
+  effective permissions.
+  </P>
+  <P>To view effective permissions from the viewpoint of another user,
+  press the button &quot;Advanced&quot;, then click on
+  on the tab &quot;Effective Permissions&quot;.
+  Type in or click on the name of the user whose effective permissions
+  you want to view.
+  </P>
+
+</DL>
+
+<!-- =================================================================== -->
+
+<P>
+<HR>
+<A name="streams"><H3>Hidden Streams in Files: --streams</H3></A>
+
+<P>
+Normally the data in a file consists of a single stream of bytes.
+It is possible under the NTFS file system to add one or more secondary
+streams of bytes to a file. 
+These are called <DFN>hidden streams</DFN>.
+</P>
+<P>
+To create
+or view a hidden stream, append <span class="nobr"><CODE>:<VAR>name</VAR></CODE></span>
+to the end of the file name.
+</P>
+<P>
+As an example,
+</P>
+
+<PRE>
+&gt; <B>ECHO "This is normal data" &gt; myfile.txt</B>
+&gt; <B>ECHO "This is sooper seekret" &gt; myfile.txt:secret1</B>
+&gt; <B>MORE &lt; myfile.txt:secret1</B>   <I>view the 'seekret'</I>
+</PRE>
+
+<P>
+Use the <span class="nobr"><CODE>--streams</CODE></span> option to 
+detect the existence of the hidden stream.
+</P>
+
+<PRE>
+&gt; <B>ls -l --streams myfile.txt</B>
+
+-rw-r----a$ 1 Alan          24 Jan 31 21:44 myfile.txt
+</PRE>
+
+<P>
+The dollar sign ($) at the end of the mode string indicates a
+hidden stream.  Note that the size of the hidden data does not show
+up in the size of the file.
+To view the name(s) of the
+hidden stream(s), use a wildcard.
+</P>
+
+<PRE>
+&gt; <B>ls -l --streams my*</B>
+
+-rw-r----a$ 1 Alan          24 Jan 31 21:44 myfile.txt
+-rw-r----a$ 1 Alan          39 Jan 31 21:44 myfile.txt:secret1:$DATA
+</PRE>
+
+<P>If you view a directory with <span class="nobr"><CODE>--streams</CODE>,</span>
+<B>ls</B> will search every file in the directory and show the names
+of every hidden stream.
+</P>
+<P>
+Each hidden stream has a type suffix.  The default type suffix is
+<span class="nobr"><CODE>:$DATA</CODE></span>.  Other type suffixes can be
+created with undocumented APIs.
+</P>
+
+<P>
+By default <B>ls</B> will search
+for streams only on the local hard disk.  (Searching for
+streams over a network is a very slow operation.)
+To view
+streams on network folders add the <span class="nobr"><CODE>--slow</CODE></span> option.
+</P>
+
+<H3>Why Hidden Streams?</H3>
+
+<P>
+Hidden streams were originally an attempt by Microsoft to create
+an object-oriented file system.  This was part of the long
+delayed (and since abandoned) Microsoft project code-named
+&quot;Cairo,&quot; to create a new operating system based
+on object-oriented design principles.
+</P>
+
+<P>
+Use of hidden streams is rare in Microsoft Windows.  The most common
+use is in Windows XP Service Pack 2 (SP2).  SP2 uses a hidden stream
+to taint downloaded files
+with a &quot;Security Zone&quot; marker.  The taint prevents execution
+by the Windows Shell.
+</P>
+
+<P>
+Hidden streams are sometimes used to hide encryption keys
+for Digital Rights Management (DRM) in order
+to prevent viewing by unlicensed DRM users.
+</P>
+
+<P>
+In the opinion of the author, hidden streams are a
+very bad and harmful mis-feature of NTFS, and he believes their use
+should be avoided.  This is because
+files with hidden streams cannot be
+copied or backed up without special handling.  And they are a
+hiding place for viruses and malware.
+</P>
+
+<!-- =================================================================== -->
+<P>
+<HR>
+<A name="token"><H3>Vista Elevation: Viewing Your Process Token</H3></A>
+
+<P>Windows Vista introduced the concept of User Account Control (UAC).
+With UAC an administrator does not run with administrative
+permissions except when he/she explicitly requests it for a specific task.
+Requesting permission is called <DFN>elevating</DFN> the task.</P>
+
+<P>For example, if you open a command console (CMD.EXE) without
+elevation, it will run with restricted permissions.
+To view your permissions <code>ls</code> can display your
+<DFN>process token</DFN>.  The process token contains all of your
+security credentials for accessing protected files and registry keys.
+</P>
+
+<P>To view your process token use <code><span class="nobr">--token</span></code>,</P>
+
+<PRE>
+&gt; <B>ls --token</B>
+
+Token Privileges:
+SeShutdownPrivilege              
+SeChangeNotifyPrivilege          ENABLED_BY_DEFAULT|ENABLED
+SeUndockPrivilege                
+SeIncreaseWorkingSetPrivilege    
+SeTimeZonePrivilege              
+
+Token Groups:
+None                              MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+Everyone                          MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+Administrators                    USE_FOR_DENY_ONLY
+Users                             MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+INTERACTIVE                       MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+Authenticated Users               MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+This Organization                 MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+S-1-5-...-2069193                 MANDATORY|ENABLED_BY_DEFAULT|ENABLED|LOGON_ID
+LOCAL                             MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+NTLM Authentication               MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+Medium Mandatory Level            INTEGRITY|INTEGRITY_ENABLED
+
+Token User: Alan                             
+Token Source: 0x00000000001F92ED  User32  
+Token Origin: SYSTEM
+Terminal Services Session ID: 2
+Token Elevation Type: Limited
+Token has been filtered (restricted).
+File/Registry virtualization is allowed.
+Token Integrity Level: Medium Mandatory Level
+Token has TOKEN_MANDATORY_POLICY_NO_WRITE_UP.
+Token has TOKEN_MANDATORY_POLICY_NEW_PROCESS_MIN.
+Owner of new objects: Alan                             
+</PRE>
+
+<P>The above is an example of a restricted (filtered) token, i.e.,
+one that is not elevated.</P>
+
+<P>To get an elevated command console click on 
+Start (lower-left corner).  In the Vista or Windows 7 search box 
+type <code>cmd</code>.
+While holding down the Shift and Control keys press the Enter key.
+This will open a command console in elevated mode.  You can verify
+that the console is elevated by looking for the word &ldquo;Administrator&rdquo;
+in the title bar.</P>
+
+<P>The following is an example of an elevated token:</P>
+
+<PRE>
+&gt; <B>ls --token</B>
+
+Token Privileges:
+SeIncreaseQuotaPrivilege         
+SeSecurityPrivilege              
+SeTakeOwnershipPrivilege         
+SeLoadDriverPrivilege            
+SeSystemProfilePrivilege         
+SeSystemtimePrivilege            
+SeProfileSingleProcessPrivilege  
+SeIncreaseBasePriorityPrivilege  
+SeCreatePagefilePrivilege        
+SeBackupPrivilege                
+SeRestorePrivilege               
+SeShutdownPrivilege              
+SeDebugPrivilege                 
+SeSystemEnvironmentPrivilege     
+SeChangeNotifyPrivilege          ENABLED_BY_DEFAULT|ENABLED
+SeRemoteShutdownPrivilege        
+SeUndockPrivilege                
+SeManageVolumePrivilege          
+SeImpersonatePrivilege           ENABLED_BY_DEFAULT|ENABLED
+SeCreateGlobalPrivilege          ENABLED_BY_DEFAULT|ENABLED
+SeIncreaseWorkingSetPrivilege    
+SeTimeZonePrivilege              
+SeCreateSymbolicLinkPrivilege    
+
+Token Groups:
+None                              MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+Everyone                          MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+Administrators                    MANDATORY|ENABLED_BY_DEFAULT|ENABLED|OWNER
+Users                             MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+INTERACTIVE                       MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+Authenticated Users               MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+This Organization                 MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+S-1-5-...-2069193                 MANDATORY|ENABLED_BY_DEFAULT|ENABLED|LOGON_ID
+LOCAL                             MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+NTLM Authentication               MANDATORY|ENABLED_BY_DEFAULT|ENABLED
+High Mandatory Level              INTEGRITY|INTEGRITY_ENABLED
+
+Token User: Alan                             
+Token Source: 0x00000000001F92ED  User32  
+Token Origin: SYSTEM
+Terminal Services Session ID: 2
+Token Elevation Type: Full
+Token Integrity Level: High Mandatory Level
+Token has TOKEN_MANDATORY_POLICY_NO_WRITE_UP.
+Owner of new objects: Administrators                   
+</PRE>
+
+<P>When using UAC <b>ls</b> will show the current running token
+and also the associated (linked) non-elevated token.</P>
+
+<!-- =================================================================== -->
+<P>
+<HR>
+<A name="encrypted"><H3>Encrypted Files</H3></A>
+
+<P>
+The NTFS file system supports encryption on files.   Files
+can be encrypted using Windows Explorer or the command-line utility
+CIPHER.EXE.
+<B>ls</B> indicates encrypted files
+with a capital <CODE>E</CODE> in the mode string.
+</P>
+
+<PRE>
+&gt; <B>ls -l</B>
+
+-rwE-----a 1 Alan          24 Jan 31 21:44 myfile.txt
+</PRE>
+
+<P>
+To view the names of users who possess an encryption key for the file, use
+the option <span class="nobr"><CODE>--encryption-users</CODE></span>.
+</P>
+
+<PRE>
+&gt; <B>ls -l --encryption-users</B>
+&gt; <B>ls --en</B>
+
+-rwE-----a 1 Alan          24 Jan 31 21:44 myfile.txt
+             Encryption key: Alan(Alan@GOLLUM)
+             Encryption key: Ginger(Ginger@GOLLUM)
+             Recovery Agent: Administrator
+</PRE>
+
+<P>The second example above uses the abbreviation 
+<span class="nobr"><CODE>--en</CODE></span> and drops the
+<span class="nobr"><CODE>-l</CODE></span> because it is implied.
+</P>
+
+<P>
+In this example the users Alan and Ginger possess encryption keys
+for the file.  The user Administrator is designated as a 
+<DFN>recovery agent</DFN>.  A recovery agent can recover the
+contents of the file if the original user forgets his password.
+</P>
+<P>
+Upon recovery all encryption keys are erased.  You can detect that
+the administrator recovered your file
+if <span class="nobr"><code>--enc</code></span> shows that your encryption key
+is no longer listed.  (This is because nobody has access to your
+encryption key except yourself, not even system administrators.)
+If you no longer see your name or group listed, it means that
+someone with a Recovery Agent password has forced (recovered) access to your
+private encrypted file.
+</P>
+
+<!-- =================================================================== -->
+<P>
+<HR>
+<A name="objectids"><H3>Object Tracking Identifiers</H3></A>
+
+<P>
+The NTFS file system uses <DFN>object tracking identifiers</DFN> to
+track files and directories.  They are invisible to most applications.
+To view the object tracking identifier on a file or folder, 
+use the option <span class="nobr"><CODE>--object-id</CODE</span>.
+</P>
+
+<PRE>
+&gt; <B>ls -l --object-id</B>
+&gt; <B>ls --obj</B>
+
+drwxr-x---  1 Alan           0 Nov  4 12:59 File1.txt
+drwxr-x---  1 Alan           0 Nov  5 18:24 File2.txt
+     Object ID: 9f 87 14 e4 cf 8b dc 11 b1 fc 00 50 56 c0 00 01
+                70 6b 86 38 56 ac 92 4d b1 e0 79 a6 7b de 93 55
+                9f 87 14 e4 cf 8b dc 11 b1 fc 00 50 56 c0 00 01
+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+      ObjectID: {e414879f-8bcf-11dc-b1fc-005056c00001}
+ BirthVolumeID: {38866b70-ac56-4d92-b1e0-79a67bde9355}
+ BirthObjectID: {e414879f-8bcf-11dc-b1fc-005056c00001}
+</PRE>
+
+<P>The example above uses the abbreviation 
+<span class="nobr"><CODE>--obj</CODE></span> and drops the
+<span class="nobr"><CODE>-l</CODE></span> because it is implied.
+</P>
+
+<P>
+In the example the file named <code>File2.txt</code> has an object tracking
+ID.  The object tracking information is always exactly 48 bytes long.
+By convention the data is grouped into four 16-byte Globally Unique
+Identifiers (GUIDs).  The first GUID is uniquely identifies the file,
+the second GUID identifies the Volume ID where the file was 
+originally created (&ldquo;born&rdquo;), the third GUID is the
+ID that was originally assigned when the file was born,
+and the fourth GUID identifies the network domain (if any).</P>
+
+<P>
+The data can be interpreted in any
+way by the application.   Object IDs are typically used by the Windows Shell
+to track the movement
+of the target of a file shortcut (<span class="nobr"><CODE>.LNK</CODE></span> suffix).
+The Distributed Link Tracking Service on a file server 
+maintains a database of object IDs to permit tracking of
+orphan <span class="nobr"><CODE>.LNK</CODE></span> targets across the network.  Finally, the
+NT File Replication Service (NTFRS) uses object IDs on the SYSVOL
+volume to track the
+replication of files between domain controllers.
+</P>
+
+<!-- =================================================================== -->
+<P>
+<HR>
+<A name="perf"><H3>Performance: --slow vs --fast</H3></A>
+
+<P>
+Some types of extended information will cause <B>ls</B> to run slowly
+if they are used on slow media such as network folders, diskettes,
+or CD-ROMs.  The <span class="nobr"><CODE>--fast</CODE></span> option limits the reporting of
+extended information on slow media. 
+</P>
+
+
+<P>The following types of extended information
+are considered &quot;slow&quot;:
+</P>
+
+<UL>
+	<LI>Access Control Lists (ACLs): <span class="nobr"><CODE>--acls</CODE></span>
+	<LI>File user ownership and POSIX group membership:
+	<span class="nobr"><CODE>--sids</CODE></span> and <span class="nobr"><CODE>--gids</CODE></span>
+	<LI>Hidden file streams: <span class="nobr"><CODE>--streams</CODE></span>
+	<LI>Encryption keys on files: <span class="nobr"><CODE>--encryption-users</CODE></span>
+	<LI>Object tracking ID: <span class="nobr"><CODE>--object-id</CODE></span>
+	<LI>I-node index number: <span class="nobr"><CODE>--inode</CODE></span>
+	<LI>Number of hard links
+</UL>
+
+<P>
+If neither 
+<span class="nobr"><CODE>--slow</CODE></span> nor
+<span class="nobr"><CODE>--fast</CODE></span> are specified,
+the <span class="nobr"><CODE>--fast</CODE></span> option is <B>implied by default</B>
+unless you include one one of the slow options listed above
+(<span class="nobr"><CODE>--acls</CODE>,</span> <span class="nobr"><CODE>--sids</CODE>,</span> etc).
+</P>
+
+<P>
+If you explicitly add <span class="nobr"><CODE>--fast</CODE></span> on the
+command line, it disables
+all slow options when used on slow media,
+regardless of the inclusion any slow options on the command line.
+</P>
+
+<P>
+If you explicitly add the <span class="nobr"><CODE>--slow</CODE></span> option
+on the command line, it will report all extended information 
+regardless of the type of media.
+</P>
+
+<P>You can force <b>ls</b> to use either option by appending
+<span class="nobr"><CODE>--fast</CODE></span>
+or <span class="nobr"><CODE>--slow</CODE></span> to the LS_OPTIONS environment
+variable.  See <B><A HREF="#custom">customizing ls</A></B>.
+</P>
+
+<!-- =================================================================== -->
+
+<P>
+<HR>
+<A name="Which%20files%20are%20listed"><H2>Options: Which files are listed?</H2></A>
+<P>These options determine which files <B>ls</B> lists information for. By 
+default, all files and the contents of all directories listed
+on the command line are shown.   When showing the contents of directories,
+files beginning with <CODE>.</CODE> (dot) are skipped.
+</P>
+<DL>
+  <DT><CODE>-a</CODE> 
+  <DT><CODE>--all</CODE> 
+  <DD>List all files in directories, including files that start with 
+  <CODE>.</CODE>. <BR>
+  <DT><CODE>-A</CODE> 
+  <DT><CODE>--almost-all</CODE> 
+  <DD>List all files in directories except for <CODE>.</CODE> and 
+  <CODE>..</CODE>. <BR>
+  <DT><CODE>-B</CODE> 
+  <DT><CODE>--ignore-backups</CODE> 
+  <DD>Do not list files that end with <CODE>~</CODE>, unless they are given on 
+  the command line. <BR>
+  <DT><CODE>-d</CODE> 
+  <DT><CODE>--directory</CODE> 
+  <DD><P>List just the names of directories, as with other types of files, rather 
+  than listing their contents.
+  </P>
+
+  <DT><CODE>-I <VAR>PATTERN</VAR></CODE> 
+  <DT><CODE>--ignore=<VAR>PATTERN</VAR></CODE> 
+  <DD>Do not list files whose names match the shell pattern (not regular 
+  expression) <VAR>pattern</VAR> unless they are given on the command line. As 
+  in the shell, an initial <CODE>.</CODE> in a file name does not match a 
+  wildcard at the start of <VAR>pattern</VAR>. Sometimes it is useful to give 
+  this option several times. For example, <PRE>ls --ignore &quot;.??*&quot; --ignore &quot;.[^.]&quot; --ignore &quot;#*&quot;
+</PRE>
+  <P>The first option ignores names of length 3 or more that start with 
+  <CODE>.</CODE>, the second ignores all two-character names that start with 
+  <CODE>.</CODE> except <CODE>..</CODE>, and the third ignores names that start 
+  with <CODE>#</CODE>. <BR></P>
+  <DT><CODE>-L</CODE> 
+  <DT><CODE>--dereference</CODE> 
+  <DD>In a long listing, show file information (e.g., times and permissions) for 
+  the referents of symbolic links rather than for the symbolic links themselves. 
+  <BR>
+  <DT><CODE>-R</CODE> 
+  <DT><CODE>--recursive</CODE> 
+  <DD><P>List the contents of all directories recursively.</P></DD>
+
+  <DT><CODE>--virtual</CODE>
+  <DD><P>
+  	On Windows Vista or Windows 7 show the virtual view of files
+	and registry keys.  This option has no effect on older operating
+	systems.
+	See <a href="#virtual"><b>Vista File and Registry Virtualization</b></A>.</P>
+
+  <DT><CODE>--32</CODE>
+  <DD><P>
+  On a 64-bit operating system show the 32-bit view of files and registry keys.
+  The option has no effect on 32-bit operating systems.</P>
+
+  <DT><CODE>--64</CODE>
+  <DD><P>On a 64-bit operating system show the 64-bit view of files and registry keys.
+  This is the default on 64-bit operating systems.  The option has no effect
+  on 32-bit operating systems.
+  </P>
+</DL>
+
+<!-- =================================================================== -->
+
+<P>
+<HR>
+<A name="64bit"><H3>64-bit Operating Systems</H3></A>
+
+<P><B>ls</B> is aware of 64-bit operating systems.  <B>ls</B>
+is not fooled by 32-bit/64-bit folder direction.  For 
+example if you attempt to view the
+folder <span class="nobr"><CODE>\Windows\System32</CODE></span> on a 64-bit operating system,
+<B>ls</B> will show the actual contents of the folder.  It will not
+show the <span class="nobr">32-bit</span> shadow folder <span class="nobr"><CODE>\Windows\SysWOW64</CODE></span>.
+</P>
+<P>
+To show the &quot;redirected&quot; view of the file tree 
+(that is, the view as seen by 32-bit 
+applications) use the option <span class="nobr"><CODE>--32</CODE>.</span>
+</P>
+<P>
+If you view the contents of a
+registry key with the <span class="nobr"><CODE>-K</CODE></span> option,
+<B>ls</B> will show the real registry contents.  For example if you attempt to
+view the Software registry key <span class="nobr"><CODE>HKLM\Software</CODE></span>,
+<B>ls</b> will show you the actual contents of the key.  It will not
+show (as 32-bit apps would)
+the redirected shadow key
+<span class="nobr"><CODE>HKLM\Software\WOW6432Node</CODE></span>.
+</P>
+<P>
+To show the &quot;redirected&quot; view of the registry tree
+(that is, the view as seen by 32-bit
+applications) use the option <span class="nobr"><CODE>-K --32</CODE>.</span>
+</P>
+
+<!-- =================================================================== -->
+
+<P>
+<HR>
+<A name="virtual"><H3>Vista File and Registry Virtualization</H3></A>
+
+<P>
+<B>ls</B> is aware of file virtualization and registry virtualization
+that was introduced in Windows Vista.
+</P>
+
+<P>Virtualization is triggered whenever you run a legacy
+<span class="nobr">pre-Vista</span> application in non-elevated mode.  Virtualization
+fools these
+legacy applications into believing they can install files in
+<span class="nobr"><span>C:\</span>Program Files</span> and registry values in
+<span class="nobr">HKEY_LOCAL_MACHINE\Software</span>.</P>
+
+<P>Instead the files are redirected to
+<span class="nobr"><span>C:\</span>Users\&lt;username&gt;\AppData\Local\VirtualStore\Program Files.</span>
+The registry values are redirected to
+HKEY_CURRENT_USER\Software\ VirtualStore\MACHINE\Software.</P>
+
+<P>To show the virtual view of the file tree or registry tree
+(that is, the view as seen by legacy
+applications not running in elevated mode) use the option
+<span class="nobr"><CODE>--virtual</CODE>.</span>
+Files and registry values that are virtual are indicated by
+a capital <CODE>V</CODE> in the mode string:
+</P>
+
+<PRE>
+&gt; <B>ls -l --virt "<span>C:\</span>Program Files"</B>
+
+drwxr-x--V  1 Alan                0 Oct  2 18:48 MyApplication
+dr-xr-x---  1 TrustedInstaller    0 Sep 21 20:01 Common Files
+dr-xr-x---  1 TrustedInstaller    0 Aug 15 23:47 Internet Explorer
+dr-xr-x---  1 SYSTEM              0 Sep  6 11:45 Microsoft Office
+dr-xr-x---  1 TrustedInstaller    0 Sep 11 23:40 Windows Mail
+dr-xr-x---  1 TrustedInstaller    0 Nov  2  2006 Windows Photo Gallery
+dr-xr-x---  1 TrustedInstaller    0 Nov  2  2006 Windows Sidebar
+</PRE>
+
+<P>In the above example MyApplication is a virtual folder.</P>
+
+<P>Registry keys work similarly.</P>
+
+<PRE>
+&gt; <B>ls -K -l --virt HKLM\Software\Algin</B>
+
+dr-xr-x---  1 Administrators      0 Aug 16 01:19 License
+-rwx------  1 SYSTEM             19 Oct  3 10:10 PathWWWRoot
+			REG_SZ="<span>C:\</span>Inetpub\wwwroot"
+-rwx-----V  1 SYSTEM              4 Oct  3 10:10 MyValue
+            REG_DWORD=1 (0x00000001)
+</PRE>
+
+<P>In the above example MyValue is a virtual registry value.</P>
+
+<!-- =================================================================== -->
+
+<P>
+<HR>
+<A NAME="Sorting%20the%20output"><H2>Options: Sorting the output</H2></A>
+<P>These options change the order in which <B>ls</B> sorts the information 
+it outputs. By default, sorting is done in the order of the user's
+default code page (e.g., ISO-8859-1 for the Western Latin character set).
+</P>
+<DL>
+  <DT><CODE>-c</CODE> 
+  <DT><CODE>--time=ctime</CODE> 
+  <DD>If the long listing format (e.g., <CODE>-l</CODE>, <CODE>-o</CODE>) is 
+  being used, print the creation time
+  instead of the modification time. When explicitly sorting by time 
+  (<span class="nobr"><CODE>--sort=time</CODE></span> or
+  <span class="nobr"><CODE>-t</CODE></span>) or when not using a long listing 
+  format, sort according to the creation time. <BR>
+
+  <DT><CODE>-f</CODE> 
+  <DD>Like <CODE>-U</CODE> but also enable
+  <span class="nobr"><CODE>-a</CODE></span> (list 
+  all files) and disable <span class="nobr"><CODE>-l</CODE></span>,
+  <span class="nobr"><CODE>--color</CODE>,</span> and 
+  <span class="nobr"><CODE>-s</CODE></span> (if they were specified before
+  the <span class="nobr"><CODE>-f</CODE>).</span> <BR>
+
+  <DT><CODE>-r</CODE> 
+  <DT><CODE>--reverse</CODE> 
+  <DD>Reverse whatever the sorting method is--e.g., list files in reverse 
+  alphabetical order, youngest first, smallest first, or whatever. <BR>
+
+  <DT><CODE>-S</CODE> 
+  <DT><CODE>--sort=size</CODE> 
+  <DD>Sort by file size, largest first. <BR>
+
+  <DT><CODE>-t</CODE> 
+  <DT><CODE>--sort=time</CODE> 
+  <DD>Sort by modification time (the <CODE>mtime</CODE> in the inode), newest 
+  first. <BR>
+
+  <DT><CODE>-u</CODE> 
+  <DT><CODE>--time=atime</CODE> 
+  <DT><CODE>--time=access</CODE> 
+  <DD>If the long listing format (<CODE>--format=long</CODE> or <CODE>-l</CODE>) is being 
+  used, print the last access time (the <CODE>atime</CODE> in the inode). When 
+  explicitly sorting by time 
+  <span class="nobr">(<CODE>--sort=time</CODE></span> or <span class="nobr"><CODE>-t</CODE>)</span> or 
+  when not using a long listing format, sort according to the access time. <BR>
+
+  <DT><CODE>-U</CODE> 
+  <DT><CODE>--sort=none</CODE> 
+  <DD>Do not sort; list the files in whatever order they are stored in the 
+  directory. Since file names in NTFS are always pre-sorted by the operating
+  system, this flag has no effect on NTFS file systems.<BR>
+
+  <DT><CODE>-v</CODE> 
+  <DT><CODE>--sort=version</CODE> 
+  <DD>Sort by version name and number, lowest first. It behaves like a default 
+  sort, except that each sequence of decimal digits is treated numerically as an 
+  index/version number. (See <A 
+	  href="#More%20details%20about%20version%20sort"><B>More 
+		  details about version sort</B></A>.) <BR>
+
+  <DT><CODE>-X</CODE> 
+  <DT><CODE>--sort=extension</CODE> 
+  <DD>Sort directory contents alphabetically by file extension (characters after 
+  the last <CODE>.</CODE>); files with no extension are sorted first.
+  </DD>
+  <BR>
+  <BR>
+  <DT><CODE>--sort=case</CODE>
+  <DD>
+  Sort using case-sensitive collation.  Windows file names are case-insensitive.
+  For this reason the Windows version of <B>ls</b>
+  by default will ignore the capitalization of file names.  Use this
+  option to force upper case letters to sort ahead of all lower case letters.
+  This is the same sorting method that <SMALL>UNIX</SMALL> uses.
+  </DD>
+</DL>
+
+
+<P>
+<HR>
+<A NAME="More%20details%20about%20version%20sort"><H3>More details about version sort</H3></A>
+<P>The version sort takes into account the fact that file names frequently 
+include indices or version numbers. Standard sorting functions usually do not 
+produce the ordering that people expect because comparisons are made on a 
+character-by-character basis. The version sort addresses this problem, and is 
+especially useful when browsing directories that contain many files with 
+indices/version numbers in their names:
+</P>
+
+<PRE>
+      &gt; <B>ls -1</B>          &gt; <B>ls -1v</B>
+      foo.zml-1.gz       foo.zml-1.gz
+      foo.zml-100.gz     foo.zml-2.gz
+      foo.zml-12.gz      foo.zml-6.gz
+      foo.zml-13.gz      foo.zml-12.gz
+      foo.zml-2.gz       foo.zml-13.gz
+      foo.zml-25.gz      foo.zml-25.gz
+      foo.zml-6.gz       foo.zml-100.gz
+</PRE>
+
+<P>Numeric parts with leading zeroes are considered a fraction:</P>
+
+<PRE>
+      &gt; <B>ls -1</B>          &gt; <B>ls -1v</B>
+      abc-1.007.tgz      abc-1.007.tgz
+      abc-1.012b.tgz     abc-1.01a.tgz
+      abc-1.01a.tgz      abc-1.012b.tgz
+</PRE>
+
+<!-- =================================================================== -->
+
+<P>
+<HR>
+<A name="General%20output%20formatting"><H2>Options: General output formatting</H2></A>
+<P>These options affect the appearance of the overall output. 
+</P>
+<DL>
+  <DT><CODE>-1</CODE> 
+  <DT><CODE>--format=single-column</CODE> 
+  <DD>List one file per line. This is set by default when 
+  redirecting the output to a file: ls &gt; myfile.
+  <BR>&nbsp;
+
+  <DT><CODE>--ansi-cp</CODE> 
+  <DD>Display the output using the ANSI code page instead of the 
+  OEM code page.  This is the
+  default when the console is using a TrueType (TT) font, such as
+  Lucidia Console or Consolas.  It is also the default when
+  redirecting the output to a text file (ls &gt; myfile.txt),
+  or to a pipe. <span class="nobr">(ls -l | grep -i &quot;Alan&quot;)</span>&nbsp;&nbsp;
+  <span class="nobr">See <CODE>--oem-cp</CODE>.</span>
+  You may need to explicitly specify <span class="nobr"><CODE>--ansi-cp</CODE></span>
+  in order to display files that contain CJK (Chinese/Japanese/Korean)
+  characters in a console window running under the Multilingual User Interface
+  (MUI) editions of Windows.  This is because in the MUI editions of Windows
+  the default console OEM character set is always <span class="nobr">US-English,</span> which is
+  incorrect for the display of CJK file names.
+
+  <DT><CODE>-C</CODE> 
+  <DT><CODE>--format=vertical</CODE> 
+  <DD>List files in columns, sorted vertically. This is the default for 
+  <B>ls</B> if standard output is a command console. 
+  <B>ls</B> uses variable width columns to display as many files as 
+  possible in the fewest lines.
+
+  <DT><CODE>-D</CODE> 
+  <DT><CODE>--dired</CODE> 
+  <DD><P>This option is used only within the
+  <SMALL>EMACS</SMALL> text editor.  With the long listing (<CODE>-l</CODE>) format, print an additional line 
+  after the main output: <PRE>//DIRED// <VAR>beg1 end1 beg2 end2 <SMALL>...</SMALL></VAR>
+</PRE></P>
+  <P>The <VAR>begN</VAR> and <VAR>endN</VAR> are unsigned integers that record 
+  the byte position of the beginning and end of each file name in the output. 
+  This makes it easy for <SMALL>EMACS</SMALL> to find the names, even when they contain unusual 
+  characters such as space or newline, without fancy searching.</P>
+  <P>If directories are being listed recursively (<CODE>-R</CODE>), output a 
+  similar line after each subdirectory: <PRE>//SUBDIRED// <VAR>format</VAR> <VAR>beg1 end1 <SMALL>...</SMALL></VAR>
+</PRE></P>
+  <P>Finally, output a line of the form: <PRE>//DIRED-OPTIONS// --quoting-style=<VAR>word</VAR>
+</PRE>where <VAR>word</VAR> is the quoting style (see <A 
+  href="#Formatting%20the%20file%20names">Formatting the file names</A>).
+  </P>
+
+  <DT><CODE>-F</CODE> 
+  <DT><CODE>--classify</CODE> 
+  <DT><CODE>--indicator-style=classify</CODE> 
+  <DD><P>Append one of the characters <span class="nobr"><CODE>*\@$</CODE></span> to 
+  indicate the file type.  The characters denote an executable
+  file <CODE>*</CODE>, a directory <CODE>\</CODE>, a
+  symbolic link <CODE>@</CODE>, or a hidden stream <CODE>$</CODE>,
+  respectively.
+  </P>
+
+  <DT><CODE>-h</CODE> 
+  <DT><CODE>-H</CODE> 
+  <DT><CODE>--human-readable</CODE> 
+  <DD><P>Append a size letter such as <CODE>M</CODE> for megabytes to each size. 
+  Powers of 1024 are used, not 1000; <CODE>M</CODE> stands for 1,048,576 bytes. 
+  Use the <span class="nobr"><CODE>--si</CODE></span> option if you prefer powers of 1000.</P>
+
+  <DT><CODE>--si</CODE> 
+  <DD><P>Append a size letter such as <CODE>M</CODE> for megabytes to each size. 
+  (SI is the International System of Units, which defines these letters as 
+  suffixes.) Powers of 1000 are used, not 1024; <CODE>M</CODE> stands for 
+  1,000,000 bytes. Use the <CODE>-h</CODE> or 
+  <span class="nobr"><CODE>--human-readable</CODE></span>
+  option if you prefer powers of 1024. 
+  </P>
+
+  <DT><CODE>--indicator-style=<VAR>word</VAR></CODE> 
+  <DD><P>Append a character indicator with style <VAR>word</VAR> to entry names.</P>
+  <UL>
+    <LI><CODE>none</CODE> -
+    Do not append any character indicator; this is the default.
+    <LI><CODE>file-type</CODE> -
+    Append <CODE>\</CODE> for directories, <CODE>@</CODE> for symbolic 
+	links, <CODE>$</CODE> for a hidden stream, and nothing for 
+    regular files. This is the same as the <CODE>-p</CODE> or 
+    <CODE>--file-type</CODE> option.
+    <LI><CODE>classify</CODE> -
+    Append <CODE>*</CODE> for executable regular files, otherwise behave as 
+    for <CODE>file-type</CODE>. This is the same as the <CODE>-F</CODE> or 
+    <CODE>--classify</CODE> option.
+	</LI>
+  </UL>
+
+  <DT><CODE>-k</CODE> 
+  <DT><CODE>--kilobytes</CODE> 
+  <DD>Print file sizes in 1024-byte blocks, overriding the default block
+  size (see <A href="#Block%20size">Block size</A>).
+
+  <DT><CODE>-m</CODE> 
+  <DT><CODE>--format=commas</CODE> 
+  <DD>List files horizontally, with as many as will fit on each line, separated 
+  by <CODE>, </CODE>(a comma and a space).
+
+  <DT><CODE>-M</CODE>
+  <A NAME="more"><DT><CODE>--more</CODE></DT></A>
+  <DD>Pause the output to the console between each screenful,
+  using a built-in pager.  Press any key to continue.
+  Due to a design mistake by Microsoft in
+  the way that the Windows console works, 
+  colorized output is impossible when piped through an external pager utility
+  like <CODE>more</CODE>: ls | more. 
+  This option was added to the
+  Windows version of <b>ls</b> to work around the problem.
+
+  <DT><CODE>-n</CODE> 
+  <DT><CODE>--numeric-uid-gid</CODE> 
+  <DD><P>List the numeric UID and GID instead of the names.</P>
+
+  <DT><CODE>--oem-cp</CODE> 
+  <DD><P>Display the output using the OEM code page.  This is the
+  default when displaying the output to a console window that is
+  using a raster font (not a TrueType font).
+  <span class="nobr">See <CODE>--ansi-cp</CODE>.</span></P>
+
+  <DT><CODE>-p</CODE> 
+  <DT><CODE>--file-type</CODE> 
+  <DT><CODE>--indicator-style=file-type</CODE> 
+  <DD><P>Append a character to each file name indicating the file type. This is 
+  like <CODE>-F</CODE>, except that executables are not marked.</P>
+
+  <DT><CODE>-x <VAR>format</VAR></CODE> 
+  <DT><CODE>--format=across</CODE> 
+  <DT><CODE>--format=horizontal</CODE> 
+  <DD><P>List the files in columns, sorted horizontally.</P>
+
+  <DT><CODE>-T <VAR>cols</VAR></CODE> 
+  <DT><CODE>--tabsize=<VAR>cols</VAR></CODE> 
+  <DD><P>Assume that each tabstop is <VAR>cols</VAR> columns wide. The default is eight characters.
+  <B>ls</B> uses tabs where possible in the output, for efficiency. If 
+  <VAR>cols</VAR> is zero, do not use tabs at all.</P>
+
+  <DT><CODE>-w <VAR>cols</VAR></CODE> 
+  <DT><CODE>--width=<VAR>cols</VAR></CODE> 
+  <DD><P>Assume the screen is <VAR>cols</VAR> columns wide. The default is taken 
+  from the terminal settings if possible; otherwise the environment variable 
+  <CODE>COLUMNS</CODE> is used if it is set; otherwise the default is 80.</P>
+</DD></DL>
+
+<!-- =================================================================== -->
+
+<P>
+<HR>
+<A NAME="Block%20size"><H3>Block size</H3></A>
+<P> 
+<B>ls</B> can display file sizes in "blocks". You can adjust the block 
+size to make file sizes easier to read. The block size used for display is 
+independent of any filesystem block size. 
+</P>
+
+<P>Normally, disk usage sizes are rounded up, disk free space sizes are rounded 
+down, and other sizes are rounded to the nearest value with ties rounding to an 
+even value. 
+</P>
+
+<P>The default block size is chosen by examining the following environment 
+variables in turn; the first one that is set determines the block size. 
+</P>
+<DL>
+  <DT><CODE>LS_BLOCK_SIZE</CODE> 
+  <DD>This specifies the default block size for <B>ls</B>. <BR>
+
+  <DT><CODE>POSIXLY_CORRECT</CODE> 
+  <DD>If <CODE>LS_BLOCK_SIZE</CODE> is not set, but this variable is set, the block 
+  size defaults to 512. </DD></DL>
+
+<P>If none of the above environment variables are set, the block size 
+defaults to 1024 bytes.
+</P>
+<P>A block size specification can be a positive integer specifying the number of 
+bytes per block, or it can be <CODE>human-readable</CODE> or <CODE>si</CODE> to 
+select a human-readable format. 
+</P>
+<P>With human-readable formats, output sizes are followed by a size letter such 
+as <CODE>M</CODE> for megabytes. <CODE>LS_BLOCK_SIZE=human-readable</CODE> uses 
+powers of 1024; <CODE>M</CODE> stands for 1,048,576 bytes. 
+<CODE>LS_BLOCK_SIZE=si</CODE> is similar, but uses powers of 1000; <CODE>M</CODE> 
+stands for 1,000,000 bytes. (SI, the International System of Units, defines 
+these power-of-1000 suffixes.) 
+</P>
+<P>An integer block size can be followed by a size letter to specify a multiple 
+of that size. When this notation is used, the size letters normally stand for 
+powers of 1024, and can be followed by an optional <CODE>B</CODE> for "byte"; 
+but if followed by <CODE>D</CODE> (for "decimal byte"), they stand for powers of 
+1000. For example, <CODE>LS_BLOCK_SIZE=4MB</CODE> is equivalent to 
+<CODE>LS_BLOCK_SIZE=4194304</CODE>, and <CODE>LS_BLOCK_SIZE=4MD</CODE> is equivalent 
+to <CODE>LS_BLOCK_SIZE=4000000</CODE>. 
+</P>
+<P>The following size letters are defined. Large sizes like <CODE>1Y</CODE> may 
+be rejected by your computer due to limitations of its arithmetic. 
+</P>
+<DL>
+  <DT><CODE>k</CODE> 
+  <DD>kilo: 2^10 = 1024 for <CODE>human-readable</CODE>, or 10^3 = 1000 for 
+  <CODE>si</CODE>. <BR>
+  <DT><CODE>M</CODE> 
+  <DD>Mega: 2^20 = 1,048,576 or 10^6 = 1,000,000. <BR>
+  <DT><CODE>G</CODE> 
+  <DD>Giga: 2^30 = 1,073,741,824 or 10^9 = 1,000,000,000. <BR>
+  <DT><CODE>T</CODE> 
+  <DD>Tera: 2^40 = 1,099,511,627,776 or 10^12 = 1,000,000,000,000. <BR>
+  <DT><CODE>P</CODE> 
+  <DD>Peta: 2^50 = 1,125,899,906,842,624 or 10^15 = 1,000,000,000,000,000. <BR>
+  <DT><CODE>E</CODE> 
+  <DD>Exa: 2^60 = 1,152,921,504,606,846,976 or 10^18 = 
+  1,000,000,000,000,000,000. <BR>
+  <DT><CODE>Z</CODE> 
+  <DD>Zetta: 2^70 = 1,180,591,620,717,411,303,424 or 10^21 = 
+  1,000,000,000,000,000,000,000. <BR>
+  <DT><CODE>Y</CODE> 
+  <DD>Yotta: 2^80 = 1,208,925,819,614,629,174,706,176 or 10^24 = 
+  1,000,000,000,000,000,000,000,000. </DD></DL>
+<P>Block size defaults can be overridden by an explicit 
+<span class="nobr"><CODE>--block-size=<VAR>size</VAR></CODE></span>
+option. The <span class="nobr"><CODE>-k</CODE></span> or 
+<span class="nobr"><CODE>--kilobytes</CODE></span>
+option is equivalent to <span class="nobr"><CODE>--block-size=1k</CODE>,</span> 
+which is the default unless the <CODE>POSIXLY_CORRECT</CODE> environment 
+variable is set. The <span class="nobr"><CODE>-h</CODE></span> or 
+<span class="nobr"><CODE>--human-readable</CODE></span> option is 
+equivalent to <span class="nobr"><CODE>--block-size=human-readable</CODE>.</span> The 
+<span class="nobr"><CODE>--si</CODE></span>
+option is equivalent to <span class="nobr"><CODE>--block-size=si</CODE></span>. 
+</P>
+
+<!-- =================================================================== -->
+
+<P>
+<HR>
+<A NAME="timestyle"><H3>Time Style</H3></A>
+
+<p>By default, file timestamps are listed in abbreviated form.  Most
+locales use a timestamp like &lsquo;<samp>2002-03-30 23:45</samp>&rsquo;.  However, the
+default <acronym>POSIX</acronym> locale uses a date like &lsquo;<samp>Mar 30  2002</samp>&rsquo;
+for non-recent timestamps, and a date-without-year and time like
+&lsquo;<samp>Mar 30 23:45</samp>&rsquo; for recent timestamps.
+
+   <p>A timestamp is considered to be <dfn>recent</dfn> if it is less than six
+months old, and is not dated in the future.  If a timestamp dated
+today is not listed in recent form, the timestamp is in the future,
+which means you probably have clock skew problems which may break
+programs like <code>nmake</code> that rely on file timestamps.
+
+   <p>The following option changes how file timestamps are printed.
+
+     <dl>
+
+  <DT><CODE>--full-time</CODE> 
+  <DD><P>List times using full precision, rather than using an abbreviation.
+  This is useful when you need to know the exact file time down to the
+  nearest second.  For example, this can help when you have 
+  a Makefile that is not regenerating files properly.</P>
+
+  <dt><code>--time-style=</code><var>style</var><dd><P>List timestamps in style <var>style</var>.  The <var>style</var> should
+be one of the following:</P>
+
+     <dl>
+<dt>&lsquo;+<var>format</var>&rsquo;<dd>List timestamps using <var>format</var>, where <var>format</var> is interpreted
+like the format argument of the C library function <span class="nobr"><code>strftime()</code>.</span>
+For example, <span class="nobr"><code>--time-style="+%Y-%m-%d %H:%M:%S"</code></span> causes
+<B>ls</B> to list timestamps like &lsquo;2002-03-30 23:45:56&rsquo;.
+
+<p>If <var>format</var> contains two format strings separated by a 
+an exclamation sign (!),
+the former is used for non-recent files and the latter for recent
+files. If you want output columns to line up, you may need to insert
+spaces in one of the two formats.
+
+	  <br><dt><code>full-iso</code><dd>List timestamps in full using <acronym>ISO</acronym> 8601 date and time
+format, e.g., &lsquo;<samp>2002-03-30 23:45:56</samp>&rsquo;.  This style is equivalent to
+<span class="nobr">&lsquo;+%Y-%m-%d %H:%M:%S&rsquo;.</span>  To include the time zone
+append %Z.
+
+		  <br><dt><code>long-iso</code><dd>List <acronym>ISO</acronym> 8601 date and time in minutes, e.g.,
+&lsquo;<samp>2002-03-30 23:45</samp>&rsquo;.  
+This style is equivalent to &lsquo;<samp>+%Y-%m-%d %H:%M<</samp>&rsquo;.
+
+		  <br><dt><code>iso<dd>List <acronym>ISO</acronym> 8601 dates for non-recent timestamps (e.g.,
+&lsquo;<samp>2002-03-30 </samp>&rsquo;), and <acronym>ISO</acronym> 8601 month, day, hour, and
+minute for recent timestamps (e.g., &lsquo;<samp>03-30 23:45</samp>&rsquo;).  These
+timestamps are uglier than &lsquo;<samp>long-iso</samp>&rsquo; timestamps, but they carry
+nearly the same information in a smaller space and their brevity helps
+<b>ls</b> output fit within traditional 80-column output lines. 
+The following two invocations are equivalent:
+
+<pre class="example">
+               ls -l --time-style="+%Y-%m-%d!%m-%d %H:%M"
+               ls -l --time-style="iso"
+</pre>
+<dt><code>locale<dd>List timestamps in a locale-dependent form.  For example, a Finnish
+locale might list non-recent timestamps like <span class="nobr">&lsquo;<samp>maalis 30  2002</samp>&rsquo;</span>
+and recent timestamps like <span class="nobr">&lsquo;<samp>maalis 30 23:45</samp>&rsquo;.</span>  Locale-dependent
+timestamps typically consume more space than <code>iso</code> timestamps and
+are harder for programs to parse because locale conventions vary so
+widely, but they are easier for many people to read.
+
+          <p>The default <acronym>POSIX</acronym> locale uses timestamps like &lsquo;<samp>Mar 30  2002</samp>&rsquo; and &lsquo;<samp>Mar 30 23:45</samp>&rsquo;; in this locale, the following two
+<b>ls</b> invocations are equivalent:
+
+<pre class="example">
+               ls -l --time-style="+%b %d  %Y!%b %d %H:%M"
+               ls -l --time-style="locale"
+</pre>
+
+  </dl>
+</dl>
+
+<p>You can specify the default value of the <code>--time-style</code> option
+with the environment variable <code>TIME_STYLE</code>.  If <code>TIME_STYLE</code> is not set
+the default style is <code>locale</code>.</p>
+
+<!-- =================================================================== -->
+
+<P>
+<HR>
+<A NAME="Formatting%20the%20file%20names"><H2>Options: Formatting the file names</H2></A>
+<P>These options change how file names themselves are printed. 
+</P>
+<DL>
+  <DT><CODE>-b</CODE> 
+  <DT><CODE>--escape</CODE> 
+  <DT><CODE>--quoting-style=escape</CODE> 
+  <DD><P>Quote nongraphic characters in file names using alphabetic and octal 
+  backslash sequences like those used in the C programming language.
+  </P>
+
+  <DT><CODE>--color [=<VAR>when</VAR>]</CODE> 
+  <DD>Specify whether to use color for distinguishing file types. 
+  <VAR>when</VAR> may be omitted or be one of
+  <UL>
+	  <LI><CODE>none</CODE> - Do not use color at all. This is the default. 
+	  <LI><CODE>auto</CODE> - Only use color if standard output is a command console. 
+	  <LI><CODE>always</CODE> - Always use color. 
+	</LI>
+  </UL>
+
+  <P>To customize the choice of colors use
+  the <A HREF="#dircolors%20invocation"><B>dircolors</B></A> utility.
+  </P>
+  <P>
+  Specifying <span class="nobr"><CODE>--color</CODE></span>
+  without <VAR>when</VAR> is equivalent to 
+  <span class="nobr"><CODE>--color=always</CODE>.</span>
+  Due to a design mistake by Microsoft in the way that the Windows console works, 
+  <span class="nobr"><CODE>--color=always</CODE></span>
+  has no affect when piping a colorized listing through a pager
+  like <CODE>more</CODE> (for example ls | more).  Instead the
+  <span class="nobr">-M</span> (or <span class="nobr">--more</span>) option was added to the
+  Windows version of <b>ls</b> to work around the problem.
+  See <span class="nobr"><A HREF="#more"><b>--more</b></A>.</span>
+  </P>
+
+  <DT><CODE>--compressed</CODE>
+  <DD><P>
+  Show compressed files with a distinct color.  
+  Implies <span class="nobr"><CODE>--color</CODE>.</span>
+
+  <DT><CODE>-N</CODE>
+  <DT><CODE>--literal</CODE> 
+  <DD>Do not quote file names. <BR>
+  <DT><CODE>-q</CODE> 
+  <DT><CODE>--hide-control-chars</CODE> 
+  <DD>Print question marks instead of nongraphic characters in file names. This 
+  is the default if the output is a command console and the program is <B>ls</B>. 
+  <BR>
+
+  <DT><CODE>-Q</CODE> 
+  <DT><CODE>--quote-name</CODE> 
+  <DT><CODE>--quoting-style=c</CODE> 
+  <DD><P>Enclose file names in double quotes. Quote nongraphic characters
+  as in the C programming language.
+  </P>
+
+  <DT><CODE>--quoting-style=<VAR>word</VAR></CODE> 
+  <DD>Use style <VAR>word</VAR> to quote output names. The <VAR>word</VAR> 
+  should be one of the following: 
+  <DL>
+    <DT><CODE>literal</CODE> 
+    <DD>Output names as-is. <BR>
+    <DT><CODE>shell</CODE> 
+    <DD>Quote names for the shell if they contain shell metacharacters or would 
+    cause ambiguous output. <BR>
+    <DT><CODE>shell-always</CODE> 
+    <DD>Quote names for the shell, even if they would normally not require 
+    quoting. <BR>
+    <DT><CODE>c</CODE> 
+    <DD>Quote names as for a C language string; this is the same as the 
+    <CODE>-Q</CODE> or <CODE>--quote-name</CODE> option. <BR>
+    <DT><CODE>escape</CODE> 
+    <DD>Quote as with <CODE>c</CODE> except omit the surrounding double-quote 
+    characters; this is the same as the <CODE>-b</CODE> or <CODE>--escape</CODE> 
+    option. <BR>
+    <DT><CODE>clocale</CODE> 
+    <DD>Quote as with <CODE>c</CODE> except use quotation marks appropriate for 
+    the locale. <BR>
+    <DT><CODE>locale</CODE> 
+    <DD>Like <CODE>clocale</CODE>, but quote <TT>`like this'</TT> instead of 
+    <TT>"like this"</TT> in the default C locale. This looks nicer on many 
+    displays. </DD></DL>
+  <P>You can specify the default value of the <CODE>--quoting-style</CODE> 
+  option with the environment variable <CODE>QUOTING_STYLE</CODE>.</P>
+  </P>
+
+  <DT><CODE>--recent [=<VAR>n</VAR>]</CODE> 
+  <DD><P>Show files that have changed within the last <VAR>n</VAR> minutes
+  using a distinctive color marking.  When <VAR>n</VAR> is omitted the default
+  is the last 60 minutes.  Implies <span class="nobr"><CODE>--color</CODE></span>.
+  </P>
+  <P>
+  When using a 'smart' console window such as 
+  <span class="nobr"><CODE>xterm</CODE></span>, <span class="nobr"><CODE>rxvt</CODE></span>, or
+  <SMALL>EMACS</SMALL> the name of the 
+  file is <U>underlined</U>.  When using a DOS console window <b>ls</b>
+  displays intense white letters; for special files it displays the special
+  color of the file inverted with the background color.
+  </P>
+
+  <DT><CODE>--show-control-chars</CODE> 
+  <DD>Print nongraphic characters as-is in file names. This is the default 
+  unless the output is a command console. </DD></DL>
+
+<!-- =================================================================== -->
+
+<P>
+<HR>
+<A NAME="custom"><H2>Customizing ls</H2></A>
+
+<P>Use the environment variable
+LS_OPTIONS to set default options.
+</P>
+
+<P>The author recommends the following settings
+for LS_OPTIONS:
+</P>
+
+<PRE>
+  -bhAC --more --color=auto --recent --streams
+</PRE>
+
+<P>
+You can set LS_OPTIONS as part of a your DOS console initialization.
+In your DOS console shortcut, right-click
+on Properties and set the Target to
+</P>
+
+<PRE>
+  %SystemRoot%\system32\cmd.exe /K <span>C:\</span>lbin\console.bat
+</PRE>
+
+<P>Then put the following information in the file <span>C:\</span>lbin\console.bat:
+
+<PRE>
+@echo off
+rem
+rem Set options for ls
+rem
+set LS_OPTIONS=-bhAC --more --color=auto --recent --streams
+</PRE>
+
+<P>Another method is to set the LS_OPTIONS environment variable
+using the Control Panel.  
+(The following instructions will vary slightly depending on the
+version of Microsoft Windows.)
+Click on Control Panel -&gt; System.
+Click on the Advanced tab and the button Environment Variables.
+Click on the button New.  For the Variable Name type <CODE>LS_OPTIONS</CODE>.
+For the Variable Value type
+<span class="nobr"><CODE>-bhAC --more --color=auto --recent --streams</CODE></span>
+</P>
+
+<P>
+Note: If you put &quot;slow&quot; options in LS_OPTIONS, it will
+<B>not</B> force the activation
+of &quot;slow mode&quot;.  For example,
+if you put <span class="nobr"><CODE>--streams</CODE></span>
+into LS_OPTIONS, it does not force the use of slow mode when viewing
+files over a network. 
+If you <B>do</B> want to use slow mode all the time,
+you must explicitly add <span class="nobr"><CODE>--slow</CODE></span> in LS_OPTIONS.
+For more information on performance issues,
+see <span class="nobr"><A href="#perf"><B>Performance: --slow vs --fast</B></A>.</span>
+</P>
+
+<!-- =================================================================== -->
+
+<P>
+<HR>
+<A NAME="dircolors%20invocation"><H2><B>dircolors</B>: Color setup for <B>ls</B></H2></A>
+<P><B>dircolors</B> outputs a sequence of shell commands to set up the 
+terminal for color output from <B>ls</B>.
+<P>If <VAR>file</VAR> is specified, <B>dircolors</B> reads it to determine 
+which colors to use for which file types and extensions. Otherwise, a 
+precompiled database is used. For details on the format of these files, run 
+<span class="nobr"><CODE>dircolors --print-database</CODE></span>. 
+</P>
+<P>The output is a shell command to set the <CODE>LS_COLORS</CODE> environment 
+variable. You can specify the shell syntax to use on the command line, or 
+<B>dircolors</B> will guess it from the value of the <CODE>SHELL</CODE> 
+environment variable. 
+<P>The program accepts the following options. 
+<DL>
+  <DT><CODE>-b</CODE> 
+  <DT><CODE>--sh</CODE> 
+  <DT><CODE>--bourne-shell</CODE> 
+  <DD>Output Bourne shell commands. This is the default if the 
+  <CODE>SHELL</CODE> environment variable is set and does not end with 
+  <CODE>csh</CODE> or <CODE>tcsh</CODE>. <BR>
+
+  <DT><CODE>-c</CODE> 
+  <DT><CODE>--csh</CODE> 
+  <DT><CODE>--c-shell</CODE> 
+  <DD>Output C shell commands. This is the default if <CODE>SHELL</CODE> ends 
+  with <CODE>csh</CODE> or <CODE>tcsh</CODE>. <BR>
+
+  <DT><CODE>--dos</CODE> 
+  <DT><CODE>--dos-shell</CODE> 
+  <DD>Output DOS batch commands. This is the default if <CODE>SHELL</CODE>
+  is missing. <BR>
+
+  <DT><CODE>-p</CODE> 
+  <DT><CODE>--print-database</CODE> 
+  <DD>Print the (compiled-in) default color configuration database. This output 
+  is itself a valid configuration file.  The output is shown below.
+  </DD></DL>
+
+<PRE>
+#
+# Configuration file for dircolors, a utility to help you set the
+# LS_COLORS environment variable used by GNU ls with the --color option.
+
+# The keywords COLOR, OPTIONS, and EIGHTBIT (honored by the
+# slackware version of dircolors) are recognized but ignored.
+
+# Below, there should be one TERM entry for each termtype that is colorizable
+TERM console
+TERM xterm
+TERM xterm-debian
+TERM rxvt
+TERM screen
+TERM screen-w
+TERM vt100
+
+# Below are the color init strings for the basic file types. A color init
+# string consists of one or more of the following numeric codes:
+# Attribute codes:
+# 00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
+# Text color codes:
+# 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
+# Background color codes:
+# 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
+NORMAL 00     # global default, although everything should be something.
+FILE 00       # normal file
+DIR 01;32     # directory
+LINK 01;34    # symbolic link.  (If you set this to 'target' instead of a
+              # numerical value, the color is as for the file pointed to.)
+FIFO 40;33    # pipe
+SOCK 01;35    # socket
+DOOR 01;35    # door
+BLK 40;33     # block device driver
+CHR 40;33     # character device driver
+ORPHAN 40;31;01 # symlink to nonexistent file
+
+# This is for files with execute permission:
+EXEC 01;33
+
+# Highlight recently modified files - underscore
+RECENT ;04   # leading semicolon required
+
+# Highlight compressed files - bright cyan
+COMPRESSED ;01;36  # leading semicolon required
+
+# Highlight files with embedded streams - blue
+STREAMS ;01;34  # leading semicolon required
+
+# List any file extensions like '.gz' or '.tar' that you would like ls
+# to colorize below. Put the extension, a space, and the color init string.
+# (and any comments you want to add after a '#')
+
+# DOS-style suffixes:
+.cmd 01;33 # executables (bright yellow)
+.bat 01;33
+.exe 01;33
+.com 01;33
+#.dll 01;33
+#.sys 01;33
+
+.tar 01;36 # archives or compressed (bright cyan)
+.tgz 01;36
+.arj 01;36
+.taz 01;36
+.lzh 01;36
+.zip 01;36
+.z   01;36
+.Z   01;36
+.gz  01;36
+.bz2 01;36
+.deb 01;36
+.rpm 01;36
+
+# image formats (magenta)
+.jpg 01;35
+.png 01;35
+.gif 01;35
+.bmp 01;35
+.ppm 01;35
+.tga 01;35
+.xbm 01;35
+.xpm 01;35
+.tif 01;35
+.cdr 01;35
+.mpg 01;35
+.wmv 01;35
+.avi 01;35
+.fli 01;35
+.gl 01;35
+.dl 01;35
+</PRE>
+
+<P>
+Given this file as input, <B>dircolors</B> will print the following
+output:
+</P>
+
+<PRE>
+@echo off
+rem
+rem Batch script for setting file colors for ls.exe
+rem
+set LS_COLORS=no=00:fi=00:di=01;32:ln=01;34:pi=40;33:so=01;35:do=01;35:
+bd=40;33:cd=40;33:or=40;31;01:ex=01;33:re=;04:co=;01;36:st=;01;34:
+*.cmd=01;33:*.bat=01;33:*.exe=01;33:*.com=01;33:*.tar=01;36:
+*.tgz=01;36:*.arj=01;36:*.taz=01;36:*.lzh=01;36:*.zip=01;36:
+*.z=01;36:*.Z=01;36:*.gz=01;36:*.bz2=01;36:*.deb=01;36:*.rpm=01;36:
+*.jpg=01;35:*.png=01;35:*.gif=01;35:*.bmp=01;35:*.ppm=01;35:*.tga=01;35:
+*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.cdr=01;35:*.mpg=01;35:
+*.wmv=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:
+</PRE>
+
+<P>(Splice the <code>set</code> line together so that it forms
+a single line.)  You can run this batch script from your shortcut icon:
+<span class="nobr"><CODE>cmd.exe /K <span>c:\</span>lbin\console.bat</CODE></span>
+<BR>Or cut-and-paste the
+above string (starting with &quot;no=00:...&quot;) into the Environment Settings dialog for the System
+applet in the Control Panel, using the environment variable 
+name LS_COLORS.
+</P>
+
+<!-- =================================================================== -->
+
+<HR>
+<P>
+<A name="ack"><H2>Acknowledgements</H2></A>
+
+<P><B>msls</B>, aka Windows <B>ls</b>, was adapted from <SMALL>GNU</SMALL> <CODE>ls</CODE>,
+written by Richard Stallman and David MacKenzie.  The Microsoft Windows
+extensions were written by Alan Klietz.
+This document was adapted from the <SMALL>GNU</SMALL> <CODE>fileutils</CODE>
+documentation for <CODE>ls</CODE>, originally written
+written by David MacKenzie and Jim Meyering. 
+</P>
+
+<P>
+Please send feedback and bug reports regarding the Windows version of <b>ls</b> (<B>msls</B>)
+to <span class="nobr"><CODE>msls&#64;u-tools&middot;<abcde>com</abcde></CODE>.</span>
+</P>
+
+<P>
+Microsoft Windows modifications copyright &copy; U-Tools Software LLC.
+<BR>
+Distributed under GNU General Public License version 2.
+</P>
+
+</BODY></HTML>

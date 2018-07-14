@@ -1,0 +1,11 @@
+.git
+.cvsignore
+.sync_txt
+DISTRIB_EXE
+DISTRIB_SRC
+DISTRIB_ZIP
+UNIX
+CVS
+dircolors/CVS
+TODO
+_TODO.txt

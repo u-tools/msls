@@ -1,0 +1,455 @@
+/* $Id: msls.css,v 1.4 2016/12/29 22:20:22 cvsalan Exp $ */
+
+BODY
+{
+    /* MARGIN-TOP: 0px;
+    MARGIN-BOTTOM: 0px;
+    MARGIN-LEFT: 0px;
+    MARGIN-RIGHT: 0px */
+}
+FORM
+{
+    /* MARGIN: 0 0 0 0 */
+}
+
+/*Wrap excessively long pre block*/
+pre {
+	white-space: pre-wrap; /*css3, IE8+*/
+	white-space: -moz-pre-wrap !important; /*Mozilla since 1999*/
+	white-space: -pre-wrap; /*Opera 4-6*/
+	white-space: -o-pre-wrap; /*Opera 7*/
+	word-wrap: break-word; /*I5.5-IE7*/
+}
+pre.nowrap {
+	white-space: pre; /*default for pre*/
+	word-wrap: normal; /*IE5.5-IE7*/
+}
+
+TABLE
+{
+}
+TH
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 12pt
+}
+TD
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 12pt
+}
+TD.tagline
+{
+    COLOR: white;
+    FONT-FAMILY: 'Bookman Old Style','Times New Roman', 'Times Roman', Times;
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 12pt
+}
+TD.form-text
+{
+    COLOR: #803030;
+    FONT-FAMILY: Arial, Helvetica, sans-serif, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 15pt  /* minimum height for Netscape input box */
+}
+TD.smaller-text
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, sans-serif, 'MS Sans Serif';
+    FONT-SIZE: 8pt;
+    LINE-HEIGHT: 10pt
+}
+TD.smaller-gray-text
+{
+    COLOR: #808080;
+    FONT-FAMILY: Arial, Helvetica, sans-serif, 'MS Sans Serif';
+    FONT-SIZE: 8pt;
+    LINE-HEIGHT: 10pt
+}
+TD.white-banner-text
+{
+    COLOR: white;
+    FONT-FAMILY: Verdana, Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 24pt;
+    LINE-HEIGHT: 26pt
+}
+P
+{
+    COLOR: #000000;
+    FONT-FAMILY: Arial, Helvetica, sans-serif, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 14pt;
+    MARGIN-TOP: 0px;
+    MARGIN-LEFT: 0px;
+    MARGIN-RIGHT: 0px
+}
+P.smaller-text
+{
+    FONT-SIZE: 8pt;
+    LINE-HEIGHT: 10pt
+}
+P.zero-margin-bottom
+{
+    MARGIN-BOTTOM: 0px;
+}
+P.single-space
+{
+    LINE-HEIGHT: 12pt
+}
+P.arial-text
+{
+    COLOR: #000000;
+    FONT-FAMILY: Arial, Helvetica, sans-serif, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 14pt
+}
+P.simple-list
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 14pt
+}
+A
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #336666;
+    TEXT-DECORATION: none
+}
+A:link
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #336666;
+    TEXT-DECORATION: none
+}
+A:visited
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #336666;
+    TEXT-DECORATION: none
+}
+A:active
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #00CCCC;
+    TEXT-DECORATION: none
+}
+A:hover
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #00CCCC;
+    TEXT-DECORATION: none
+}
+A:link.arial
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #336666;
+    TEXT-DECORATION: none
+}
+A:visited.arial
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #336666;
+    TEXT-DECORATION: none
+}
+A:active.arial
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #00CCCC;
+    TEXT-DECORATION: none
+}
+A:hover.arial
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #00CCCC;
+    TEXT-DECORATION: none
+}
+A.arial
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #336666;
+    TEXT-DECORATION: none
+}
+A:link.nocolor
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #000000;
+    TEXT-DECORATION: underline
+}
+A:visited.nocolor
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #000000;
+    TEXT-DECORATION: underline
+}
+A:active.nocolor
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #000000;
+    TEXT-DECORATION: underline
+}
+A:hover.nocolor
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #00CCCC;
+    TEXT-DECORATION: underline
+}
+A.nocolor
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #000000;
+    TEXT-DECORATION: underline
+}
+A:link.underline
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #336666;
+    TEXT-DECORATION: underline
+}
+A:visited.underline
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #336666;
+    TEXT-DECORATION: underline
+}
+A:active.underline
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #00CCCC;
+    TEXT-DECORATION: underline
+}
+A:hover.underline
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #00CCCC;
+    TEXT-DECORATION: underline
+}
+A.underline
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #000000;
+    TEXT-DECORATION: underline
+}
+A:link.copyright
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #336666;
+    FONT-SIZE: 8pt;
+    TEXT-DECORATION: none
+}
+A:visited.copyright
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #336666;
+    FONT-SIZE: 8pt;
+    TEXT-DECORATION: none
+}
+A:active.copyright
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #00CCCC;
+    FONT-SIZE: 8pt;
+    TEXT-DECORATION: none
+}
+A:hover.copyright
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #00CCCC;
+    FONT-SIZE: 8pt;
+    TEXT-DECORATION: none
+}
+A.copyright
+{
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #336666;
+    FONT-SIZE: 8pt;
+    TEXT-DECORATION: none
+}
+A:link.license
+{
+    FONT-SIZE: 10pt;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #F00000;
+    TEXT-DECORATION: none
+}
+A:visited.license
+{
+    FONT-SIZE: 10pt;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #F00000;
+    TEXT-DECORATION: none
+}
+A:active.license
+{
+    FONT-SIZE: 10pt;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #00CCCC;
+    TEXT-DECORATION: none
+}
+A:hover.license
+{
+    FONT-SIZE: 10pt;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #00CCCC;
+    TEXT-DECORATION: none
+}
+A.license
+{
+    FONT-SIZE: 10pt;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    COLOR: #F00000;
+    TEXT-DECORATION: none
+}
+H1
+{
+    COLOR: #000000;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 20pt;
+    /*TEXT-ALIGN: center;*/
+    /*VERTICAL-ALIGN: middle;*/
+    LINE-HEIGHT: 20pt
+}
+H2
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 16pt;
+    LINE-HEIGHT: 20pt
+}
+H3
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 12pt;
+    LINE-HEIGHT: 16pt
+}
+H4
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 12pt;
+    LINE-HEIGHT: 16pt
+}
+H5
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 14pt
+}
+OL.arial-text
+{
+    COLOR: #000000;
+    FONT-FAMILY: Arial, Helvetica, sans-serif, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 14pt
+}
+UL
+{
+    LIST-STYLE: square;
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 14pt
+}
+UL UL
+{
+    LIST-STYLE: disc;
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 12pt
+}
+UL UL UL
+{
+    LIST-STYLE: circle;
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 12pt
+}
+UL.single-space
+{
+    LINE-HEIGHT: 12pt
+}
+UL.zero-margin-bottom
+{
+    MARGIN-BOTTOM: 0px
+}
+UL.smaller-text
+{
+    COLOR: #000000;
+    LIST-STYLE: square;
+    FONT-FAMILY: Arial, Helvetica, sans-serif, 'MS Sans Serif';
+    FONT-SIZE: 8pt;
+    LINE-HEIGHT: 12pt
+}
+UL.arial-text
+{
+    COLOR: #000000;
+    LIST-STYLE: square;
+    FONT-FAMILY: Arial, Helvetica, sans-serif, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 14pt
+}
+UL.simple-list
+{
+    COLOR: #000000;
+    LIST-STYLE: square;
+    FONT-FAMILY: Arial, Helvetica, sans-serif, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 14pt
+}
+OL
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 14pt
+}
+OL.smaller-text
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 8pt;
+    LINE-HEIGHT: 12pt
+}
+LI {
+	/*BUG: Never set hasLayout on OL LI. It causes OL to fail to increment the item number in IE6-7!*/
+	/*zoom: 1;*/
+}
+DL
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 12pt
+}
+DT
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 12pt
+}
+DD
+{
+    COLOR: black;
+    FONT-FAMILY: Arial, Helvetica, 'MS Sans Serif';
+    FONT-SIZE: 10pt;
+    LINE-HEIGHT: 14pt
+}
+DIV.copyright
+{
+    COLOR: #666666;
+    FONT-FAMILY: Garamond, 'Times New Roman', 'Times Roman', Times;
+    FONT-SIZE: 8pt;
+    LINE-HEIGHT: 10pt
+}
+.nobr {
+	white-space: nowrap;
+}
