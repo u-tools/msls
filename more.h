@@ -1,11 +1,9 @@
 //
 // Mimic stdio for more-style pagination
 //
-// Copyright (c) 2004-2017, U-Tools Software LLC
+// Copyright (c) 2004-2018, U-Tools Software LLC
 // Written by Alan Klietz 
 // Distributed under GNU General Public License version 2.
-//
-// $Id: more.h,v 1.4 2016/12/29 22:20:22 cvsalan Exp $
 //
 
 #include <stdarg.h>

@@ -1,7 +1,5 @@
 /* prototypes for quote.c */
 
-/* $Id: quote.h,v 1.1 2004/02/02 07:16:32 alank Exp $ */
-
 #ifndef PARAMS
 # if defined PROTOTYPES || (defined __STDC__ && __STDC__)
 #  define PARAMS(Args) Args

@@ -19,8 +19,6 @@
    Unix programs use to perform this function.  I wrote this from scratch
    based on specifications for the pattern matching.  --RMS.  */
 
-/* $Id: glob.c,v 1.8 2014/10/02 23:18:26 cvsalan Exp $ */
-
 #include <config.h>
 
 #include <stdio.h> // AEK for FILENAME_MAX

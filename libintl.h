@@ -20,8 +20,6 @@
    include protection above.  But the systems header might perhaps also
    define _LIBINTL_H and therefore we have to protect the definition here.  */
 
-/* $Id: libintl.h,v 1.1 2004/02/02 07:16:24 alank Exp $ */
-
 #if !defined _LIBINTL_H || !defined _LIBGETTEXT_H
 #ifndef _LIBINTL_H
 # define _LIBINTL_H	1

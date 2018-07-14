@@ -1,13 +1,11 @@
 //////////////////////////////////////////////////////////////////////////
 //
-// Dump the process token
+// Token.cpp - Dump the process token
 //
-// Copyright (c) 2007-2017, U-Tools Software LLC
+// Copyright (c) 2007-2018, U-Tools Software LLC
 // Written by Alan Klietz 
 //
 // Distributed under GNU General Public License version 2.
-//
-// $Id: Token.cpp,v 1.10 2016/12/29 22:20:22 cvsalan Exp $
 //
 
 #define WIN32_LEAN_AND_MEAN

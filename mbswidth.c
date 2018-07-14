@@ -17,8 +17,6 @@
 
 /* Written by Bruno Haible <haible@clisp.cons.org>.  */
 
-/* $Id: mbswidth.c,v 1.1 2004/02/02 07:16:24 alank Exp $ */
-
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif

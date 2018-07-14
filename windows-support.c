@@ -2,11 +2,9 @@
 //
 // Microsoft Windows support functions
 //
-// Copyright (c) 2004-2017, U-Tools Software LLC
+// Copyright (c) 2004-2018, U-Tools Software LLC
 // Written by Alan Klietz 
 // Distributed under GNU General Public License version 2.
-//
-// $Id: windows-support.c,v 1.8 2016/12/29 22:20:22 cvsalan Exp $
 //
 
 #pragma warning(disable: 4305)  // truncated cast ok basetsd.h POINTER_64 - AEK

@@ -3,8 +3,6 @@
    more time, I'll merge the remaining things in system.h and everything
    in this file will go back there. */
 
-/* $Id: sys2.h,v 1.1 2004/02/02 07:16:25 alank Exp $ */
-
 #if STAT_MACROS_BROKEN
 # undef S_ISBLK
 # undef S_ISCHR

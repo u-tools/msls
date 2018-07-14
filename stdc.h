@@ -19,8 +19,6 @@
    along with Bash; see the file COPYING.  If not, write to the Free
    Software Foundation, 59 Temple Place, Suite 330, Boston, MA 02111 USA. */
 
-/* $Id: stdc.h,v 1.1 2004/02/02 07:16:24 alank Exp $ */
-
 #if !defined (_STDC_H_)
 #define _STDC_H_
 

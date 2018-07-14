@@ -17,8 +17,6 @@
 
 /* Written by Jim Meyering. */
 
-/* $Id: xstrtol.c,v 1.1 2004/02/02 07:16:25 alank Exp $ */
-
 #if HAVE_CONFIG_H
 # include <config.h>
 #endif

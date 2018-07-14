@@ -1,12 +1,10 @@
 //////////////////////////////////////////////////////////////////////////
 //
-// Registry layer for Win32
+// Registryc.pp - Registry layer for Win32
 //
-// Copyright (c) 2007-2017, U-Tools Software LLC
+// Copyright (c) 2007-2018, U-Tools Software LLC
 // Written by Alan Klietz 
 // Distributed under GNU General Public License version 2.
-//
-// $Id: Registry.cpp,v 1.19 2016/12/29 22:20:22 cvsalan Exp $
 //
 
 #define WIN32_LEAN_AND_MEAN

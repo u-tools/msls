@@ -17,8 +17,6 @@
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
    USA.  */
 
-/* $Id: getopt.h,v 1.1 2004/02/02 07:16:24 alank Exp $ */
-
 #ifndef _GETOPT_H
 
 #ifndef __need_getopt

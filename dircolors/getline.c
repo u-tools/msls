@@ -18,8 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. */
 
 /* Written by Jan Brittenson, bson@gnu.ai.mit.edu.  */
 
-/* $Id: getline.c,v 1.1 2004/02/02 07:16:31 alank Exp $ */
-
 #if HAVE_CONFIG_H
 # include <config.h>
 #endif

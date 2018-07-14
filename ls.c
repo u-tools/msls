@@ -15,8 +15,6 @@
    along with this program; if not, write to the Free Software Foundation,
    Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
-/* $Id: ls.c,v 1.25 2015/05/11 20:37:24 cvsalan Exp $ */
-
 /* If ls_mode is LS_MULTI_COL,
    the multi-column format is the default regardless
    of the type of output device.
@@ -38,7 +36,7 @@
    Flaherty <dennisf@denix.elk.miles.com> based on original patches by
    Greg Lee <lee@uhunix.uhcc.hawaii.edu>.  */
 
-/* Microsoft Windows modifications copyright (c) 2004-2015, U-Tools Software LLC
+/* Microsoft Windows modifications copyright (c) 2004-2018, U-Tools Software LLC
    Written by Alan Klietz.  Distributed under
    GNU General Public License version 2. */
 

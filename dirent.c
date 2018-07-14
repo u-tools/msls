@@ -2,11 +2,9 @@
 //
 // opendir/readdir/stat translation layer for WIN32 - with caching
 //
-// Copyright (c) 2007-2015, U-Tools Software LLC
+// Copyright (c) 2007-2018, U-Tools Software LLC
 // Written by Alan Klietz 
 // Distributed under GNU General Public License version 2.
-//
-// $Id: dirent.c,v 1.15 2015/05/09 08:48:26 cvsalan Exp $
 //
 
 //

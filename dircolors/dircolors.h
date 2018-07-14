@@ -1,5 +1,5 @@
 //#define G_N_LINES 91
-#define G_N_LINES 105 // AEK
+#define G_N_LINES 106 // AEK
 
 const char *const G_line[G_N_LINES] =
 {
@@ -10,7 +10,6 @@ const char *const G_line[G_N_LINES] =
   "# slackware version of dircolors) are recognized but ignored.",
   "",
   "# Ported to Microsoft Windows by Alan Klietz (alank@algintech.com)",
-  "# $Id: dircolors.h,v 1.1 2004/02/02 07:16:31 alank Exp $",
   "",
   "# Below, there should be one TERM entry for each termtype that is colorizable",
   "TERM linux",
@@ -75,6 +74,7 @@ const char *const G_line[G_N_LINES] =
   ".bat 01;33",
   ".exe 01;33",
   ".com 01;33",
+  ".ps1 01;33",
   "#.dll 01;33",
   "#.sys 01;33",
   "",
@@ -103,6 +103,7 @@ const char *const G_line[G_N_LINES] =
   ".tif 01;35",
   ".cdr 01;35",
   ".mpg 01;35",
+  ".mp4 01;35",
   ".wmv 01;35",
   ".avi 01;35",
   ".fli 01;35",

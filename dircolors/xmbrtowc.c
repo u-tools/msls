@@ -10,8 +10,6 @@
 // Written by Alan Klietz 
 // Distributed under GNU General Public License version 2.
 //
-// $Id: xmbrtowc.c,v 1.1 2004/02/02 07:16:32 alank Exp $
-//
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>

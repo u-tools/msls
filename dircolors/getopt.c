@@ -20,8 +20,6 @@
    Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 
-/* $Id: getopt.c,v 1.1 2004/02/02 07:16:31 alank Exp $ */
-
 /* This tells Alpha OSF/1 not to define a getopt prototype in <stdio.h>.
    Ditto for AIX 3.2 and <stdlib.h>.  */
 #ifndef _NO_PROTO

@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////////
 //
-// Query the shortcut .LNK for the target path
+// Shortcut.cpp - Query the shortcut .LNK for the target path
 //
 // Used by stat()
 //
-// Copyright (c) 2004-2017, U-Tools Software LLC
+// Copyright (c) 2004-2018, U-Tools Software LLC
 // Written by Alan Klietz 
 // Distributed under GNU General Public License version 2.
 //

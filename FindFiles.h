@@ -1,8 +1,6 @@
 //
 // FindFiles.h
 //
-// $Id: FindFiles.h,v 1.2 2014/10/02 23:18:26 cvsalan Exp $
-//
 
 #pragma once
 

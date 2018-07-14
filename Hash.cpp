@@ -1,13 +1,11 @@
 //
-// Thread-safe hash template class
+// Hash.cpp - Thread-safe hash template class
 //
-// Copyright (c) 2004-2015, U-Tools Software LLC
+// Copyright (c) 2004-2018, U-Tools Software LLC
 // Written by Alan Klietz 
 // Distributed under GNU General Public License version 2.
 //
 // Mostly implemented in hash.h
-//
-// $Id: Hash.cpp,v 1.3 2015/05/09 08:49:57 cvsalan Exp $
 //
 
 #define WIN32_LEAN_AND_MEAN

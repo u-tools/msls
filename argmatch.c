@@ -18,8 +18,6 @@
 /* Written by David MacKenzie <djm@ai.mit.edu>
    Modified by Akim Demaille <demaille@inf.enst.fr> */
 
-/* $Id: argmatch.c,v 1.1 2004/02/02 07:16:23 alank Exp $ */
-
 //#include "argmatch.h"  // BUG: should be config.h!
 #include "config.h"
 

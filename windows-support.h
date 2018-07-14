@@ -1,11 +1,9 @@
 //
 // Support routines for MS Windows and NTFS
 //
-// Copyright (c) 2004-2015, U-Tools Software LLC
+// Copyright (c) 2004-2018, U-Tools Software LLC
 // Written by Alan Klietz 
 // Distributed under GNU General Public License version 2.
-//
-// $Id: windows-support.h,v 1.11 2015/05/09 08:48:26 cvsalan Exp $
 //
 
 #ifdef NEED_DIRENT_H

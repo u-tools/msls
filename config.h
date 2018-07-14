@@ -1,8 +1,6 @@
 /* config.h.  Generated automatically by configure.  */
 /* config.h.in.  Generated automatically from configure.in by autoheader.  */
 
-/* $Id: config.h,v 1.37 2017/11/29 00:03:46 cvsalan Exp $ */
-
 /* Define if you have the Andrew File System. */
 /* #undef AFS */
 
@@ -1054,7 +1052,7 @@ extern __declspec(dllimport) int __mb_cur_max; // AEK
 /* #undef UMAX4_3 */
 
 /* Version number of package */
-#define VERSION "4.7.318 2017/11"
+#define VERSION "4.7.319 2018/07"
 
 /* Define if your system defines `struct winsize' in sys/ptem.h. */
 /* #undef WINSIZE_IN_PTEM */

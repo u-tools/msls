@@ -21,8 +21,6 @@
 
 /* Written by David MacKenzie <djm@gnu.ai.mit.edu>.  */
 
-/* $Id: error.c,v 1.1 2004/02/02 07:16:31 alank Exp $ */
-
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif

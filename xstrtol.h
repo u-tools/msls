@@ -1,8 +1,6 @@
 #ifndef XSTRTOL_H_
 # define XSTRTOL_H_ 1
 
-/* $Id: xstrtol.h,v 1.1 2004/02/02 07:16:25 alank Exp $ */
-
 # if HAVE_INTTYPES_H
 #  include <inttypes.h> /* for uintmax_t */
 # endif

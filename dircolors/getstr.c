@@ -18,8 +18,6 @@
 
 /* Written by Jan Brittenson, bson@gnu.ai.mit.edu.  */
 
-/* $Id: getstr.c,v 1.2 2007/12/12 06:41:27 cvsalan Exp $ */
-
 #if HAVE_CONFIG_H
 # include <config.h>
 #endif

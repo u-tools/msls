@@ -6,8 +6,6 @@
 # setbuild vc6
 # nmake CFG="dircolors - Win32 Release"
 # 
-# $Id: Makefile,v 1.1 2004/02/02 07:16:31 alank Exp $
-#
 #######################################################################
 
 !IF "$(CFG)" == ""

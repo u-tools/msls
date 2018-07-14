@@ -17,8 +17,6 @@
 
 /* Written by Paul Eggert <eggert@twinsun.com> */
 
-/* $Id: quotearg.h,v 1.1 2004/02/02 07:16:24 alank Exp $ */
-
 /* Basic quoting styles.  */
 enum quoting_style
   {

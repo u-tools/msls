@@ -17,8 +17,6 @@
 
 /* Written by Jim Meyering. */
 
-/* $Id: version-etc.h,v 1.1 2004/02/02 07:16:25 alank Exp $ */
-
 #ifndef VERSION_ETC_H
 # define VERSION_ETC_H 1
 

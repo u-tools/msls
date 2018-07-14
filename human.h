@@ -1,8 +1,6 @@
 #ifndef HUMAN_H_
 # define HUMAN_H_ 1
 
-/* $Id: human.h,v 1.1 2004/02/02 07:16:24 alank Exp $ */
-
 # if HAVE_CONFIG_H
 #  include <config.h>
 # endif

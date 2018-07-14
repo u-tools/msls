@@ -1,8 +1,6 @@
 //
 // Registry.h
 //
-// $Id: Registry.h,v 1.1 2005/05/29 15:00:54 cvsalan Exp $
-//
 
 #ifdef __cplusplus
 extern "C" {

@@ -18,8 +18,6 @@
 /* Written by David MacKenzie <djm@ai.mit.edu>
    Modified by Akim Demaille <demaille@inf.enst.fr> */
 
-/* $Id */
-
 #ifndef ARGMATCH_H_
 # define ARGMATCH_H_ 1
 

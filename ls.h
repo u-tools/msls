@@ -1,5 +1,6 @@
-/* $Id: ls.h,v 1.8 2014/09/06 22:47:12 cvsalan Exp $ */
-
+//
+// ls.h
+//
 #ifdef __cplusplus
 extern "C" {
 #endif

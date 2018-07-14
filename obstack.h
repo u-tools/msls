@@ -22,8 +22,6 @@
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
    USA.  */
 
-/* $Id: obstack.h,v 1.1 2004/02/02 07:16:24 alank Exp $ */
-
 /* Summary:
 
 All the apparent functions defined here are macros. The idea
