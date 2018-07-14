@@ -3,7 +3,7 @@ REM
 REM SETBUILD.CMD - Set build environment for various compilers.
 REM Written by Alan Klietz 
 REM
-REM Copyright (c) 1997-2017, U-Tools Software LLC.  Distributed under GNU
+REM Copyright (c) 1997-2018, U-Tools Software LLC.  Distributed under GNU
 REM General Public License version 2.
 REM
 REM You will need to edit the drive letters and paths to match your
@@ -921,7 +921,7 @@ set PATH=%VCInstallDir%bin\Hostx86\x86;%DevEnvDir%VC\VCPackages;%VSInstallDir%MS
 set LIB=%LIB%;%VCInstallDir%atlmfc\lib\x86;%VCInstallDir%lib\x86;%WindowsSdkDir%lib\%AE_UCRTVER%\ucrt\x86;%WindowsSdkDir%lib\%AE_UCRTVER%\um\x86;%NETFXSDK%Lib\um\x86
 set LIBPATH=%VCInstallDir%atlmfc\lib\x86;%VCInstallDir%lib\x86;%WindowsSdkDir%UnionMetadata\%AE_UCRTVER%;%WindowsSdkDir%References\%AE_UCRTVER%;%FrameworkDir%%FrameworkVersion%
 set IFCPATH=%VCInstallDir%ifc\x86
-set INCLUDE=%INCLUDE%;%VCInstallDir%atlmfc\include;%VCInstallDir%include;%WindowsSdkDir%Include\%AE_UCRTVER%\ucrt;%WindowsSdkDir%include\%AE_UCRTVER%\um;%WindowsSdkDir%include\%AE_UCRTVER%\shared;%WindowsSdkDir%include\%AE_UCRTVER%\winrt
+set INCLUDE=%INCLUDE%;%VCInstallDir%atlmfc\include;%VCInstallDir%include;%NETFXSDK%include\um;%WindowsSdkDir%Include\%AE_UCRTVER%\ucrt;%WindowsSdkDir%include\%AE_UCRTVER%\um;%WindowsSdkDir%include\%AE_UCRTVER%\shared;%WindowsSdkDir%include\%AE_UCRTVER%\winrt
 REM
 rem if "%force%"=="yes" goto force_vc141
 cmp -s "%VCSettings%Microsoft.Cpp.Win32.user_Alan_vc141.props" "%VCSettings%Microsoft.Cpp.Win32.user.props"
@@ -966,7 +966,7 @@ set PATH=%VCInstallDir%bin\Hostx64\x64;%DevEnvDir%VC\VCPackages;%VSInstallDir%MS
 set LIB=%LIB%;%VCInstallDir%atlmfc\lib\x64;%VCInstallDir%lib\x64;%WindowsSdkDir%lib\%AE_UCRTVER%\ucrt\x64;%WindowsSdkDir%lib\%AE_UCRTVER%\um\x64;%NETFXSDK%Lib\um\x64
 set LIBPATH=%VCInstallDir%atlmfc\lib\x64;%VCInstallDir%lib\x64;%WindowsSdkDir%UnionMetadata\%AE_UCRTVER%;%WindowsSdkDir%References\%AE_UCRTVER%;%FrameworkDir%%FrameworkVersion%
 set IFCPATH=%VCInstallDir%ifc\x64
-set INCLUDE=%INCLUDE%;%VCInstallDir%atlmfc\include;%VCInstallDir%include;%WindowsSdkDir%Include\%AE_UCRTVER%\ucrt;%WindowsSdkDir%include\%AE_UCRTVER%\um;%WindowsSdkDir%include\%AE_UCRTVER%\shared;%WindowsSdkDir%include\%AE_UCRTVER%\winrt
+set INCLUDE=%INCLUDE%;%VCInstallDir%atlmfc\include;%VCInstallDir%include;%NETFXSDK%include\um;%WindowsSdkDir%Include\%AE_UCRTVER%\ucrt;%WindowsSdkDir%include\%AE_UCRTVER%\um;%WindowsSdkDir%include\%AE_UCRTVER%\shared;%WindowsSdkDir%include\%AE_UCRTVER%\winrt
 REM
 if "%force%"=="yes" goto force_vc141x64
 cmp -s "%VCSettings%Microsoft.Cpp.x64.user_Alan_vc141.props" "%VCSettings%Microsoft.Cpp.x64.user.props"
