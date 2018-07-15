@@ -1052,7 +1052,7 @@ extern __declspec(dllimport) int __mb_cur_max; // AEK
 /* #undef UMAX4_3 */
 
 /* Version number of package */
-#define VERSION "4.7.319 2018/07"
+#define VERSION "4.7.321 2018/07"
 
 /* Define if your system defines `struct winsize' in sys/ptem.h. */
 /* #undef WINSIZE_IN_PTEM */
