@@ -1,0 +1,8 @@
+#
+# .gitattributes -- Custom line endings for jquery .js files
+#
+
+#
+# Default all files are auto (\r\n on Windows)
+#
+* text=auto
