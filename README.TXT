@@ -14,8 +14,8 @@ Set the LS_OPTIONS environment variable in Control Panel -> System
    -bhAC --more --color=auto --recent --streams
 
 For documentation view msls.htm in your web browser.
-For updates go to https://u-tools.com/msls.asp.
-Send feedback and bug reports to msls@algintech.com.
+For updates go to https://u-tools.com/msls
+Send feedback and bug reports to msls@u-tools.com.
 
 Also included is the native Windows version of the `grep' text search 
 utility.  It understands backslash notation, e.g., grep "search" *\*.txt
@@ -23,8 +23,10 @@ Use the environment variable GREP_OPTIONS:
 
 	--binary-files=text -d skip --color=auto
 
-`ls' is updated whenever Microsoft releases a new versions of of Windows.
 Get the latest version from
-     https://u-tools.com/download.asp
+     https://u-tools.com/download
 
-Alan Klietz, April 2017
+For the source code see https://github.com/u-tools/msls
+
+Alan Klietz, July 2018
+U-Tools Software LLC
