@@ -23,7 +23,7 @@ typedef __int64 __time64_t;     /* 64-bit time value */
 
 extern struct tm * _localtime64(const __time64_t * _Time);
 
-extern size_t _strftime64(char * _Buf, size_t _SizeInBytes, 
+extern size_t _strftime64(char * _Buf, size_t _SizeInBytes,
     const char * _Format, const struct tm * _Tm);
 
 //////////////////////////////////////////////////////////////////////////

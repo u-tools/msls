@@ -8,7 +8,7 @@
 // Used by stat()
 //
 // Copyright (c) 2004-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -58,7 +58,7 @@
 
 //
 // Note: IO_REPARSE_TAG_SYMLINK is identical except it appends a DWORD
-// for flags immediately before szPathBuffer.  See ::CreateSymbolicLink() 
+// for flags immediately before szPathBuffer.  See ::CreateSymbolicLink()
 // on Vista.
 //
 
@@ -103,7 +103,7 @@ typedef struct _REPARSE_DATA_BUFFER {
 
 
 //
-// Query the reparse point for the target path, using 
+// Query the reparse point for the target path, using
 // FSCTL_GET_REPARSE_POINT.
 //
 // Note: The format of the output of FSCTL_GET_REPARSE_POINT
@@ -136,7 +136,7 @@ more_printf("CreateFile(\"%s\") with FILE_FLAG_OPEN_REPARSE_POINT\n", ce->ce_abs
 	if ((hFile = CreateFile(ce->ce_abspath,
 			/*GENERIC_READ*/SYNCHRONIZE|FILE_READ_ATTRIBUTES,
 			0, 0, OPEN_EXISTING,
-			FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, 0)) == 
+			FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, 0)) ==
 				INVALID_HANDLE_VALUE)  {
 #ifdef _DEBUG
 more_printf("CreateFile failed\n");
@@ -184,7 +184,7 @@ more_printf("CreateFile failed\n");
 			case IO_REPARSE_TAG_DFSR:
 				wcscat(wszPathBuffer, L" (DFSR)");
 				break;
-		} 
+		}
 	} else {
 		//
 		// We only handle mount points, not HSM, SIS, etc
@@ -212,10 +212,10 @@ more_printf("CreateFile failed\n");
 		// Note: Do not confuse with \\.\pipe syntax.
 		//
 		// The syntax is the same as for the \??\object syntax
-		// inside the kernel for creating kernel symbolic links.  
+		// inside the kernel for creating kernel symbolic links.
 		// Kernel symbolc links expose \device\foo as \\.\baz in user mode.
 		//
-		sz = &szPath[4]; // skip leading \??\  
+		sz = &szPath[4]; // skip leading \??\...
 	} else {
 		sz = szPath;
 	}

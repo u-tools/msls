@@ -3,7 +3,7 @@
 // Token.cpp - Dump the process token
 //
 // Copyright (c) 2007-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 //
 // Distributed under GNU General Public License version 2.
 //
@@ -74,7 +74,7 @@
 //
 // Token elevation values describe the relative strength of a given token.
 // A full token is a token with all groups and privileges to which the principal
-// is authorized.  A limited token is one with some groups or privileges 
+// is authorized.  A limited token is one with some groups or privileges
 // removed.
 //
 
@@ -351,7 +351,7 @@ static int _DumpToken(HANDLE hToken, BOOL bRecurseOk)
 	// network credentials (not just a naked token created via NtCreateToken).
 	//
 	// Fails with ERROR_INVALID_PARAMETER under the W2K SYSTEM account.
-	// 
+	//
 	if (::GetTokenInformation(hToken, TokenOrigin, Buffer, sizeof(Buffer), &dwBufferSize)) {
 		pTokenOrigin = (PTOKEN_ORIGIN)Buffer;
 		DWORD dwLow = pTokenOrigin->OriginatingLogonSession.LowPart;
@@ -365,7 +365,7 @@ static int _DumpToken(HANDLE hToken, BOOL bRecurseOk)
 					//
 					// Logged on with an explicit password. The pw hash
 					// is assumed available for outgoing network access.
-					// e.g., logged on with LOGON32_LOGON_INTERACTIVE but 
+					// e.g., logged on with LOGON32_LOGON_INTERACTIVE but
 					// not LOGON32_LOGON_NETWORK or AcceptSecurityContext().
 					//
 					case 0x3e7: // SYSTEM_LUID 999
@@ -391,7 +391,7 @@ static int _DumpToken(HANDLE hToken, BOOL bRecurseOk)
 					// w/o password.  Services use a blank pw.
 					// No network credentials (except for self-identification
 					// when accepting incoming connections).
-					// 
+					//
 					// XP or later.
 					//
 					case 0x3e5: // 997 LOCALSERVICE_LUID
@@ -402,11 +402,11 @@ static int _DumpToken(HANDLE hToken, BOOL bRecurseOk)
 					// Network Service account.  Created by Service Manager
 					// w/o password.  Services use a blank password.
 					//
-					// The network credentials are those of 
+					// The network credentials are those of
 					// the machine account and the machine pw hash.
 					//
 					// XP or later.
-					// 
+					//
 					case 0x3e4: // 996 NETWORKSERVICE_LUID
 						bFound = TRUE; // machine acct
 						more_fputs("NetworkService\n", stdmore);
@@ -435,7 +435,7 @@ static int _DumpToken(HANDLE hToken, BOOL bRecurseOk)
 	}
 
 	//
-	// Get the token's LUIDs 
+	// Get the token's LUIDs
 	//
 	if (::GetTokenInformation(hToken, TokenStatistics, Buffer, sizeof(Buffer), &dwBufferSize)) {
 		pTokenStatistics = (PTOKEN_STATISTICS)Buffer;
@@ -443,7 +443,7 @@ static int _DumpToken(HANDLE hToken, BOOL bRecurseOk)
 		// The TokenId is unique per token.
 		//
 		more_printf("Token LUID: ");
-		more_printf("0x%08X%08X\n", 
+		more_printf("0x%08X%08X\n",
 			pTokenStatistics->TokenId.HighPart,
 			pTokenStatistics->TokenId.LowPart);
 		//
@@ -456,7 +456,7 @@ static int _DumpToken(HANDLE hToken, BOOL bRecurseOk)
 		// Assigned by the domain controller for the logon session.
 		//
 		more_printf("Token AuthenticationId: ");
-		more_printf("0x%08X%08X  (Logon session ID)\n", 
+		more_printf("0x%08X%08X  (Logon session ID)\n",
 			pTokenStatistics->AuthenticationId.HighPart,
 			pTokenStatistics->AuthenticationId.LowPart);
 		//
@@ -465,7 +465,7 @@ static int _DumpToken(HANDLE hToken, BOOL bRecurseOk)
 		// applications to detect any modification/tampering of the token.
 		//
 		more_printf("Token ModifiedID: ");
-		more_printf("0x%08X%08X\n", 
+		more_printf("0x%08X%08X\n",
 			pTokenStatistics->ModifiedId.HighPart,
 			pTokenStatistics->ModifiedId.LowPart);
 		switch (pTokenStatistics->TokenType) {
@@ -713,7 +713,7 @@ static int _DumpToken(HANDLE hToken, BOOL bRecurseOk)
 			//
 			// Earlier OSes fail with ERROR_INVALID_PARAMETER.
 			//
-			if (dwError != ERROR_NO_SUCH_LOGON_SESSION 
+			if (dwError != ERROR_NO_SUCH_LOGON_SESSION
 					&& dwError != ERROR_INVALID_PARAMETER) {
 				more_printf("Unable to query the linked token.  Error %d\n",
 					dwError);
@@ -734,7 +734,7 @@ DumpToken()
 	// Note: If somehow we are running under an Impersonation Token
 	// this will still return correct info.
 	//
-	if (!OpenProcessToken(GetCurrentProcess(), 
+	if (!OpenProcessToken(GetCurrentProcess(),
 			TOKEN_READ|TOKEN_QUERY_SOURCE, &hToken)) {
 		error(EXIT_FAILURE, 0, "Unable to query the process token.  Error %d",
 			GetLastError());
@@ -771,7 +771,7 @@ BOOL SetVirtualView(BOOL bEnable, BOOL bVerify)
 	// Note: If somehow we are running under an Impersonation Token
 	// this will still return correct info.
 	//
-	if (!OpenProcessToken(GetCurrentProcess(), 
+	if (!OpenProcessToken(GetCurrentProcess(),
 			TOKEN_READ|TOKEN_ADJUST_DEFAULT, &hToken)) {
 		if (bVerify) {
 			error(EXIT_FAILURE, 0, "Unable to open the process token.  Error %d",
@@ -781,7 +781,7 @@ BOOL SetVirtualView(BOOL bEnable, BOOL bVerify)
 		return FALSE;
 	}
 
-	if (!SetTokenInformation(hToken, TokenVirtualizationEnabled, 
+	if (!SetTokenInformation(hToken, TokenVirtualizationEnabled,
 			(PVOID)&dwFlag, sizeof(dwFlag))) {
 		CloseHandle(hToken);
 		if (bVerify) {

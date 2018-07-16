@@ -1,9 +1,9 @@
 #
 # msls - GNU ls for Microsoft Windows
-# Ported to Microsoft Windows by Alan Klietz 
+# Ported to Microsoft Windows by Alan Klietz
 #
 # Based on GNU FileUtils 4.1
-# 
+#
 # Windows Extensions copyright (c) 2010-2018, U-Tools Software LLC
 # Distributed under GNU General Public License version 2.
 #
@@ -12,9 +12,9 @@
 #
 # To build run SETBUILD.CMD to configure your environment.  You
 # will need to adjust the file paths to match your build environment.
-# 
+#
 # To compile run BUILD.CMD.
-# 
+#
 
 #
 # Compiling with Visual Studio 6 C++
@@ -23,17 +23,17 @@
 # By default msls is compiled using Visual Studio 6.  It uses either the
 # April 2005 Platform SDK ("MSSDK05") or the March 2006 Platform SDK
 # ("MSSDK06"). The Platform SDK is necessary to pick up the new features
-# for XP.  (The new features for Vista are hand-rolled into the 
+# for XP.  (The new features for Vista are hand-rolled into the
 # msls header files.)
 #
 # The original purpose of MSSDK0x was to port legacy apps to compile
 # for 64-bit Windows.  It includes a free 64-bit C++ compiler.
 # By fortunate happenstance it is also 95% compatible for building
 # 32-bit apps for legacy operating systems.
-# 
-# There are a few inadvertent quirks in MSSDK0x that break 
+#
+# There are a few inadvertent quirks in MSSDK0x that break
 # compatibility with VS6.  Some libraries accidentally include the VS2005
-# PDB debug symbols, which the VS6 linker chokes on.  So you will need 
+# PDB debug symbols, which the VS6 linker chokes on.  So you will need
 # to scrounge for a Visual Studio 2005 (or 2008) linker to link the
 # DEBUG version with the VS6 object files.
 #
@@ -42,14 +42,14 @@
 # Note for Visual Studio 6
 # ------------------------
 #
-# Visual Studio 6 was withdrawn by Microsoft in response to a 
+# Visual Studio 6 was withdrawn by Microsoft in response to a
 # lawsuit by Sun Microsystems regarding J++ (Microsoft's Java implementation),
 # which Microsoft then withdrew by removing VS6 from the market.  This means
 # that Visual Studio 6 is no longer available for sale anywhere.
 #
 
 #
-# Compiling with Visual Studio 2005/2008/2010/2013/2015 C++ 
+# Compiling with Visual Studio 2005/2008/2010/2013/2015 C++
 # ----------------------------------------------------------
 #
 # Alternately you can use the Visual Studio 2005/2008/2010/2013/2015
@@ -62,19 +62,19 @@
 #
 # Unfortunately MSSDK07 omits the legacy 32-bit MSVCRT.LIB, which
 # is necessary to link apps for pre-XP operating systems.
-# MSSDK07 only includes the 64-bit legacy MSVCRT.LIB.  VS2005/8 only 
+# MSSDK07 only includes the 64-bit legacy MSVCRT.LIB.  VS2005/8 only
 # includes MSVCRT.LIB for MSVCR80.DLL/MSVCR90.DLL.
 #
-# To use VC2005/8 C++ for 100% backward compatibility you will need to 
-# scrounge for MSVCRT.LIB from a Visual Studio 6 installation. 
-# Preferrably one patched to VS6 Service Pack 6 
+# To use VC2005/8 C++ for 100% backward compatibility you will need to
+# scrounge for MSVCRT.LIB from a Visual Studio 6 installation.
+# Preferrably one patched to VS6 Service Pack 6
 # (file MSVCRT.LIB dated August 23 2000).  For debugging you will
 # need MSVCRTD.LIB.
-# 
+#
 # And you will need to splice in some missing .OBJ files:
 # __alloca_probe_16.obj, __aulldvrm.obj, and __ftol2.obj.
 # Use lib.exe to extract them from VS2005/8's MSVCRT.LIB.
-# 
+#
 # To compile with VS2005 or later, comment-out USE_VS6 below.  Also
 # change "SETBUILD.CMD vc6" in BUILD.CMD as follows:
 #
@@ -96,9 +96,9 @@
 # will hard-wire the .EXE header to Version 5 or 5.01.  This will prevent
 # execution on Windows 2000, Windows NT (Version 5.0)
 # or Windows 9x (Version 4).  To run on 2000/NT/Win9x you must build with
-# VS2005 or with VS6. 
+# VS2005 or with VS6.
 # Visual Studio 2015 will limit execution to Windows Vista or later.
-# 
+#
 USE_VS6=1
 
 #
@@ -118,16 +118,16 @@ CFG=msls - Win32 Debug
 !MESSAGE Invalid configuration "$(CFG)" specified.
 !MESSAGE You can specify a configuration when running NMAKE on this makefile
 !MESSAGE by defining the macro CFG on the command line.  For example:
-!MESSAGE 
+!MESSAGE
 !MESSAGE nmake CFG="msls - Win32 Debug"
-!MESSAGE 
+!MESSAGE
 !MESSAGE Possible choices for configuration are:
-!MESSAGE 
+!MESSAGE
 !MESSAGE "msls - Win32 Release"
-!MESSAGE "msls - Win32 Debug" 
-!MESSAGE 
+!MESSAGE "msls - Win32 Debug"
+!MESSAGE
 !ERROR An invalid configuration is specified.
-!ENDIF 
+!ENDIF
 
 !IFDEF USE_VS6
 # VS2005/VS2008 root for the linker to use with VS6
@@ -185,13 +185,13 @@ RSC_PROJ=/l 0x409 /d _DEBUG /fo"$(INTDIR)\ls.res"
 LDOPTS=/subsystem:console
 !ELSE
 #
-# BUG: The Visual C++ 2008 (VC9) linker inserts version 5.0 into the 
+# BUG: The Visual C++ 2008 (VC9) linker inserts version 5.0 into the
 # PE header (MajorOperatingSystemVersion=5).  There is no linker
 # option to change it to 4.0.
 #
 # /version:4.00 sets MajorImageVersion=4, and /subsystem:console,4.00
-# sets MajorSubsystemVersion=4.  However to run on Win9x/NT we also 
-# need to set a 3rd value, MajorOperatingSystemVersion=4.  
+# sets MajorSubsystemVersion=4.  However to run on Win9x/NT we also
+# need to set a 3rd value, MajorOperatingSystemVersion=4.
 #
 # The VC9 linker does not provide an option to change
 # MajorOperatingSystemVersion to 4.
@@ -278,14 +278,14 @@ all: "$(OUTDIR)\ls.exe"
 #
 # Arrange to keep FPO (Frame Pointer Omission) debug data in the .EXE
 # file, so stack trace by Dr. Watson works correctly.
-# 
-# Use rebase.exe to strip symbols into a .DBG file, leaving only FPO debug 
+#
+# Use rebase.exe to strip symbols into a .DBG file, leaving only FPO debug
 # data left behind in the executable.
-# 
+#
 # ** BUG **
 # Current versions of rebase -x will *copy*, not *move*, debug symbols
 # from the .EXE file!
-# 
+#
 # To move symbols to the .DBG file, you need to obtain the old version
 # of rebase.exe from an old MSSDK CD-ROM from circa 1998.
 #

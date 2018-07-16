@@ -75,7 +75,7 @@ static const char *const slack_codes[] =
   "NORMAL", "NORM", "FILE", "DIR", "LNK", "LINK",
   "SYMLINK", "ORPHAN", "MISSING", "FIFO", "PIPE", "SOCK", "BLK", "BLOCK",
   "CHR", "CHAR", "DOOR", "EXEC", "LEFT", "LEFTCODE", "RIGHT", "RIGHTCODE",
-  "END", "ENDCODE", 
+  "END", "ENDCODE",
   "RECENT", // AEK
   "COMPRESSED", // AEK
   "STREAMS", // AEK

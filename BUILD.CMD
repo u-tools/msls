@@ -5,8 +5,6 @@ rem
 REM
 REM BUILD.CMD - Build and install msls
 REM
-REM $Id: BUILD.CMD,v 1.13 2017/11/29 00:03:46 cvsalan Exp $
-REM
 choice /C DR /N /M "[D]ebug or [R]elease? "
 if errorlevel 2 set BLDTYPE=Release
 if errorlevel 1 set BLDTYPE=Debug
@@ -14,16 +12,16 @@ call SETBUILD.CMD vc6
 nmake /nologo clean CFG="%PACKAGE% - Win32 %BLDTYPE%"
 if errorlevel 1 goto done
 if "%BLDTYPE%"=="Release" C:\Python32\python.exe BumpVersion.py
-nmake /nologo CFG="%PACKAGE% - Win32 %BLDTYPE%" 
+nmake /nologo CFG="%PACKAGE% - Win32 %BLDTYPE%"
 if errorlevel 1 goto done
 cd dircolors
-nmake /nologo CFG="dircolors - Win32 %BLDTYPE%" 
+nmake /nologo CFG="dircolors - Win32 %BLDTYPE%"
 if errorlevel 1 ( cd .. & goto done )
 cd ..
 if "%BLDTYPE%"=="Release" goto release
 goto done
 :release
-rem 
+rem
 rem Install into final location.  This path will vary depending
 rem on your folder layout.
 rem
@@ -44,14 +42,14 @@ set URL="https://u-tools.com/msls"
 rem
 rem Authenticode certificate
 rem
-rem BUG: XP and W2K3R2 prior to 2009/03/19 Crypt32.dll 5.131.2600.5779 
+rem BUG: XP and W2K3R2 prior to 2009/03/19 Crypt32.dll 5.131.2600.5779
 rem do not support SHA256.  Chktrust fails with 'Unknown publisher'.
 rem Ditto sigcheck -a -h -i  (Lies about cert path.)
 rem
 rem It is likely that _no_ version of XP/W2K3 supports SHA-2.   See
 rem Microsoft Security Advisory 2949927, 'Availability of SHA-2 Hashing
 rem Algorithm for Windows 7 and Windows Server 2008 R2'.
-rem 
+rem
 rem Microsoft pushed a patch in 2014/10 for Win7/W2K8R2 for SHA-2.  Win8+
 rem has it built-in.  They specifically did _not_ patch Vista- or W2K8-.
 rem
@@ -61,7 +59,7 @@ call E:\ae\certvars.bat
 if errorlevel 1 exit /b 1
 SET TITLE="ls for Windows"
 rem
-set /P PASSPHRASE=Enter the passphrase? 
+set /P PASSPHRASE=Enter the passphrase?
 %SIGNTOOL% sign /v /f %CERTCODEPFX% /fd sha1 /t "http://timestamp.verisign.com/scripts/timestamp.dll" /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% Release\ls.exe
 if errorlevel 1 goto done
 sleep 3

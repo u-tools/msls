@@ -2,7 +2,7 @@
 // Wrap stdio for more-style pagination
 //
 // Copyright (c) 2004-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -58,7 +58,7 @@
 #ifdef WIN32
 //
 // By default Win32 console programs use the apallingly slow thread-safe
-// version of putc() in MSVCRT.DLL for locking multi-threaded writes.  
+// version of putc() in MSVCRT.DLL for locking multi-threaded writes.
 // Use the macro instead since we know we are single-threaded.
 //
 // (Also use setvbuf() to get the best speedup.)
@@ -91,7 +91,7 @@ static int _more_paginate(struct more* m, int n);
 // Slloooowww...
 //
 // MSVCRT.DLL does two system calls (GetConsoleMode and WriteConsole) for
-// every output character, which makes the output crawl even on a fast PC.  
+// every output character, which makes the output crawl even on a fast PC.
 //
 // It generates only one character at a time, with complex checks for
 // double-byte MBCS characters, deep inside of write().
@@ -100,14 +100,14 @@ static int _more_paginate(struct more* m, int n);
 // to handle the situation where the MBCS codepage is not the same as the
 // console codepage.  It is a pessimization, as it performs an unnecessary
 // double-conversion on each individual character:  MBCS -> Unicode ->
-// ConsoleCP, even when the MBCS codepage and the ConsoleCP are the same 
+// ConsoleCP, even when the MBCS codepage and the ConsoleCP are the same
 // (which is always the case for msls.)
-// 
+//
 // Note that Windows does *not* support writing pure Unicode to a console
 // handle via WriteFile.  (The displayed output is gibberish, even with
 // the Lucida Console font.) NtWriteFile() to a console handle must always
-// use MBCS.  It is mapped to Unicode in the kernel using the code page set 
-// by SetConsoleOutputCP. 
+// use MBCS.  It is mapped to Unicode in the kernel using the code page set
+// by SetConsoleOutputCP.
 //
 // To write pure Unicode to a console you must use WriteConsoleW() explicitly,
 // and the console font has to support TrueType to render any Unicode glyphs
@@ -126,7 +126,7 @@ static int _more_paginate(struct more* m, int n);
 // the user's default codepage, so the multi-step conversion is not necessary.
 // It hugely speeds up writes to the console.  Or it ought to.  However,
 // the CRT does not check if the MBCS codepage matches the console codepage,
-// so it still insists on doing the double-conversion in user mode. 
+// so it still insists on doing the double-conversion in user mode.
 // Even if we generated pure Unicode (or even UTF-8), it still does the
 // tedious Unicode-to-console_codepage conversion. This is because,
 // by design, the console does _not_ accept Unicode characters in WriteFile()
@@ -134,7 +134,7 @@ static int _more_paginate(struct more* m, int n);
 // must go through WriteConsoleW() and not WriteFile(), as the former
 // correctly translates the string to the console MBCS codepage to display it.
 //
-// The operating system does the MBCS-to-Unicode conversion 
+// The operating system does the MBCS-to-Unicode conversion
 // (inside of NtWriteFile), even if the console font is a TrueType font
 // that can display Unicode directly (e.g., Lucida Console).
 //
@@ -145,7 +145,7 @@ static int _more_paginate(struct more* m, int n);
 //
 // write() will still correctly do FTEXT (\n to \r\n) conversions properly on
 // a non-tty, so our spoofing isatty() won't break it.
-// 
+//
 
 typedef BOOL (WINAPI *PFNVIRTUALPROTECT)(
     IN  PVOID lpAddress,
@@ -441,7 +441,7 @@ static int __more_paginate(struct more* m, int n)
 		}
 #else
 # ifdef TIOCGWINSZ
-	    {
+		{
 			struct winsize ws;
 
 			if (ioctl (STDOUT_FILENO, TIOCGWINSZ, &ws) != -1 && ws.ws_col != 0) {
@@ -451,7 +451,7 @@ static int __more_paginate(struct more* m, int n)
 			} else {
 			  bHasTerm = 0;
 			}
-  		}
+		}
 # else
 #warning Missing TIOCGWINSZ - cannot determine # of rows and cols
 		bHasTerm = 0;
@@ -522,7 +522,7 @@ static int __more_paginate(struct more* m, int n)
 				// Since it will always overestimate, it will never
 				// overscroll (only underscroll) so it should be safe to
 				// ignore.
-				// 
+				//
 				// You can reduce occurences of this bug by making
 				// STDMORE_BUFSIZ bigger.
 				//

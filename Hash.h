@@ -2,7 +2,7 @@
 // Thread-safe hash template class
 //
 // Copyright (c) 2004-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -37,7 +37,7 @@
 //		use(key, val);
 //   }
 // }
-//		
+//
 ////////////////////////////////////////////////////////////////////////
 
 #pragma warning(disable: 4710) // ignore failure to inline under /EHa
@@ -137,7 +137,7 @@ template<> inline BOOL CHData<CString>::Equal(const CString& d1, const CString& 
 template<> inline void CHData<CString>::Trace(const CString& d)
 	{ TRACE1(_T("%s"), (LPCTSTR)d); }
 #endif
-	
+
 ////////////////////////////////////////////////////////////////////////
 // CHashEntry< CHData<KeyType>, CHData<ValueType> >
 ////////////////////////////////////////////////////////////////////////
@@ -181,7 +181,7 @@ EXPORT LONG NewPrimeSize(int cSize);
 ////////////////////////////////////////////////////////////////////////
 
 template<class HDATAKEY, class HDATAVALUE>
-class CHash 
+class CHash
 #ifdef __AFX_H__
 : public CObject
 #endif
@@ -310,7 +310,7 @@ public:
 		return (m_cUsed == 0 ? NULL : BEFORE_START_POSITION);
 	};
 
-	void GetNextAssoc(POSITION& rNextPosition, 
+	void GetNextAssoc(POSITION& rNextPosition,
 			KEYTYPE& rKey, DATATYPE& rValue) const {
 		register int i = 0;
 		if (rNextPosition == BEFORE_START_POSITION) {
@@ -374,7 +374,7 @@ _T("Tried to go beyond the end of the hash table."));
 		CGrabLock w(m_WriteLock);
 		CGrabLock r(m_ReadLock);
 #endif
-	  	dwCount = ar.ReadCount();
+		dwCount = ar.ReadCount();
 		while (dwCount--) {
 #pragma warning(push)
 #pragma warning(disable: 4701) // ignore warning about use before set

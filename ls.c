@@ -933,7 +933,7 @@ static enum format const format_types[] =
 
 static char const *const sort_args[] =
 {
-  "none", "time", "size", "extension", "version", 
+  "none", "time", "size", "extension", "version",
   "case", // AE
   0
 };
@@ -947,7 +947,7 @@ static enum sort_type const sort_types[] =
 static char const *const time_args[] =
 {
   "atime", "access", "use",
-  "ctime", 
+  "ctime",
 #ifndef WIN32
   "status",
 #endif
@@ -957,8 +957,8 @@ static char const *const time_args[] =
 
 static enum time_type const time_types[] =
 {
-  time_atime, time_atime, time_atime, 
-  time_ctime, 
+  time_atime, time_atime, time_atime,
+  time_ctime,
 #ifndef WIN32
   time_ctime,
 #endif
@@ -1145,7 +1145,7 @@ static WORD wDefaultColors;
 // Return true/false if the process has a console.
 //
 // There is no surefire portable way to do this under both
-// W2K/NT and W98/W95.   We use the heuristic of checking 
+// W2K/NT and W98/W95.   We use the heuristic of checking
 // if the underlying WIN32 STD_ERROR_HANDLE is a console.
 //
 // Note that fd=2 (stderr) is irrelevant here as nothing can redirect
@@ -1178,7 +1178,7 @@ int _HasConsole()
   //
   wDefaultColors = csbi.wAttributes;
 
-  _bHasConsole = 1; 
+  _bHasConsole = 1;
   return 1;
 }
 
@@ -1256,7 +1256,7 @@ main (int argc, char **argv)
     //
     // By default we use the OEM codepage, unless the console is
     // using a TrueType (TT) font.
-    // 
+    //
     gbOemCp = !IsConsoleFontTrueType();
   }
 
@@ -1303,8 +1303,8 @@ main (int argc, char **argv)
   //
   // Making stdout block-buffered is a *huge* performance win.   Something
   // like 1000% faster.
-  // 
-  // BUGFIX: Manually set buffering via setvbuf().  
+  //
+  // BUGFIX: Manually set buffering via setvbuf().
   //
 #ifdef SETVBUF_REVERSED // if Unix SVR2 bug, swap args
   setvbuf(stdout, _IOFBF, stdout_buf, sizeof(stdout_buf));
@@ -1446,7 +1446,7 @@ main (int argc, char **argv)
       // begin AEK
       //
       // Do manual globbing on Win32.  SETARGV.OBJ is not helpful
-      // as it does only primitive globbing of *?.  Using it would 
+      // as it does only primitive globbing of *?.  Using it would
       // interfere with glob.c globbing.  (And it is buggy anyways.)
       //
       // By doing our own globbing we can take advantage of our
@@ -1475,7 +1475,7 @@ main (int argc, char **argv)
       // This is due to a BUG in CMD.EXE, probably due to failure to
       // call SetFileApisToOem() before invoking CreateProcess("FOO.EXE",argv)
       // to create the console process.   It ought to check the SUBSYSTEM
-      // bytes in the executable header and then set the code page 
+      // bytes in the executable header and then set the code page
       // appropriately.
       //
       // BUGFIX: De-mangle the argv strings in-place from ANSI back to OEM.
@@ -1486,7 +1486,7 @@ main (int argc, char **argv)
       // It knows how to correct the OEM Locale and MBCP mode (see above).
       //
       // ** A plea to Microsoft: Please document ULIB.DLL.  It would be
-      // extremely helpful for 3rd party developers who need to create 
+      // extremely helpful for 3rd party developers who need to create
       // console-mode utilities that support international languages. **
       //
       if (gbOemCp) {
@@ -1533,8 +1533,8 @@ main (int argc, char **argv)
 	continue;
       }
       for (j=0; glob_argv[j] != NULL; ++j) {
-      	gobble_file(glob_argv[j], unknown, 1, "");
-	free(glob_argv[j]);
+        gobble_file(glob_argv[j], unknown, 1, "");
+        free(glob_argv[j]);
       }
       free(glob_argv);
       // end AEK
@@ -1621,7 +1621,7 @@ main (int argc, char **argv)
 	      // BUG: Need to add '*' to filename_quoting_options - AEK
 	      //ARGMATCH_TO_ARGUMENT (filename_quoting_options,
 	      ARGMATCH_TO_ARGUMENT (*filename_quoting_options,
-	      		    quoting_style_args, quoting_style_vals));
+	          quoting_style_args, quoting_style_vals));
     }
 
   /* Restore default color before exiting */
@@ -1797,7 +1797,7 @@ decode_switches (int argc, char **argv)
 	case 'g': // AEK
 	  if (optarg)
 	    inhibit_group = !XARGMATCH ("--groups", optarg,
-	      	yes_no_args, yes_no_types);
+	      yes_no_args, yes_no_types);
 	  else
 	    inhibit_group = no_arg; // show groups if -g
 	  if (!inhibit_group && gids_format == sids_none) {
@@ -2089,7 +2089,7 @@ Use `--si' for the old meaning."));
 	  explicit_run_fast_or_slow = 1;
 	  break;
 
-	case RECENT_OPTION: // AEK 
+	case RECENT_OPTION: // AEK
 	  if (optarg) { // --recent[=n], n is minutes
 	    if (xstrtol (optarg, NULL, 0, &tmp_long, NULL) != LONGINT_OK
 		|| tmp_long < 0 || tmp_long > INT_MAX)
@@ -2124,7 +2124,7 @@ Use `--si' for the old meaning."));
 	case SHOW_STREAMS_OPTION: // AEK
 	  if (optarg)
 	    show_streams = XARGMATCH ("--streams", optarg,
-	      	yes_no_args, yes_no_types);
+	      yes_no_args, yes_no_types);
 	  else
 	    show_streams = yes_arg;
 	  if (command_line && show_streams == yes_arg) {
@@ -2562,7 +2562,7 @@ get_funky_string (char **dest, const char **src, int equals_end)
 	      *(q++) = 127;
 	      ++count;
 	    }
-	  else 
+	  else
 	    state = ST_ERROR;
 	  break;
 
@@ -2966,7 +2966,7 @@ gobble_file (const char *name, enum filetype type, int explicit_arg,
 	    {
 	      files[files_index].linkok = 1;
 
-      	      mark_if_file_changed_recently(&linkstats); // AEK
+	      mark_if_file_changed_recently(&linkstats); // AEK
 
 	      /* Symbolic links to directories that are mentioned on the
 	         command line are automatically traced if not being
@@ -3036,7 +3036,7 @@ gobble_file (const char *name, enum filetype type, int explicit_arg,
 	//
 	if (format == long_format) { // AEK
 		len = strlen(human_readable(files[files_index].stat.st_size,
-	 	 	buf, 1, output_block_size < 0 ? output_block_size : 1));
+			buf, 1, output_block_size < 0 ? output_block_size : 1));
 	  if (long_block_size_size < len) {
 	    long_block_size_size = len;
 	  }
@@ -3488,7 +3488,7 @@ print_current_files (void)
 	    print_registry_value(files[i].stat.st_ce);
 	  }
 	  if (acls_format == acls_long || acls_format == acls_very_long
-	    	|| acls_format == acls_exhaustive) {
+	        || acls_format == acls_exhaustive) {
 	    print_long_acl(files[i].stat.st_ce);
 	  }
 	  //
@@ -3502,7 +3502,7 @@ print_current_files (void)
 	    print_objectid(files[i].stat.st_ce);
 	  }
 	  //
-	  // Bump the EMACS dired_pos by the total number of chars output 
+	  // Bump the EMACS dired_pos by the total number of chars output
 	  //
 	  dired_pos += (MORE_COUNT(stdmore) - count);
 #endif
@@ -3732,7 +3732,7 @@ print_long_format (const struct fileinfo *f)
     sprintf (p, "%-17s ", user_name);
   } else { // sids_short, and chopped [domain\]users
     sprintf (p, "%-16.16s ", user_name); // sizeof("Administradators") == 16
-  } 
+  }
 
 #else
   user_name = (numeric_ids ? NULL : getuser (f->stat.st_uid));
@@ -4252,27 +4252,27 @@ print_color_indicator (const char *name, unsigned int mode, int linkok)
       recent = 0; // streams overrides recent
     }
     if (recent) {
-    	tmp_str.len += color_indicator[C_RECENT].len;
-	compressed = 0; // recent overrides compressed
+      tmp_str.len += color_indicator[C_RECENT].len;
+      compressed = 0; // recent overrides compressed
     }
     if (compressed) {
-    	tmp_str.len += color_indicator[C_COMPRESSED].len;
+      tmp_str.len += color_indicator[C_COMPRESSED].len;
     }
     tmp_str.string = (char*) alloca(tmp_str.len+1);
     strncpy(tmp_str.string, str->string, str->len);
     pos = str->len;
     if (recent) {
-    	strncpy(tmp_str.string+pos, color_indicator[C_RECENT].string,
-	      color_indicator[C_RECENT].len);
-	pos += color_indicator[C_RECENT].len;
+      strncpy(tmp_str.string+pos, color_indicator[C_RECENT].string,
+      color_indicator[C_RECENT].len);
+      pos += color_indicator[C_RECENT].len;
     }
     if (compressed) {
-    	strncpy(tmp_str.string+pos, color_indicator[C_COMPRESSED].string,
-	      color_indicator[C_COMPRESSED].len);
+      strncpy(tmp_str.string+pos, color_indicator[C_COMPRESSED].string,
+      color_indicator[C_COMPRESSED].len);
     }
     if (streams) {
-    	strncpy(tmp_str.string+pos, color_indicator[C_STREAMS].string,
-	      color_indicator[C_STREAMS].len);
+      strncpy(tmp_str.string+pos, color_indicator[C_STREAMS].string,
+      color_indicator[C_STREAMS].len);
     }
 
     put_indicator (&color_indicator[C_LEFT]);
@@ -4297,7 +4297,7 @@ static int bConsoleOut = -1;
 static int bBold, bUnderscore, bReverse;
 
 //
-// Use a heuristic mapping from dircolors colors (MSLS_COLORS) 
+// Use a heuristic mapping from dircolors colors (MSLS_COLORS)
 // to Windows console-mode colors.
 //
 // The mapping is based on my opinion of aesthetically pleasing
@@ -4427,19 +4427,19 @@ put_indicator (const struct bin_str *ind)
   //	00=none, 01=bold, 04=underscore, 05=blink, 07=reverse, 08=concealed
   //
   // nn = Foregroud color codes:
-  //	30=black, 31=red, 32=green, 33=yellow, 34=blue, 35=magenta, 
+  //	30=black, 31=red, 32=green, 33=yellow, 34=blue, 35=magenta,
   //	36=cyan, 37=white
   //
   // nn = Background color codes:
-  //	40=black, 41=red, 42=green, 43=yellow, 44=blue, 45=magenta, 
+  //	40=black, 41=red, 42=green, 43=yellow, 44=blue, 45=magenta,
   //	46=cyan, 47=white
   //
-  if (*p == 'm') { // ignore C_RIGHT 
+  if (*p == 'm') { // ignore C_RIGHT
     return;
   }
 
   if (!(*p >= '0' && *p <= '9')) {
-    return; // ignore 
+    return; // ignore
   }
 
   p2 = p; errno = 0; u1 = strtoul(p, &p2, 10/*base*/);
@@ -4465,7 +4465,7 @@ put_indicator (const struct bin_str *ind)
   wColor = _MapColor(wColor, u4);
 
   //
-  // Underscores are typically used to flag files with recent changes. 
+  // Underscores are typically used to flag files with recent changes.
   // Because Win32 consoles do not have real underscores, use heuristic color
   // changes instead.
   //
@@ -4493,7 +4493,7 @@ put_indicator (const struct bin_str *ind)
 	//
 	wColor |= FOREGROUND_INTENSITY;
       }
-    } 
+    }
     if (bBold) {
       wColor |= FOREGROUND_INTENSITY;
     }

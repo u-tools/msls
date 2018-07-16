@@ -1,11 +1,11 @@
 #
 # Based on GNU FileUtils 4.1, from MSYS source tree (1/04)
-# 
+#
 # Must be run under the VC6 environment!
-# 
+#
 # setbuild vc6
 # nmake CFG="dircolors - Win32 Release"
-# 
+#
 #######################################################################
 
 !IF "$(CFG)" == ""
@@ -17,16 +17,16 @@ CFG=dircolors - Win32 Debug
 !MESSAGE Invalid configuration "$(CFG)" specified.
 !MESSAGE You can specify a configuration when running NMAKE on this makefile
 !MESSAGE by defining the macro CFG on the command line.  For example:
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "Makefile.w32" CFG="dircolors - Win32 Debug"
-!MESSAGE 
+!MESSAGE
 !MESSAGE Possible choices for configuration are:
-!MESSAGE 
+!MESSAGE
 !MESSAGE "dircolors - Win32 Release"
-!MESSAGE "dircolors - Win32 Debug" 
-!MESSAGE 
+!MESSAGE "dircolors - Win32 Debug"
+!MESSAGE
 !ERROR An invalid configuration is specified.
-!ENDIF 
+!ENDIF
 
 CPP=cl
 
@@ -35,7 +35,7 @@ DEFS=/D HAVE_CONFIG_H /D _CONSOLE /D WIN32 /D _WIN32_WINNT=0x0500 \
 INCLUDES=/I. /I..\.
 
 LD=link
-LIBS=kernel32.lib advapi32.lib shell32.lib 
+LIBS=kernel32.lib advapi32.lib shell32.lib
 
 !IF "$(CFG)" == "dircolors - Win32 Debug"
 
@@ -95,7 +95,7 @@ all: "$(OUTDIR)\dircolors.exe"
 #
 # Use rebase to strip symbols into a .DBG file, leaving only FPO debug data
 # in the executable.
-# 
+#
 
 "$(OUTDIR)\dircolors.exe": $(OBJS)
 		$(LD) $(LDFLAGS) $(OBJS)

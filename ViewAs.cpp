@@ -3,7 +3,7 @@
 // ViewAs.cpp - View effective permissions for another user.  (--user=name)
 //
 // Copyright (c) 2004-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 //
 // Distributed under GNU General Public License version 2.
 //
@@ -11,7 +11,7 @@
 //
 // Build a pseudo-token by interrogating the various domain controllers
 // and cobbling together a list of all direct and indirect groups in
-// which the named user is a member, relative to the local computer. 
+// which the named user is a member, relative to the local computer.
 // Then apply it the against the file ACL to build the effective
 // permission mask.
 //
@@ -69,7 +69,7 @@
 // wszServer = \\DOMAINNAME or \\COMPUTERNAME
 //
 static BOOL
-_GetGroups(LPWSTR wszServer, LPWSTR wszUser, PTOKEN_GROUPS pTokenGroups, 
+_GetGroups(LPWSTR wszServer, LPWSTR wszUser, PTOKEN_GROUPS pTokenGroups,
 	PSID* ppGroupSid)
 {
 	LPWSTR wsz;
@@ -110,7 +110,7 @@ _GetGroups(LPWSTR wszServer, LPWSTR wszUser, PTOKEN_GROUPS pTokenGroups,
 		0, (LPBYTE*)&pgrui0, 1048576, &nGroups, &nTotal);
 
 	if (nas != NERR_Success && nas != ERROR_MORE_DATA) {
-		// 
+		//
 		// This is a normal error when the user's SID prefix does
 		// not match the SAM server's SID prefix.
 		//
@@ -140,7 +140,7 @@ _GetGroups(LPWSTR wszServer, LPWSTR wszUser, PTOKEN_GROUPS pTokenGroups,
 				return FALSE;
 			}
 #ifdef _DEBUG
-			more_printf("Is member of group %ws (SID %u) on %ws\n", 
+			more_printf("Is member of group %ws (SID %u) on %ws\n",
 				wszGroup, *::GetSidSubAuthority(*ppGroupSid, 1), wszServer);
 #endif
 			pTokenGroups->Groups[pTokenGroups->GroupCount].Sid = *ppGroupSid;
@@ -165,7 +165,7 @@ _GetGroups(LPWSTR wszServer, LPWSTR wszUser, PTOKEN_GROUPS pTokenGroups,
 // wszServer = \\DOMAINNAME or \\COMPUTERNAME
 //
 static BOOL
-_GetLocalGroups(LPWSTR wszServer, LPWSTR wszUser, PTOKEN_GROUPS pTokenGroups, 
+_GetLocalGroups(LPWSTR wszServer, LPWSTR wszUser, PTOKEN_GROUPS pTokenGroups,
 	PSID* ppGroupSid)
 {
 	PLOCALGROUP_USERS_INFO_0 plgrui0 = NULL;
@@ -186,8 +186,8 @@ _GetLocalGroups(LPWSTR wszServer, LPWSTR wszUser, PTOKEN_GROUPS pTokenGroups,
 	//
 	// LG_INCLUDE_INDIRECT = include additional local groups
 	// in which the user is indirectly a member (that is, the
-	// user has membership in a global group that is itself a 
-	// member of one or more local groups). 
+	// user has membership in a global group that is itself a
+	// member of one or more local groups).
 	//
 
 	nas = ::NetUserGetLocalGroups(wszServer, wszUser,
@@ -195,7 +195,7 @@ _GetLocalGroups(LPWSTR wszServer, LPWSTR wszUser, PTOKEN_GROUPS pTokenGroups,
 		&nLocalGroups, &nLocalTotal);
 
 	if (nas != NERR_Success && nas != ERROR_MORE_DATA) {
-		// 
+		//
 		// This is a normal error if looking up on the wrong server
 		//
 #ifdef _DEBUG
@@ -369,7 +369,7 @@ _GetViewAs(char* szViewAs, PSID pUserSid, DWORD cbSid,
 	}
 
 	//
-	// Phase 1: Scan the user's domain for groups and localgroups 
+	// Phase 1: Scan the user's domain for groups and localgroups
 	//
 	// (Might be contacting a foreign domain controller here.)
 	//
@@ -387,7 +387,7 @@ _GetViewAs(char* szViewAs, PSID pUserSid, DWORD cbSid,
 
 	//
 	// Get local groups only if  wszUserDomain == local SAM domain
-	// i.e., logged on with a local account. 
+	// i.e., logged on with a local account.
 	//
 	// Might still be a DC, in which case we will get getting groups
 	// redundantly with below.

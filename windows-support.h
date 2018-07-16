@@ -2,7 +2,7 @@
 // Support routines for MS Windows and NTFS
 //
 // Copyright (c) 2004-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -53,7 +53,7 @@ typedef PFN *PPFN;
 
 #define LOAD_FAIL ((PFN)0xFFFFFFFF) // bad-pfn marker
 
-extern BOOL 
+extern BOOL
 DynaLoad(LPSTR szDll, LPSTR szProc, PPFN ppfn/*inout*/);
 
 extern DWORD MapNtStatusToWin32Error(NTSTATUS Status);
@@ -117,7 +117,7 @@ time_t ConvertFileTimeToTimeT(PFILETIME pft);
 #ifdef __cplusplus
 
 // non-DLL version
-#define EXPORT /**/ 
+#define EXPORT /**/
 
 #pragma warning(disable: 4127) // constant exprs for TRACE/ASSERT
 
@@ -214,13 +214,13 @@ typedef __POSITION* POSITION;
 // CHData<CString> was already instantiated inline by hash.h
 //extern template class EXPORT CHData<CString>;
 //
-// DOCUMENTED BUG: Microsoft STL containers _cannot_ be exported 
+// DOCUMENTED BUG: Microsoft STL containers _cannot_ be exported
 // w/o compiler errors (except vector<>).  See KB Q168958.
-// 
+//
 // DOCUMENTED BUG: STL containers instantiated in a DLL _cannot_ be
 // manipulated in another DLL/EXE (again except for vector<>)
 // without causing a GPF, because of a static data member for _Nil.
-// See KB Q172396.  
+// See KB Q172396.
 // Note: fixed with XTREE patch from http://www.dinkumware.com/vc_fixes.html
 //
 

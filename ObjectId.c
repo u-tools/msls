@@ -7,7 +7,7 @@
 // service.
 //
 // Object IDs are used when the Shell resolves an orphan link, to try to
-// locate the actual file. 
+// locate the actual file.
 //
 // Object IDs are used by the NT File Replication Service (NTFRS) when
 // synchronizing files in SYSVOL.
@@ -15,7 +15,7 @@
 
 //
 // Copyright (c) 2007-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -74,7 +74,7 @@ void print_objectid(struct cache_entry *ce)
 	if ((hFile = CreateFile(ce->ce_abspath,
 			/*GENERIC_READ*/SYNCHRONIZE|FILE_READ_ATTRIBUTES,
 			0, 0, OPEN_EXISTING,
-			FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, 0)) == 
+			FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, 0)) ==
 				INVALID_HANDLE_VALUE)  {
 #ifdef _DEBUG
 more_printf("CreateFile failed, err=%u\n", GetLastError());

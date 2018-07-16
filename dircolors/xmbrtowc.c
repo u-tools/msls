@@ -4,10 +4,10 @@
 //
 // So we roll own _mbrtowc() here.  This is sui-genris implementation
 // w/o reference to the MSVCRT code.  Since I was doing it from scratch
-// I decided to add UTF-8 support as an exercise. 
+// I decided to add UTF-8 support as an exercise.
 //
 // Copyright (c) 2004, Algin Technology LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -40,11 +40,11 @@ static int _codepage = -1;
 // The __cplusplus def in wchar.h is totally wrong anyway.
 //
 int mbsinit(mbstate_t *mbs)
-{	
+{
 	*mbs = 0;
 	return 0;
 }
- 
+
 int get_codepage()
 {
 	//
@@ -167,7 +167,7 @@ xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst)
 		}
 		*pst = 0;
 		return bytelen;
-	} 
+	}
 	if (_codepage == CP_UTF8) {
 		if ((bytelen = _utf8_len(s)) == (size_t)-1) { // if bad UTF char
 			*pst = 0;
@@ -179,7 +179,7 @@ xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst)
 		bytelen = MB_CUR_MAX;
 		bLead = isleadbyte((unsigned char)*s);
 	}
-	if (bLead) { 
+	if (bLead) {
 		//
 		// 1st byte of multibyte char
 		//
@@ -194,7 +194,7 @@ xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst)
 			//
 			// Convert multibyte char to Unicode-16
 			//
-			if (MultiByteToWideChar(_codepage, 
+			if (MultiByteToWideChar(_codepage,
 					MB_PRECOMPOSED | MB_ERR_INVALID_CHARS,
 					s, bytelen, pwc, (pwc) ? 1 : 0) == 0) {
 				//
@@ -210,7 +210,7 @@ xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst)
 	//
 	// Single byte char - expansion still possible so do it
 	//
-	if (MultiByteToWideChar(_codepage, 
+	if (MultiByteToWideChar(_codepage,
 		  MB_PRECOMPOSED|MB_ERR_INVALID_CHARS, s, 1, pwc,
 		  (pwc) ? 1 : 0) == 0 ) { // failed
 		errno = EILSEQ;

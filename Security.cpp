@@ -3,7 +3,7 @@
 // Security.cpp - Security translation layer for WIN32
 //
 // Copyright (c) 2007-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -89,8 +89,8 @@ static DWORD gdwSdSerial = 1;  // next SD serial # to allocate
    The complexity means it is easy to blunder when enforcing
    your security policy.  You need to understand innumerable rules
    and special cases, many of which are barely documented or outright
-   undocumented.  
-   
+   undocumented.
+
    The whole thing should be scrapped and redesigned.
 */
 
@@ -145,7 +145,7 @@ static DWORD gdwSdSerial = 1;  // next SD serial # to allocate
 
     99%+ of the time the IdentifierAuthority is 1, 3, 5, 16, or 80.
 
-    1 = (S-1-1-0 Everyone), 3 = (S-1-3-0 CREATOR OWNER), 
+    1 = (S-1-1-0 Everyone), 3 = (S-1-3-0 CREATOR OWNER),
     5 = (S-1-5-.. User/Group/Computer), 16 = (S-1-16 Vista mandatory ACE)
     80 = (S-1-80 Service SID, mapped from service name text)
 */
@@ -168,10 +168,10 @@ public:
 
 	SID& operator=(const SID& SidSrc) {
 		PSID pSidSrc = SidSrc.GetSid();
-		_CloneSid(pSidSrc); 
+		_CloneSid(pSidSrc);
 		return *this;
 	};
-	
+
 	BOOL Equal(PSID pSid) const {
 		if (pSid == NULL && m_pSid == NULL) return TRUE;
 		if (pSid == NULL || m_pSid == NULL) return FALSE;
@@ -263,10 +263,10 @@ public:
 
 	SD& operator=(const SD& SdSrc) {
 		PSECURITY_DESCRIPTOR pSdSrc = SdSrc.GetSd();
-		_CloneSd(pSdSrc); 
+		_CloneSd(pSdSrc);
 		return *this;
 	};
-	
+
 	BOOL Equal(PSECURITY_DESCRIPTOR pSd) const {
 		if (pSd == NULL && m_pSd == NULL) return TRUE;
 		if (pSd == NULL || m_pSd == NULL) return FALSE;
@@ -393,7 +393,7 @@ static char *_GetSecurityDomain(void)
 	// Note: Must use _wgetenv because getenv() returns ANSI not OEM
 	//
 	// BUG: GetEnvironmentStrings returns in OEM,
-	// but GetEnvironmentVariable returns ANSI!   
+	// but GetEnvironmentVariable returns ANSI!
 	//
 
 	wchar_t *wsz = _wgetenv(L"USERDOMAIN");
@@ -567,7 +567,7 @@ static BOOL _LookupAccountSid(PSID pSid,
 			"", "OWNER RIGHTS",
 			SidTypeUser
 		},
-		{ 
+		{
 			//
 			// S-1-5-80-w-x-y-z is a per-service SID,
 			// constructed textually (w-x-y-z) from the service name.
@@ -621,7 +621,7 @@ static BOOL _LookupAccountSid(PSID pSid,
 		},
 		{ NULL, NULL, NULL, SidTypeUser }
 	};
-	
+
 	char szSidBuf[128];
 
 	if (!_GetTextualSid(pSid, szSidBuf, 128, sids_long)) {
@@ -725,19 +725,19 @@ BOOL LookupSidName(PSID pSid, LPTSTR szBuf, DWORD dwBufLen,
 		// Ditto BUILTIN or NT AUTHORITY
 		//
 		if (_mbsicmp((unsigned char*)szDomain, (unsigned char*)_GetSecurityDomain()) == 0) {
-			szDomain[0] = '\0'; 
+			szDomain[0] = '\0';
 		} else if (_stricmp(szDomain,"BUILTIN") == 0) {
-			szDomain[0] = '\0'; 
+			szDomain[0] = '\0';
 		} else if (_stricmp(szDomain, "NT AUTHORITY") == 0) {
-			szDomain[0] = '\0'; 
+			szDomain[0] = '\0';
 		} else if (_stricmp(szDomain, "Mandatory Label") == 0) {
-			szDomain[0] = '\0'; 
+			szDomain[0] = '\0';
 		} else if (_stricmp(szDomain, "NT SERVICE") == 0) {
 			// e.g., NT SERVICE\Trusted Installer
-			szDomain[0] = '\0'; 
+			szDomain[0] = '\0';
 		} else if (_stricmp(szDomain, "APPLICATION PACKAGE AUTHORITY") == 0) {
 			// WinRT app (The RID is typically ALL APPLICATION PACKAGES)
-			szDomain[0] = '\0'; 
+			szDomain[0] = '\0';
 		}
 	}
 
@@ -838,11 +838,11 @@ _LoadSecurityDescriptor(struct cache_entry *ce, SD& rsd)
 
 		if (gbReg) {
 			bSuccess = _GetRegSecurity(ce->ce_abspath, ce,
-			   dwFlags, psd, dwSdLen, &dwNeededSdLen); 
+			   dwFlags, psd, dwSdLen, &dwNeededSdLen);
 		} else {
 			PVOID pOldState = _push_64bitfs();
 			bSuccess = ::GetFileSecurity(ce->ce_abspath,
-			   dwFlags, psd, dwSdLen, &dwNeededSdLen); 
+			   dwFlags, psd, dwSdLen, &dwNeededSdLen);
 			_pop_64bitfs(pOldState);
 		}
 
@@ -880,7 +880,7 @@ _LoadSecurityDescriptor(struct cache_entry *ce, SD& rsd)
 				return FALSE; // Fail; possibly due to Win9x stub
 			}
 		}
-	} while (!bSuccess); 
+	} while (!bSuccess);
 	//
 	// Got psd ok
 	//
@@ -940,7 +940,7 @@ _GetOwnerName(struct cache_entry *ce, char *szUserBuf, DWORD dwUserBufLen,
 
 ///////////////////////////////////////////////////////
 //
-// Return the user name or POSIX group name of the file.  
+// Return the user name or POSIX group name of the file.
 //
 extern "C" char *
 xgetuser(struct cache_entry *ce, int bGroup)
@@ -959,7 +959,7 @@ xgetuser(struct cache_entry *ce, int bGroup)
 // Define a COM object to implement the callbacks
 // ISecurityInformation and IEffectivePermission.
 //
-// EditSecurity() interrogates these interfaces 
+// EditSecurity() interrogates these interfaces
 // in order to display the file's security using
 // a fancy property sheet.
 //
@@ -968,7 +968,7 @@ class CComDialogInfo : // COM object
 		public ISecurityInformation,
 		public IEffectivePermission
 #ifdef UNDEFINED
-		, public ISecurityInformation2 
+		, public ISecurityInformation2
 #endif
 {
 public:
@@ -986,12 +986,12 @@ public:
 
 	//
 	// DESIGN BUG: A quirk of C++ is that the destructor in a derived class
-	// should *always* be virtual.  
+	// should *always* be virtual.
 	//
 	// Otherwise the derived class destructor is never called if the object
 	// is deleted through its base pointer, meaning that the derived member
 	// objects are never deleted!
-	// 
+	//
 	// (Assignment operators in a derived class should also be virtual for
 	// similar reasons.)
 	//
@@ -1021,7 +1021,7 @@ public:
 			//  4. volatile long m_cRef
 			//  5. struct cache_entry *m_ce, and other data members
 			//
-			// The vptr 1. points to a table of functions when called 
+			// The vptr 1. points to a table of functions when called
 			// directly from CComDialogInfo, or from a pointer that was
 			// cast to ISecurityInformation*:
 			//
@@ -1046,7 +1046,7 @@ public:
 			//		c. IUnknown::Release (thunk subtracts 4 from ECX)
 			//		d. IEffectivePermission::GetEffectivePermission (ditto)
 			//
-			// The vptr 3. points to a table of thunks when called by a 
+			// The vptr 3. points to a table of thunks when called by a
 			// pointer that was cast to ISecurityInformation2*:
 			//
 			//		a. IUnknown::QueryInterface (thunk subtracts 8 from ECX)
@@ -1059,13 +1059,13 @@ public:
 			//
 			// If the vptr is at a later address (2. or 3.) then its vtable
 			// will point to a thunk that adjusts ECX and then calls the derived
-			// virtual function. 
+			// virtual function.
 			//
 			// This is necessary to adjust the "this" pointer (register ECX)
 			// to point to the derived object (and not to the base object)
 			// when calling the derived virtual function.
 			//
-			// To understand these quirks of C++ see the book "Inside COM" 
+			// To understand these quirks of C++ see the book "Inside COM"
 			// by Dale Rogerson (1997).  For a more in-depth discussion
 			// see the book "Essential COM" by Don Box (1999).
 			//
@@ -1086,11 +1086,11 @@ public:
 		return S_OK;
 	}
 
-	STDMETHODIMP_(ULONG) AddRef() { 
+	STDMETHODIMP_(ULONG) AddRef() {
 		return ::InterlockedIncrement(&m_cRef);
 	}
 
-	STDMETHODIMP_(ULONG) Release() { 
+	STDMETHODIMP_(ULONG) Release() {
 		if (::InterlockedDecrement(&m_cRef) == 0) {
 			m_cRef = 1; // Rogerson says to do this, but I'm not sure why.
 			delete this;
@@ -1139,13 +1139,13 @@ public:
 		// on xxx."  Blah.  Gone in XP and W2K3.
 		//
 		pObjectInfo->dwFlags = SI_READONLY;
-			
+
 		pObjectInfo->dwFlags |= SI_ADVANCED;
 
 		pObjectInfo->dwFlags |= SI_EDIT_PERMS; // show permissions tab
 
 		pObjectInfo->dwFlags |= SI_EDIT_OWNER; // show owner tab
-		
+
 		//
 		// SI_OWNER_READONLY pops up an annoying warning message box.
 		// A bad design choice IMHO.  (Should not pop up if
@@ -1176,7 +1176,7 @@ public:
 		//
 		// Note: Use the ANSI code page (CP_ACP), not OEM (get_codepage)!
 		//
-		if (::MultiByteToWideChar(CP_ACP, 0, m_ce->ce_filename, -1, 
+		if (::MultiByteToWideChar(CP_ACP, 0, m_ce->ce_filename, -1,
 				m_wszName, FILENAME_MAX) == 0) {
 			return E_FAIL;
 		}
@@ -1330,7 +1330,7 @@ public:
 		// SI_ACCESS_SPECIFIC = appear on advanced page (ditto SACL page)
 		// SI_ACCESS_CONTAINER = appear only on container object
 		//
-		// In addition these flags can be set. 
+		// In addition these flags can be set.
 		// Ignored on a non-container object.
 		//
 		// CONTAINER_INHERIT_ACE = match if CI set in ACE
@@ -1361,7 +1361,7 @@ public:
 				L"Modify", SI_ACCESS_GENERAL \
 					| OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE
 			},
-			
+
 			// Read & Execute = 0x1200A9
 			{ &GUID_NULL, FILE_GENERIC_READ|FILE_GENERIC_EXECUTE,
 				L"Read & Execute",
@@ -1372,7 +1372,7 @@ public:
 			// List Folder Contents = 0x1200A9 (FILE_GENERIC_READ)
 			// same except no OBJECT_INHERIT_ACE
 			{ &GUID_NULL, FILE_GENERIC_READ,
-				L"List Folder Contents", 
+				L"List Folder Contents",
 					SI_ACCESS_GENERAL \
 					| SI_ACCESS_CONTAINER /*folders only*/ \
 					| CONTAINER_INHERIT_ACE
@@ -1380,16 +1380,16 @@ public:
 
 			// Read = 0x120089 (FILE_GENERIC_READ)
 			{ &GUID_NULL, FILE_GENERIC_READ,
-				L"Read", 
+				L"Read",
 					SI_ACCESS_GENERAL \
-					| OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE 
+					| OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE
 			},
 
 			// Write = 0x10036 (FILE_GENERIC_WRITE)
 			{ &GUID_NULL, FILE_GENERIC_WRITE,
 				L"Write",
-					SI_ACCESS_GENERAL 
-					| OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE 
+					SI_ACCESS_GENERAL
+					| OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE
 			},
 
 			///////////////////////////////////////////////////////////////
@@ -1406,14 +1406,14 @@ public:
 
 			// Traverse Folder / Execute File = 0x000020
 			{ &GUID_NULL, FILE_TRAVERSE/*=FILE_EXECUTE*/,
-				L"Traverse Folder / Execute File", 
+				L"Traverse Folder / Execute File",
 					SI_ACCESS_SPECIFIC \
-					| OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE 
+					| OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE
 			},
 
 			// List Folder Contents / Read Data = 0x000001 (FILE_LIST_DIRECTORY)
 			{ &GUID_NULL, FILE_LIST_DIRECTORY/*=FILE_READ_DATA*/,
-				L"List Folder / Read Data", 
+				L"List Folder / Read Data",
 					SI_ACCESS_SPECIFIC \
 					| CONTAINER_INHERIT_ACE
 			},
@@ -1517,16 +1517,16 @@ public:
 
 			// Read = KEY_READ
 			{ &GUID_NULL, KEY_READ,
-				L"Read", 
+				L"Read",
 					SI_ACCESS_GENERAL \
-					| CONTAINER_INHERIT_ACE 
+					| CONTAINER_INHERIT_ACE
 			},
 
 			// Write = KEY_WRITE
 			{ &GUID_NULL, KEY_WRITE,
 				L"Write",
-					SI_ACCESS_GENERAL 
-					| CONTAINER_INHERIT_ACE 
+					SI_ACCESS_GENERAL
+					| CONTAINER_INHERIT_ACE
 			},
 
 			///////////////////////////////////////////////////////////////
@@ -1543,72 +1543,72 @@ public:
 
 			// Query Value
 			{ &GUID_NULL, KEY_QUERY_VALUE,
-				L"Query Value", 
+				L"Query Value",
 					SI_ACCESS_SPECIFIC \
-					| CONTAINER_INHERIT_ACE 
+					| CONTAINER_INHERIT_ACE
 			},
 
 			// Set Value
 			{ &GUID_NULL, KEY_SET_VALUE,
 				L"Set Value",
 					SI_ACCESS_SPECIFIC \
-					| CONTAINER_INHERIT_ACE 
+					| CONTAINER_INHERIT_ACE
 			},
 
 			// Create Subkey
 			{ &GUID_NULL, KEY_CREATE_SUB_KEY,
 				L"Create Subkey",
 					SI_ACCESS_SPECIFIC \
-					| CONTAINER_INHERIT_ACE 
+					| CONTAINER_INHERIT_ACE
 			},
 
 			// Enumerate Subkeys
 			{ &GUID_NULL, KEY_ENUMERATE_SUB_KEYS,
 				L"Enumerate Subkeys",
 					SI_ACCESS_SPECIFIC \
-					| CONTAINER_INHERIT_ACE 
+					| CONTAINER_INHERIT_ACE
 			},
 
 			// Notify
 			{ &GUID_NULL, KEY_NOTIFY,
 				L"Notify",
 					SI_ACCESS_SPECIFIC \
-					| CONTAINER_INHERIT_ACE 
+					| CONTAINER_INHERIT_ACE
 			},
 
 			// Create Link
 			{ &GUID_NULL, KEY_CREATE_LINK,
 				L"Create Link",
 					SI_ACCESS_SPECIFIC \
-					| CONTAINER_INHERIT_ACE 
+					| CONTAINER_INHERIT_ACE
 			},
 
 			// Delete
 			{ &GUID_NULL, DELETE,
 				L"Delete",
 					SI_ACCESS_SPECIFIC \
-					| CONTAINER_INHERIT_ACE 
+					| CONTAINER_INHERIT_ACE
 			},
 
 			// Read Permissions = 0x020000 (READ_CONTROL)
 			{ &GUID_NULL, READ_CONTROL,
 				L"Read Permissions",
 					SI_ACCESS_SPECIFIC \
-					| CONTAINER_INHERIT_ACE 
+					| CONTAINER_INHERIT_ACE
 			},
 
 			// Change Permissions = 0x040000 (WRITE_DAC)
 			{ &GUID_NULL, WRITE_DAC,
 				L"Write Permissions",
 					SI_ACCESS_SPECIFIC \
-					| CONTAINER_INHERIT_ACE 
+					| CONTAINER_INHERIT_ACE
 			},
 
 			// Take Ownership = 0x080000 (WRITE_OWNER)
 			{ &GUID_NULL, WRITE_OWNER,
 				L"Take Ownership",
 					SI_ACCESS_SPECIFIC \
-					| CONTAINER_INHERIT_ACE 
+					| CONTAINER_INHERIT_ACE
 			},
 		};
 
@@ -1652,41 +1652,41 @@ public:
 
 		static SI_INHERIT_TYPE _reg_objInheritTypes[] =
 		{
-			&GUID_NULL, CONTAINER_INHERIT_ACE | OBJECT_INHERIT_ACE, 
+			&GUID_NULL, CONTAINER_INHERIT_ACE | OBJECT_INHERIT_ACE,
 				L"This key and subkeys",
-			&GUID_NULL, CONTAINER_INHERIT_ACE,                      
+			&GUID_NULL, CONTAINER_INHERIT_ACE,
 				L"This key and subkeys",
-			&GUID_NULL, OBJECT_INHERIT_ACE,      
+			&GUID_NULL, OBJECT_INHERIT_ACE,
 				L"This key and subkeys",
-			&GUID_NULL, INHERIT_ONLY_ACE | CONTAINER_INHERIT_ACE | OBJECT_INHERIT_ACE,      
+			&GUID_NULL, INHERIT_ONLY_ACE | CONTAINER_INHERIT_ACE | OBJECT_INHERIT_ACE,
 				L"Subkeys only",
-			&GUID_NULL, INHERIT_ONLY_ACE | CONTAINER_INHERIT_ACE,      
+			&GUID_NULL, INHERIT_ONLY_ACE | CONTAINER_INHERIT_ACE,
 				L"Subkeys only",
 			&GUID_NULL, INHERIT_ONLY_ACE | OBJECT_INHERIT_ACE,
 				L"Subkeys only",
 			&GUID_NULL, INHERIT_ONLY_ACE, // bogus
 				L"Never",
-			&GUID_NULL, 0,                                   
+			&GUID_NULL, 0,
 				L"This key only",
 		};
 
 		static SI_INHERIT_TYPE _file_objInheritTypes[] =
 		{
-			&GUID_NULL, CONTAINER_INHERIT_ACE | OBJECT_INHERIT_ACE, 
+			&GUID_NULL, CONTAINER_INHERIT_ACE | OBJECT_INHERIT_ACE,
 				L"This folder, subfolders and files",
-			&GUID_NULL, CONTAINER_INHERIT_ACE,                      
+			&GUID_NULL, CONTAINER_INHERIT_ACE,
 				L"This folder and subfolders",
-			&GUID_NULL, OBJECT_INHERIT_ACE,      
+			&GUID_NULL, OBJECT_INHERIT_ACE,
 				L"Files only",
-			&GUID_NULL, INHERIT_ONLY_ACE | CONTAINER_INHERIT_ACE | OBJECT_INHERIT_ACE,      
+			&GUID_NULL, INHERIT_ONLY_ACE | CONTAINER_INHERIT_ACE | OBJECT_INHERIT_ACE,
 				L"Subfolders and files only",
-			&GUID_NULL, INHERIT_ONLY_ACE | CONTAINER_INHERIT_ACE,      
+			&GUID_NULL, INHERIT_ONLY_ACE | CONTAINER_INHERIT_ACE,
 				L"Subfolders only",
 			&GUID_NULL, INHERIT_ONLY_ACE | OBJECT_INHERIT_ACE,
 				L"Files only",
 			&GUID_NULL, INHERIT_ONLY_ACE, // bogus
 				L"Never",
-			&GUID_NULL, 0,                                   
+			&GUID_NULL, 0,
 				L"This folder only",
 		};
 
@@ -1795,14 +1795,14 @@ public:
 		// of the ACL).  Ditto users with SeTakeOwnershipPrivilege.
 		//
 
-		if (!DynaLoad("ADVAPI32.DLL", "GetEffectiveRightsFromAclA", 
+		if (!DynaLoad("ADVAPI32.DLL", "GetEffectiveRightsFromAclA",
 				(PPFN)&pfnGetEffectiveRightsFromAclA)) { // not avail on Win95
 			return E_ACCESSDENIED; // fail, punt
 		}
 		if ((*pfnGetEffectiveRightsFromAclA)(pAcl, &trustee, pMask) != ERROR_SUCCESS) {
 			return E_ACCESSDENIED; // fail, punt
 		}
-			
+
 		*ppGrantedAccessList = pMask;
 		*pcGrantedAccessListLength = 1;
 
@@ -1860,7 +1860,7 @@ static PFNEDITSECURITY pfnEditSecurity;
 // Show the EditSecurity property sheet.  W2K or later
 //
 BOOL
-view_file_security(struct cache_entry *ce) 
+view_file_security(struct cache_entry *ce)
 {
 	SD sd;
 
@@ -1886,7 +1886,7 @@ view_file_security(struct cache_entry *ce)
 		}
 	}
 
-	if (!DynaLoad("ACLUI.DLL", "EditSecurity", 
+	if (!DynaLoad("ACLUI.DLL", "EditSecurity",
 			(PPFN)&pfnEditSecurity)) {
 		error(0, 0, "This version of Windows does not support the Security Property Sheet.");
 		return FALSE;
@@ -1958,7 +1958,7 @@ _print_ace(PACCESS_ALLOWED_ACE pAce, BOOL bDirectory)
 	}
 	strcat(szUserBuf, ":");
 	more_printf("    %-17s ", szUserBuf);
-	
+
 	if (pAce->Header.AceFlags & OBJECT_INHERIT_ACE) {
 		//
 		// ACE is applicable to files also, so show it as such.
@@ -2005,7 +2005,7 @@ _print_ace(PACCESS_ALLOWED_ACE pAce, BOOL bDirectory)
 	 } else {
 	  switch (pAce->Mask) {
 		//
-		// Note: All of the FILE_GENERIC_xxx flags include 
+		// Note: All of the FILE_GENERIC_xxx flags include
 		// include SYNCHRONIZE (0x100000) except FILE_GENERIC_WRITE
 		//
 		case FILE_ALL_ACCESS: // 0x1F01FF
@@ -2113,7 +2113,7 @@ _print_ace(PACCESS_ALLOWED_ACE pAce, BOOL bDirectory)
 		}
 		if ((pAce->Mask & (GENERIC_READ|GENERIC_EXECUTE)) == 0) {
 			//
-			// SYNCHRONIZE not already implicitly specified - 
+			// SYNCHRONIZE not already implicitly specified -
 			// show it explicitly
 			//
 			if (pAce->Mask & SYNCHRONIZE) {
@@ -2152,7 +2152,7 @@ _print_ace(PACCESS_ALLOWED_ACE pAce, BOOL bDirectory)
 		if (pAce->Mask & FILE_READ_ATTRIBUTES) { // 0x000080
 			more_printf("%sRead Attributes\n", szIndent);
 		}
-#ifdef UNDEFINED // Extended Attribs haven't been used on NTFS since OS/2 
+#ifdef UNDEFINED // Extended Attribs haven't been used on NTFS since OS/2
 		if (pAce->Mask & FILE_READ_EA) { // 0x000008
 			more_printf("%sRead Extended Attributes\n", szIndent);
 		}
@@ -2160,7 +2160,7 @@ _print_ace(PACCESS_ALLOWED_ACE pAce, BOOL bDirectory)
 		if (pAce->Mask & FILE_WRITE_ATTRIBUTES) { // 0x000100
 			more_printf("%sWrite Attributes\n", szIndent);
 		}
-#ifdef UNDEFINED // Extended Attribs haven't been used on NTFS since OS/2 
+#ifdef UNDEFINED // Extended Attribs haven't been used on NTFS since OS/2
 		if (pAce->Mask & FILE_WRITE_EA) { // 0x000010
 			more_printf("%sWrite Extended Attributes\n", szIndent);
 		}
@@ -2182,7 +2182,7 @@ _print_ace(PACCESS_ALLOWED_ACE pAce, BOOL bDirectory)
 		}
 		if ((pAce->Mask & (GENERIC_READ|GENERIC_EXECUTE)) == 0) {
 			//
-			// SYNCHRONIZE not already implicitly specified - 
+			// SYNCHRONIZE not already implicitly specified -
 			// show it explicitly
 			//
 			if (pAce->Mask & SYNCHRONIZE) {
@@ -2337,7 +2337,7 @@ _print_very_long_acl(PSECURITY_DESCRIPTOR psd, BOOL bDirectory)
 			//
 			// NTMARTA.DLL will set SE_DACL_PROTECTED the first time it is used.
 			//
-			// BUG: 
+			// BUG:
 			//	Many custom-created folders (outside of NTMARTA)
 			//  that dont want inheritance from the parent
 			//  have SE_DACL_PROTECTED=0 and
@@ -2355,7 +2355,7 @@ _print_very_long_acl(PSECURITY_DESCRIPTOR psd, BOOL bDirectory)
 			// if the ACL contains only non-inherited ACEs.  This prevents
 			// any future inheritance.
 			//
-			// BUG: 
+			// BUG:
 			//	Many custom-created folders (outside of NTMARTA)
 			//  that dont want inheritance from the parent
 			//  have SE_DACL_PROTECTED=0 and
@@ -2423,7 +2423,7 @@ typedef BOOL (WINAPI *PFNCONVERTSECURITYDESCRIPTORTOSTRINGSECURITYDESCRIPTOR)(
 	LPTSTR* szStringBuf, // Allocated; use LocalFree to free
 	PULONG dwStringBufLen
 );
-static PFNCONVERTSECURITYDESCRIPTORTOSTRINGSECURITYDESCRIPTOR 
+static PFNCONVERTSECURITYDESCRIPTORTOSTRINGSECURITYDESCRIPTOR
 	pfnConvertSecurityDescriptorToStringSecurityDescriptor;
 
 typedef BOOL (WINAPI *PFNCONVERTSTRINGSIDTOSID)(
@@ -2491,7 +2491,7 @@ print_long_acl(struct cache_entry *ce)
 		}
 	}
 
-	if (!(*pfnConvertSecurityDescriptorToStringSecurityDescriptor)(psd, 
+	if (!(*pfnConvertSecurityDescriptorToStringSecurityDescriptor)(psd,
 			SDDL_REVISION_1, dwFlags, &szStringBuf, NULL)) {
 		//
 		// This can happen on FAT C:\
@@ -2506,7 +2506,7 @@ print_long_acl(struct cache_entry *ce)
 		PSID pSid;
 
 		for (s = szStringBuf; *s; ++s) {
-			if (numeric_ids) { // if -n 
+			if (numeric_ids) { // if -n
 				more_putchar(*s); // print as-is
 				continue;
 			}
@@ -2530,9 +2530,9 @@ print_long_acl(struct cache_entry *ce)
 				    continue;
 				}
 				//
-				// 0x1... 
+				// 0x1...
 				//
-				// Show common mask combinations as names 
+				// Show common mask combinations as names
 				// a la the EditSecurity dialog
 				//
 				DWORD dwMask = strtoul(s, &s2, 0);
@@ -2667,7 +2667,7 @@ print_encrypted_file(struct cache_entry *ce)
 		errno = EINVAL;
 		return;
 	}
-	if (!DynaLoad("ADVAPI32.DLL", "FreeEncryptionCertificateHashList", 
+	if (!DynaLoad("ADVAPI32.DLL", "FreeEncryptionCertificateHashList",
 			(PPFN)&pfnFreeEncryptionCertificateHashList)) {
 		errno = EINVAL;
 		return;
@@ -2676,7 +2676,7 @@ print_encrypted_file(struct cache_entry *ce)
 	//
 	// Convert the path name to Unicode for QueryUsersOnEncryptedFile
 	//
-	if (MultiByteToWideChar(get_codepage(), 0, ce->ce_abspath, -1, 
+	if (MultiByteToWideChar(get_codepage(), 0, ce->ce_abspath, -1,
 			wszPath, FILENAME_MAX) == 0) {
 		error(0, 0,
 			"Cannot convert file name to UNICODE: \"%s\"\n", ce->ce_abspath);
@@ -2756,7 +2756,7 @@ _GetEffectiveRightsFromAcl(struct cache_entry* ce, PACL pAcl, PSID pSid,
 		// UNDOCUMENTED: A non-elevated admin token on Vista
 		// has group Administrators set to SE_GROUP_USE_DENY_ONLY=1
 		// and SE_GROUP_ENABLED=0.
-		// 
+		//
 		// Dont skip a non-enabled group if its use is deny-only.
 		//
 		if ((dwAttributes & SE_GROUP_USE_FOR_DENY_ONLY) == 0) {
@@ -2885,7 +2885,7 @@ win32_mode_string(struct stat *st, char *szMode)
 
 	if (pSidEveryone == NULL) { // if first time
 		//
-		// First time - get the user and groups SIDs 
+		// First time - get the user and groups SIDs
 		//
 		if (view_as == NULL) {
 			//
@@ -2987,7 +2987,7 @@ win32_mode_string(struct stat *st, char *szMode)
 	}
 
 	//
-	// Clear all flags 
+	// Clear all flags
 	//
 	memset(&szMode[1], '-', 9); // ----------
 
@@ -3020,7 +3020,7 @@ win32_mode_string(struct stat *st, char *szMode)
 		}
 		if (mask & KEY_SET_VALUE) {
 			szMode[2]='w';
-		} else if (mask & KEY_CREATE_SUB_KEY) { 
+		} else if (mask & KEY_CREATE_SUB_KEY) {
 			szMode[2] = 'a';  // rare --a------- // keys but not values
 		}
 		if (mask & KEY_ENUMERATE_SUB_KEYS) {
@@ -3062,7 +3062,7 @@ win32_mode_string(struct stat *st, char *szMode)
 		}
 		if (mask & KEY_SET_VALUE) {
 			szMode[5]='w';
-		} else if (mask & KEY_CREATE_SUB_KEY) { 
+		} else if (mask & KEY_CREATE_SUB_KEY) {
 			szMode[5] = 'a';  // rare --a------- // keys but not values
 		}
 		if (mask & KEY_ENUMERATE_SUB_KEYS) {
@@ -3104,7 +3104,7 @@ win32_mode_string(struct stat *st, char *szMode)
 		}
 		if (mask & KEY_SET_VALUE) {
 			szMode[8]='w';
-		} else if (mask & KEY_CREATE_SUB_KEY) { 
+		} else if (mask & KEY_CREATE_SUB_KEY) {
 			szMode[8] = 'a';  // rare --a------- // keys but not values
 		}
 		if (mask & KEY_ENUMERATE_SUB_KEYS) {
@@ -3134,7 +3134,7 @@ win32_mode_string(struct stat *st, char *szMode)
 		}
 		if (appMask & KEY_SET_VALUE) {
 			szMode[8]='W';
-		} else if (appMask & KEY_CREATE_SUB_KEY) { 
+		} else if (appMask & KEY_CREATE_SUB_KEY) {
 			szMode[8] = 'A';  // rare --a------- // keys but not values
 		}
 		if (appMask & KEY_ENUMERATE_SUB_KEYS) {

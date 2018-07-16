@@ -4,10 +4,10 @@
 //
 // So we roll own _mbrtowc() here.  This is sui-genris implementation
 // w/o reference to the MSVCRT code.  Since I was doing it from scratch
-// I decided to add UTF-8 support as an exercise. 
+// I decided to add UTF-8 support as an exercise.
 //
 // Copyright (c) 2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -41,12 +41,12 @@ extern int _HasConsole();
 // BUG: MSSDK05 and VS6 forgot to define mbsinit outside of __cplusplus.
 //
 int mbsinit(const mbstate_t *mbs)
-{	
+{
 	// Return TRUE if mbstate_t is still in the initial state
 	return (mbs==NULL || *mbs == 0);
 }
 #endif
- 
+
 //
 // Get the user current default OEM/ANSI code page
 //
@@ -55,7 +55,7 @@ int mbsinit(const mbstate_t *mbs)
 int get_codepage()
 {
 	//
-	// BUG: The XP MUI version of Windows is based on the English 
+	// BUG: The XP MUI version of Windows is based on the English
 	// version, with the MUI languages layered on top of it.
 	//
 	// However GetACP/GetOEMCP are insensitive to the MUI language.
@@ -78,11 +78,11 @@ int get_codepage()
 		// which the system maps to the ANSI code page.  If the ANSI
 		// code page also does not exist (e.g., Arabic languages), the
 		// actual console codepage is 437 (United States OEM).  This means
-		// that displaying Arabic file names in a console window using 
+		// that displaying Arabic file names in a console window using
 		// MBCS is impossible.  The only workaround is to re-write all of
 		// msls using Unicode, which is too hard.
 		//
-		// BUG: If redirecting output to a file, msls uses the ANSI codepage. 
+		// BUG: If redirecting output to a file, msls uses the ANSI codepage.
 		// This allows the file to be viewed correctly in Notepad or Word.
 		// However it screws up parsing argv[] command-line input,
 		// and error messages to stderr will be wrong.
@@ -101,7 +101,7 @@ int get_codepage()
 
 	//
 	// Note: If the requested OEM/ACP codepage for the user user's
-	// current local LCID does not exist, GetLocalInfo punts and returns 
+	// current local LCID does not exist, GetLocalInfo punts and returns
 	// CP_OEM (1) or, failing that CP_ACP (0).
 	//
 	// For example, Arabic languages do not work on a console.
@@ -146,7 +146,7 @@ void SetConsoleCodePage(int cp)
 	// BUG: We must explicitly set the _input_ code page for MSVCRT.DLL on
 	// Windows 8.1 (and maybe earlier), because it attempts to convert the
 	// MBCS to Unicode manually just before calling WriteFile() in _write().
-	// 
+	//
 	if (DynaLoad("KERNEL32.DLL", "SetConsoleCP", // Sets the input codepage
 			(PPFN)&pfnSetConsoleCP)) { // Not avail on Win95
 		if (guiOriginalConsoleCP == 0) {
@@ -209,7 +209,7 @@ void SetCodePage(int bAnsi)
 	// This is required because we use ANSI file APIs (GetFileAttributesA),
 	// and the kernel uses CP_ACP implicitly, even on Windows 10.
 	//
-	// We must use ANSI, not Unicode, because the Unicode APIs are not 
+	// We must use ANSI, not Unicode, because the Unicode APIs are not
 	// available on Win95.
 	//
 	// The proper way to do this is to dynaload the Unicode file
@@ -240,7 +240,7 @@ void SetCodePage(int bAnsi)
 		// wsprintfA() (which uses the per-user codepage),
 		// nor does it change the ANSI file APIs (e.g., GetFileAttributesA),
 		// which always use the system-wide CP_ACP or CP_OEM.
-		// 
+		//
 		// Do not try to change the USER32 codepage with SetLocalInfo().
 		// It is sticky, and it *permanently* changes the locale in the
 		// Control Panel! Do not use.
@@ -263,7 +263,7 @@ void SetCodePage(int bAnsi)
 	}
 	//
 	// *Must* set the multibyte code page after changing the locale,
-	// otherwise MBCS string functions will continue to use the 
+	// otherwise MBCS string functions will continue to use the
 	// "C" code page!
 	//
     if (_setmbcp(_MB_CP_LOCALE) < 0) { // set to ANSI
@@ -357,7 +357,7 @@ xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst)
 		}
 		*pst = 0;
 		return bytelen;
-	} 
+	}
 	if (_codepage == CP_UTF8) {
 		if ((bytelen = _utf8_len(s)) == (size_t)-1) { // if bad UTF char
 			*pst = 0;
@@ -369,7 +369,7 @@ xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst)
 		bytelen = MB_CUR_MAX;
 		bLead = isleadbyte((unsigned char)*s);
 	}
-	if (bLead) { 
+	if (bLead) {
 		//
 		// 1st byte of multibyte char
 		//
@@ -384,7 +384,7 @@ xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst)
 			//
 			// Convert multibyte char to Unicode-16
 			//
-			if (MultiByteToWideChar(_codepage, 
+			if (MultiByteToWideChar(_codepage,
 					MB_PRECOMPOSED | MB_ERR_INVALID_CHARS,
 					s, bytelen, pwc, (pwc) ? 1 : 0) == 0) {
 				//
@@ -400,7 +400,7 @@ xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst)
 	//
 	// Single byte char - expansion still possible so do it
 	//
-	if (MultiByteToWideChar(_codepage, 
+	if (MultiByteToWideChar(_codepage,
 		  MB_PRECOMPOSED|MB_ERR_INVALID_CHARS, s, 1, pwc,
 		  (pwc) ? 1 : 0) == 0 ) { // failed
 		errno = EILSEQ;
@@ -437,7 +437,7 @@ static PFNGETCURRENTCONSOLEFONTEX pfnGetCurrentConsoleFontEx;
 typedef int (WINAPI *PFNENUMFONTFAMILIESEXW)(
 	HDC hdc,
 	LPLOGFONTW lpLogfont,
-	FONTENUMPROCW lpProc, 
+	FONTENUMPROCW lpProc,
 	LPARAM lParam,
 	DWORD dwFlags
 );

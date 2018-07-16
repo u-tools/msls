@@ -3,7 +3,7 @@
 // opendir/readdir/stat translation layer for WIN32 - with caching
 //
 // Copyright (c) 2007-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -290,7 +290,7 @@ void _pop_64bitfs(PVOID pOldState)
 //
 // Return 1 if the path is to a server root, eg "\\server\share"
 //
-// Note: Assumes the path is already clean 
+// Note: Assumes the path is already clean
 // (no embedded double-slashes, dots, or dot-dots)
 //
 static int _IsServerRootPath(char *szPath)
@@ -306,7 +306,7 @@ static int _IsServerRootPath(char *szPath)
 	}
 
 	sz = &szPath[2];
-	
+
 	if ((sz = _mbschr(sz, '\\')) == NULL) {  // \\server<\>...
 		return 1; // \\server pseudo-path (from glob)
 	}
@@ -315,7 +315,7 @@ static int _IsServerRootPath(char *szPath)
 		return 1; // found \\server\share or \\server\ pseudo-path
 	}
 
-	return (*(sz+1) == '\0'); // found \\server\share\  
+	return (*(sz+1) == '\0'); // found \\server\share\...
 }
 
 //
@@ -325,7 +325,7 @@ static int _IsServerRootPath(char *szPath)
 //
 // Necessary because FindFirst("C:*") fails if the current dir
 // is C:\.  Ditto FindFirst(".\*")
-// 
+//
 // Also to discover UNC paths "." -> \\server\share
 //
 static int
@@ -352,7 +352,7 @@ _ExpandPath(char *szPath, char *szBuf, size_t dwBufLen)
 		//
 		// WORKAROUND: Temporarily chop the stream suffix
 		//
-		if ((n = strlen(szPath)) >= 7 
+		if ((n = strlen(szPath)) >= 7
 				&& _mbsicmp(szPath+n-6, ":$DATA") == 0) {
 			//
 			// Find the second ':' going backwards
@@ -421,7 +421,7 @@ int _GetAbsolutePath(char *szFile, char *szFullPath, DWORD dwFullPathLen,
 	//
 	// BUG: FindFirst("\\server\share") fails!  Must append
 	// a backslash, "\\server\share\"
-	// 
+	//
 	if (_IsServerRootPath(szFullPath)) {
 		sz = szFullPath + strlen(szFullPath) - 1;
 		if (*sz != '\\') {
@@ -509,7 +509,7 @@ unsigned long _MapMode(struct cache_entry *ce)
 				m |= 0111;  // ---x--x--x-
 		}
 	}
-	
+
 	return m;
 }
 
@@ -589,7 +589,7 @@ done:
 }
 
 static BOOL
-_match_dir(struct cache_dir *cd, BOOL bFile, 
+_match_dir(struct cache_dir *cd, BOOL bFile,
 	LPCSTR szPath, LPCSTR szPat)
 {
 	if (_mbsicmp(cd->cd_dirname, szPath) == 0) {
@@ -647,7 +647,7 @@ static void _delete_dir(struct cache_dir *cd);
 // Called by ls.c
 //
 
-static DIR* 
+static DIR*
 __opendir_with_pat(const char* szPath, const char* szPat, BOOL bCache);
 
 DIR*
@@ -656,7 +656,7 @@ opendir(const char* szPath)
 	return opendir_with_pat(szPath, "*", TRUE/*bCache*/);
 }
 
-DIR* 
+DIR*
 opendir_with_pat(const char* szPath, const char* szPat, BOOL bCache)
 {
 	PVOID pOldState;
@@ -673,7 +673,7 @@ opendir_with_pat(const char* szPath, const char* szPat, BOOL bCache)
 //
 // Called by glob.c
 //
-static DIR* 
+static DIR*
 __opendir_with_pat(const char* szPath, const char* szPat, BOOL bCache)
 {
 	char szBuf[FILENAME_MAX];
@@ -714,7 +714,7 @@ __opendir_with_pat(const char* szPath, const char* szPat, BOOL bCache)
 			break;
 		}
 		if (sz == szBuf+2 && szBuf[1] == ':') {
-			break; // stop if C:\  
+			break; // stop if C:\ found
 		}
 		*sz = '\0';
 	}
@@ -788,7 +788,7 @@ __opendir_with_pat(const char* szPath, const char* szPat, BOOL bCache)
 	//
 	// BUG: FindFirst("\\server\share") fails!  Must append
 	// a backslash, "\\server\share\"
-	// 
+	//
 	if (_IsServerRootPath(szPatBuf)) {
 		sz = szPatBuf + strlen(szPatBuf) - 1;
 		if (*sz != '\\') {
@@ -917,7 +917,7 @@ more_fflush(stdmore);
 
 				if (short_names) {
 					//
-					// Get the short path, then extract the rightmost 
+					// Get the short path, then extract the rightmost
 					// component and stuff it into ce->ce_filename
 					//
 					_get_short_path(szBuf2);
@@ -972,7 +972,7 @@ readdir(DIR* pDir)
 	pDir->dd_dir.d_namlen = (unsigned short)n;
 	memcpy(pDir->dd_dir.d_name, ce->ce_filename, n+1);
 	pDir->dd_dir.d_ce = ce;
-	
+
 	// Bump to next
 	pDir->dd_next_entry = ce->ce_next;
 
@@ -1021,10 +1021,10 @@ again:
 
 //////////////////////////////////////////////////////////////////////
 
-static int _xstat(const char *szPath, struct xstat *st, 
+static int _xstat(const char *szPath, struct xstat *st,
 	unsigned long dwType, BOOL bCache, BOOL bFollowSymlink);
 
-static int __xstat(const char *szPath, struct xstat *st, 
+static int __xstat(const char *szPath, struct xstat *st,
 	unsigned long dwType, BOOL bCache, BOOL bFollowSymlink);
 
 //
@@ -1069,7 +1069,7 @@ lstat_nocache(const char *szPath, struct xstat *st, unsigned long dwType)
 
 
 static int
-_xstat(const char *szPath, struct xstat *st, 
+_xstat(const char *szPath, struct xstat *st,
 	unsigned long dwType, BOOL bCache, BOOL bFollowSymlink)
 {
 	PVOID pOldState;
@@ -1082,7 +1082,7 @@ _xstat(const char *szPath, struct xstat *st,
 }
 
 static int
-__xstat(const char *szPath, struct xstat *st, 
+__xstat(const char *szPath, struct xstat *st,
 	unsigned long dwType, BOOL bCache, BOOL bFollowSymlink)
 {
 	char szFullPath[FILENAME_MAX], szBuf[FILENAME_MAX];
@@ -1093,7 +1093,7 @@ __xstat(const char *szPath, struct xstat *st,
 	long hFind;
 	struct _finddatai64_t fd;
 	BOOL bShowStreams = (show_streams == yes_arg);
-	BOOL bFixedDisk = FALSE; 
+	BOOL bFixedDisk = FALSE;
 
 	lstrcpyn(szFullPath, szPath, FILENAME_MAX);
 	//
@@ -1112,7 +1112,7 @@ __xstat(const char *szPath, struct xstat *st,
 			break;
 		}
 		if (sz == szFullPath+2 && szFullPath[1] == ':') {
-			break; // stop if C:\  
+			break; // stop if C:\ found
 		}
 		*sz = '\0';
 	}
@@ -1161,7 +1161,7 @@ __xstat(const char *szPath, struct xstat *st,
 		*(sz+1) = '\0'; // ensure termination
 		for (; *sz == '\\' && sz > szDirBuf; --sz) {
 			if (sz == szDirBuf+2 && szDirBuf[1] == ':') {
-				break; // stop if C:\  
+				break; // stop if C:\ found
 			}
 			*sz = '\0';
 		}
@@ -1175,7 +1175,7 @@ __xstat(const char *szPath, struct xstat *st,
 			if (ce->ce_filename[0] == szFile[0] &&
 					_mbsicmp(ce->ce_filename, szFile) == 0) {
 				//
-				// Found file 
+				// Found file
 				//
 				goto cache_hit;
 			}
@@ -1217,7 +1217,7 @@ more_fflush(stdmore);
 	//
 	// Do a singleton FindFirst to get WIN32_FILE_DATA
 	//
-	if ((hFind = _xfindfirsti64(szFullPath, &fd, bShowStreams, dwType)) 
+	if ((hFind = _xfindfirsti64(szFullPath, &fd, bShowStreams, dwType))
 			!= (long)INVALID_HANDLE_VALUE) {
 		// Succeeded
 		if (_xfindclose(hFind, bShowStreams) == -1) {
@@ -1227,7 +1227,7 @@ more_fflush(stdmore);
 	} else {
 		//
 		// FindFirst failed.  This is a normal (sic) error for root folders
-		// e.g., C:\ and sometimes \\server\share\
+		// e.g., C:\ and sometimes \\server\share\...
 		//
 		if ((szFullPath[1] == ':' && szFullPath[2] == '\\' && szFullPath[3] == '\0') ||
 				_IsServerRootPath(szFullPath)) {
@@ -1469,7 +1469,7 @@ _follow_symlink(struct cache_entry *ce)
 	symce->ce_abspath = xstrdup(szPath);
 
 	if (gbReg) {
-		return symce; // done 
+		return symce; // done
 	}
 
 	szFullPath = szPath;
@@ -1492,7 +1492,7 @@ more_fflush(stdmore);
 	} else {
 		//
 		// FindFirst failed.  This is a normal error (sic) for root folders
-		// e.g., C:\ and sometimes \\server\share\
+		// e.g., C:\ and sometimes \\server\share\...
 		//
 		if ((szFullPath[1] == ':' && szFullPath[2] == '\\' && szFullPath[3] == '\0') ||
 				_IsServerRootPath(szFullPath)) {

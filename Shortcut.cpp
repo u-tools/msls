@@ -5,10 +5,8 @@
 // Used by stat()
 //
 // Copyright (c) 2004-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
-//
-// $Id: Shortcut.cpp,v 1.7 2016/12/29 22:20:22 cvsalan Exp $
 //
 
 #define WIN32_LEAN_AND_MEAN
@@ -74,7 +72,7 @@ _GetShortcutTarget(struct cache_entry *ce, char *szPath)
 	//
 	// Convert the path name to Unicode
 	//
-	if (MultiByteToWideChar(get_codepage(), 0, ce->ce_abspath, -1, 
+	if (MultiByteToWideChar(get_codepage(), 0, ce->ce_abspath, -1,
 			wszPath, FILENAME_MAX) == 0) {
 		goto fail;
 	}
@@ -91,7 +89,7 @@ _GetShortcutTarget(struct cache_entry *ce, char *szPath)
 	// Query IShellLink for the IPersistFile interface
 	//
 	hr = psl->QueryInterface(IID_IPersistFile/*ref*/, (LPVOID*)&ppf);
-	
+
 	if (FAILED(hr)) goto fail;
 
 #ifdef _DEBUG
@@ -111,7 +109,7 @@ _GetShortcutTarget(struct cache_entry *ce, char *szPath)
 	// Do not update the shortcut (SLR_NOUPDATE).
 	//
 	// Query the Distributed Link Tracking Service iff --slow
-	// 
+	//
 	dwFlags = SLR_NO_UI|SLR_NOSEARCH|SLR_NOUPDATE;
 	if (run_fast) {
 		dwFlags |= SLR_NOTRACK; // no Distributed Link Tracking
@@ -127,7 +125,7 @@ _GetShortcutTarget(struct cache_entry *ce, char *szPath)
 
 	//
 	// Get the target path.  This should always succeed even for
-	// orphan links. 
+	// orphan links.
 	//
 
 	//
@@ -144,13 +142,13 @@ _GetShortcutTarget(struct cache_entry *ce, char *szPath)
 		//
 		// Fall back to using IShellLink::GetPath
 		//
-		// Note: A shortcut to a non-file resource will return 
+		// Note: A shortcut to a non-file resource will return
 		// a zero-length string and S_FALSE (and succeed).
 		//
 		hr = psl->GetPath(szPath, FILENAME_MAX, NULL, /*SLGP_RAWPATH*/0);
 	}
 
-	if (szPath[0] == '\0' || hr == S_FALSE || FAILED(hr)) { // unable to query path 
+	if (szPath[0] == '\0' || hr == S_FALSE || FAILED(hr)) { // unable to query path
 		//
 		// We have to return something, so punt
 		//

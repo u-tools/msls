@@ -31,7 +31,7 @@
 #if !defined (__P)
 #  if defined (__STDC__) || defined (__GNUC__) || defined (__cplusplus)
 #    define __P(protos) protos
-#  else 
+#  else
 #    define __P(protos) ()
 #  endif
 #endif

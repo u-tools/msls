@@ -174,7 +174,7 @@ glob_pattern_p (pattern, dir)
       case ']':
 	if (bopen)
 	  return (1);
-	continue;      
+	continue;
 
       case '+':		/* extended matching operators */
       case '@':
@@ -192,7 +192,7 @@ glob_pattern_p (pattern, dir)
 
 #ifdef WIN32 // AEK
   //
-  // Use glob to correctly report case of the ChArAcTeRs. 
+  // Use glob to correctly report case of the ChArAcTeRs.
   //
   // Glob if path contains any alphabetic, and the path is not
   //    C:/
@@ -373,11 +373,11 @@ glob_vector (pat, dir)
 	  //
 	  // BUG: "c:" + "foo" -> "c:foo", not "c:/foo" !!!
 	  //
-  	  if (dirlen != FILESYSTEM_PREFIX_LEN(dir)) // BUGFIX - AEK
+	  if (dirlen != FILESYSTEM_PREFIX_LEN(dir)) // BUGFIX - AEK
 	    if (nextname[dirlen-1] != '/') { // concat if not already - AEK
 	      nextname[dirlen++] = '/';
 	    }
-	 
+
 	  strcpy (nextname + dirlen, npat);
 
 	  if (GLOB_TESTNAME (nextname) >= 0)
@@ -445,7 +445,7 @@ glob_vector (pat, dir)
 	      break;
 	    }
 #endif /* SHELL */
-	  
+
 	  dp = readdir (d);
 	  if (dp == NULL)
 	    break;

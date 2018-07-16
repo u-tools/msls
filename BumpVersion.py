@@ -6,9 +6,7 @@ import time
 # Bump the version number in the file ls.manifest
 #
 # Side effect:
-#	Also bump the version in ls.rc and config.h 
-#
-# $Id: BumpVersion.py,v 1.2 2011/07/13 21:41:56 cvsalan Exp $
+#	Also bump the version in ls.rc and config.h
 #
 
 szManifestFile = 'ls.manifest'
@@ -36,7 +34,7 @@ def _subst(szPat, szRepl, szBody, nInstances=1):
 			break
 
 		nSubs += 1
-		
+
 		(start, end) = m.span(1)
 
 		szResult = szResult + szBody[0:start] + szRepl
@@ -63,7 +61,7 @@ def BumpManifest():
 	m = re.search(R'version\s*=\s*"([0-9])+\.([0-9])+\.([0-9]+)', text)
 	if not m:
 			raise KeyError("Unable to find version in " + szManifestFile)
-	
+
 	(start, end) = m.span(3)
 
 	iVer = int(text[start:end])

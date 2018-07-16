@@ -3,7 +3,7 @@
 // FindFiles.cpp
 //
 // Copyright (c) 2007-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -58,26 +58,26 @@
 // on NT or later.
 //
 // The bug is fixed on Windows Vista.  (Yes, Microsoft modified the legacy
-// MSVCRT.DLL even though they promised they wouldn't change it on Vista.) 
+// MSVCRT.DLL even though they promised they wouldn't change it on Vista.)
 // So we have to check if we are running on Vista.
 //
-// The reverse function (TzSpecificLocalTimeToSystemTime) requires 
+// The reverse function (TzSpecificLocalTimeToSystemTime) requires
 // Windows XP or later.
 //
 // WORKAROUND: Convert from FILETIME to time_t directly, without
 // involving DST.
-// 
+//
 // DESIGN BUG: FAT filesystems store dates as UTC-5 during CDT and UTC-6
 // during CST.  This is because FAT filesystems store the local time on disk,
 // not the UTC time.
-// 
+//
 // DESIGN BUG: FileTimeToLocalFileTime uses today's CDT/CST, not the date's
 // CDT/CST.
-// 
+//
 // SystemTimeToTzSpecificLocalTime subtracts UTC by -5 if the date is in CDT
 // and by -6 if date is in CST.  Thus it always shows the correct local time
 // for NTFS (and for all stored UTC dates in general).
-// 
+//
 // Note: SystemTimeToTzSpecificLocalTime is not available on Win9x.
 //
 extern "C" time_t ConvertFileTimeToTimeT(PFILETIME pft)
@@ -90,7 +90,7 @@ extern "C" time_t ConvertFileTimeToTimeT(PFILETIME pft)
 	typedef BOOL (WINAPI *PFNSYSTEMTIMETOTZSPECIFICLOCALTIME)(
         IN     LPTIME_ZONE_INFORMATION lpTimeZoneInformation,
         IN     LPSYSTEMTIME lpUniversalTime,
-   	    OUT    LPSYSTEMTIME lpLocalTime
+        OUT    LPSYSTEMTIME lpLocalTime
     );
 
 	static PFNSYSTEMTIMETOTZSPECIFICLOCALTIME pfnSystemTimeToTzSpecificLocalTime;
@@ -131,7 +131,7 @@ extern "C" time_t ConvertFileTimeToTimeT(PFILETIME pft)
     llFileDate.QuadPart /= 10000000;
 
 	//
-	// BUG: localtime() wrongly uses the current DST, not the DST of 
+	// BUG: localtime() wrongly uses the current DST, not the DST of
 	// the timestamp.
 	//
 	// WORKAROUND:
@@ -159,12 +159,12 @@ extern "C" time_t ConvertFileTimeToTimeT(PFILETIME pft)
 		//
 		TIME_ZONE_INFORMATION tzNoDst;
 		memset(&tzNoDst, 0, sizeof(tzNoDst));
-    	tzNoDst.Bias = tzi.Bias; // non-DST bias only
+		tzNoDst.Bias = tzi.Bias; // non-DST bias only
 
 		(*pfnSystemTimeToTzSpecificLocalTime)(NULL, &stmUTC, &stmDate1);
 		(*pfnSystemTimeToTzSpecificLocalTime)(&tzNoDst, &stmUTC, &stmDate2);
 
-		// 
+		//
 		// Note: Some countries shift by 1/2 hour, so check both hours and
 		// minutes.
 		//

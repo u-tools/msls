@@ -1,7 +1,7 @@
 @echo off
 REM
 REM SETBUILD.CMD - Set build environment for various compilers.
-REM Written by Alan Klietz 
+REM Written by Alan Klietz
 REM
 REM Copyright (c) 1997-2018, U-Tools Software LLC.  Distributed under GNU
 REM General Public License version 2.
@@ -74,7 +74,7 @@ rem
 if not "%basepath%"=="" goto nosave
 rem
 rem Basepath is empty. Save the basepath for later restore
-rem 
+rem
 set basepath=%PATH%
 set baseinclude=%INCLUDE%
 set baselib=%LIB%
@@ -194,7 +194,7 @@ REM
 REM Set the build environment for Visual Studio 200x (VC9), target 32-bit x86
 REM
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework\
-REM 
+REM
 REM Need path %FrameworkDir%%FrameworkVersion% for gac, caspol, ilasm, regasm
 REM
 set VSInstallDir=%DevDrive%\%VCName%\
@@ -233,7 +233,7 @@ REM
 REM Set the build environment for VC9, target AMD64/EMT64 (x64), use VC9 DLLs
 REM
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework64\
-REM 
+REM
 REM Need path %FrameworkDir%%FrameworkVersion% for gac, caspol, ilasm, regasm
 REM
 set VSInstallDir=%DevDrive%\%VCName%\
@@ -276,7 +276,7 @@ REM Uses Visual Studio 200x (VC9) compiler, but with VC6 includes and libraries.
 REM The VC6 Includes were updated for 32/64-bit in \DDK\7100\
 REM
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework\
-REM 
+REM
 REM Need path %FrameworkDir%%FrameworkVersion% for gac, caspol, ilasm, regasm
 REM
 set VSInstallDir=%DevDrive%\%VCName%\
@@ -309,7 +309,7 @@ REM
 REM Set the build environment for VC8 DevEnv.exe and vcbuild.exe, but
 REM target backward-compatible 64-bit x64 (W2K3 x64 and XP x64).
 REM
-REM Uses the March 2006 Platform SDK cross-compiler 
+REM Uses the March 2006 Platform SDK cross-compiler
 REM %DevDrive%\MSSDK06\bin\win64\x86\AMD64\cl.exe (version 14.00.40310) with
 REM the VC6 includes and MSSDK06 libs.  The VC6 includes are updated
 REM for 32/64-bit in \DDK\7100\.
@@ -325,7 +325,7 @@ REM
 REM Set the build environment for VC9 DevEnv.exe and vcbuild.exe, but
 REM target backward-compatible 64-bit x64 (W2K3 x64 and XP x64).
 REM
-REM Uses the March 2006 Platform SDK cross-compiler 
+REM Uses the March 2006 Platform SDK cross-compiler
 REM %DevDrive%\MSSDK06\bin\win64\x86\AMD64\cl.exe (version 14.00.40310) with
 REM the VC6 includes and MSSDK06 libs.  The VC6 includes are updated
 REM for 32/64-bit in \DDK\7100\.
@@ -613,7 +613,7 @@ REM
 REM Set the build environment for VC10 DevEnv.exe and msbuild.exe, but
 REM target backward-compatible 64-bit x64 (W2K3 x64 and XP x64).
 REM
-REM Uses the March 2006 Platform SDK cross-compiler 
+REM Uses the March 2006 Platform SDK cross-compiler
 REM %DevDrive%\MSSDK06\bin\win64\x86\AMD64\cl.exe (version 14.00.40310) with
 REM the VC6 includes and MSSDK06 libs.
 REM
@@ -754,7 +754,7 @@ REM
 REM Set the build environment for VC12 DevEnv.exe and msbuild.exe, but
 REM target backward-compatible 64-bit x64 (W2K3 x64 and XP x64).
 REM
-REM Uses the March 2006 Platform SDK cross-compiler 
+REM Uses the March 2006 Platform SDK cross-compiler
 REM %DevDrive%\MSSDK06\bin\win64\x86\AMD64\cl.exe (version 14.00.40310) with
 REM the VC6 includes and MSSDK06 libs.
 REM

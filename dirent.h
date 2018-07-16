@@ -3,7 +3,7 @@
 // opendir/readdir/stat translation layer for WIN32
 //
 // Copyright (c) 2004-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -65,7 +65,7 @@ struct cache_entry {
 
 	// Requires real Win32 FindFirst
 	CHAR cAlternateFileName[14]; // not in findfirst
-	
+
 	BOOL ce_bGotFullInfo; // did GetFileInformationByHandle()
 	BOOL ce_bIsSymlink; // Reparse point or .LNK file
 
@@ -74,7 +74,7 @@ struct cache_entry {
 	DWORD nNumberOfLinks;
 	//DWORD nFileIndexHigh; // map to ce_ino
 	//DWORD nFileIndexLow;
-	
+
 	////////////////////////
 	//
 	// Child for target of symlink (if we are a reparse point)

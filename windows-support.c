@@ -3,7 +3,7 @@
 // Microsoft Windows support functions
 //
 // Copyright (c) 2004-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -49,17 +49,17 @@ InitVersion() // also declared in ls.c
 		OSVersionInfoEx.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 		GetVersionEx((OSVERSIONINFO*)&OSVersionInfoEx);
 	}
-	
+
 	IsWindowsNT = (OSVersionInfoEx.dwPlatformId == VER_PLATFORM_WIN32_NT);
 	IsWindowsXP = IsWindowsNT &&
-		((OSVersionInfoEx.dwMajorVersion == 5 
-		 	&& OSVersionInfoEx.dwMinorVersion >= 1) 
+		((OSVersionInfoEx.dwMajorVersion == 5
+			&& OSVersionInfoEx.dwMinorVersion >= 1)
 		|| OSVersionInfoEx.dwMajorVersion > 5);
 	IsVista = IsWindowsNT && OSVersionInfoEx.dwMajorVersion >= 6;
 	IsWindows7 = IsVista &&
-		((OSVersionInfoEx.dwMajorVersion == 6 
-		 	&& OSVersionInfoEx.dwMinorVersion >= 1) 
-		|| OSVersionInfoEx.dwMajorVersion > 6);
+		((OSVersionInfoEx.dwMajorVersion == 6
+			&& OSVersionInfoEx.dwMinorVersion >= 1)
+			|| OSVersionInfoEx.dwMajorVersion > 6);
 
 	//
 	// Determine if running in Wow64 mode
@@ -153,9 +153,9 @@ BOOL DynaLoad(LPSTR szDll, LPSTR szProc, PPFN ppfn/*inout*/)
 //		LPCSTR aszPrivs[] = {"SeDebugPrivilege", "SeTCBPrivilege"};
 //		bOk = _SetPrivileges(2, aszPrivs, TRUE/*enable*/);
 //
-BOOL _SetPrivileges(int nPrivs, LPCTSTR *ppszPrivilege, BOOL bEnable) 
+BOOL _SetPrivileges(int nPrivs, LPCTSTR *ppszPrivilege, BOOL bEnable)
 {
-	HANDLE hToken; 
+	HANDLE hToken;
 	TOKEN_PRIVILEGES *ptp;
 	DWORD dwLen;
 	int i;
@@ -182,9 +182,9 @@ BOOL _SetPrivileges(int nPrivs, LPCTSTR *ppszPrivilege, BOOL bEnable)
 		    return FALSE;
 		}
 		if (bEnable) {
-			ptp->Privileges[i].Attributes |= SE_PRIVILEGE_ENABLED;    
+			ptp->Privileges[i].Attributes |= SE_PRIVILEGE_ENABLED;
 		} else {
-			ptp->Privileges[i].Attributes &= ~SE_PRIVILEGE_ENABLED;    
+			ptp->Privileges[i].Attributes &= ~SE_PRIVILEGE_ENABLED;
 		}
 	}
 

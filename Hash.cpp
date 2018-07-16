@@ -2,7 +2,7 @@
 // Hash.cpp - Thread-safe hash template class
 //
 // Copyright (c) 2004-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 // Mostly implemented in hash.h
@@ -62,7 +62,7 @@ void TestHash()
 // the third line is a selection from Knuth, Vol. 3, Sec. 6.1, Table 1,
 // and the next two lines were suggested by Steve Kirsch.
 //
-static const LONG HashPrimes[] = { 
+static const LONG HashPrimes[] = {
 	7, 13, 31, 61, 127, 251, 509, 1021, 2017, 4093,
 	5987,
 	9551, 15683, 19609, 31397,

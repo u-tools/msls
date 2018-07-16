@@ -3,7 +3,7 @@
 // Query for embedded file streams:  "foo.txt:mystream:$Type"
 //
 // Copyright (c) 2004-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -30,7 +30,7 @@
 //
 // Files that contain streams are flagged with a distinctive color
 // and type symbol ($).  $ was chosen because the dollar sign is
-// already used to indicate secret file shares (e.g., C$), and because 
+// already used to indicate secret file shares (e.g., C$), and because
 // the stream type suffix (":$DATA") has a dollar sign.
 //
 // My approach is to make a stream look like a regular file that just happens
@@ -149,7 +149,7 @@ typedef struct { // Information Class 15
 
 
 // NtQueryInformationFile
-typedef NTSTATUS (WINAPI *PFNNTQUERYINFORMATIONFILE)( 
+typedef NTSTATUS (WINAPI *PFNNTQUERYINFORMATIONFILE)(
     IN HANDLE FileHandle,
     OUT PIO_STATUS_BLOCK IoStatusBlock,
     OUT PVOID FileInformation,
@@ -160,7 +160,7 @@ static PFNNTQUERYINFORMATIONFILE pfnNtQueryInformationFile;
 
 #ifdef UNDEFINED
 // NtSetInformationFile
-typedef NTSTATUS (WINAPI *PFNNTSETINFORMATIONFILE)( 
+typedef NTSTATUS (WINAPI *PFNNTSETINFORMATIONFILE)(
     IN HANDLE FileHandle,
     OUT PIO_STATUS_BLOCK IoStatusBlock,
     OUT PVOID FileInformation,
@@ -283,7 +283,7 @@ long _xfindfirsti64(const char *szPath, struct _finddatai64_t *pfd,
 		_SetPrivileges(1, aszPrivs, TRUE); // ignore errors
 #endif
 	}
-	
+
 	if (!_LookupStream(TRUE/*bFirst*/, fs, szStreamPat/*to match*/, pfd)) {
 		_xfindclose((long)fs, bShowStreams); // free and close
 		return FAIL; // bail
@@ -401,7 +401,7 @@ static BYTE abStreamInfo[STREAM_BUFSIZE];
 //
 static BOOL
 _LookupStream(BOOL bFirst,
-	struct find_stream *fs, 
+	struct find_stream *fs,
 	char *szStreamMatch,
 	struct _finddatai64_t *pfd)
 {
@@ -448,7 +448,7 @@ next_fs_entry:
 	if (!DynaLoad("NTDLL.DLL", "NtQueryInformationFile", &pfnNtQueryInformationFile)) {
 		goto done;
 	}
-	
+
 #ifdef UNDEFINED
 	if (!DynaLoad("NTDLL.DLL", "NtSetInformationFile", &pfnNtSetInformationFile)) {
 		goto done;
@@ -520,7 +520,7 @@ next_fs_entry:
 
 	//
 	// BUG: We cannot enumerate streams for "." because it looks too
-	// much like a drive letter (".:foo").  
+	// much like a drive letter (".:foo").
 	//
 	// It triggers bugs in FILESYSTEM_PREFIX_LEN, glob.c, basename.c,
 	// and many other places that check for szPath[1] == ':'.
@@ -597,7 +597,7 @@ next_fs_entry:
 	// fall through and return a matching stream
 
 next_si_entry:
-	
+
 	if (fs->fs_next_stream_info == NULL) {
 		goto next_fs_entry;
 	}
@@ -619,7 +619,7 @@ next_si_entry:
 	//
 	// Only match on direct match or '*'
 	//
-	if (szStreamMatch != NULL && 
+	if (szStreamMatch != NULL &&
 		((szStreamMatch[0] != ':' || szStreamMatch[1] != '*' || szStreamMatch[2] != '\0') &&
 			_mbsicmp(szStreamMatch, si->si_szName) != 0)) {
 		// stream does not match pattern
@@ -638,7 +638,7 @@ next_si_entry:
 	} else {
 		pfd->size = si->si_size;
 	}
-	
+
 done:
 	return TRUE; // return of stream info (or main file info)
 }

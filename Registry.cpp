@@ -3,7 +3,7 @@
 // Registryc.pp - Registry layer for Win32
 //
 // Copyright (c) 2007-2018, U-Tools Software LLC
-// Written by Alan Klietz 
+// Written by Alan Klietz
 // Distributed under GNU General Public License version 2.
 //
 
@@ -53,7 +53,7 @@ typedef LONG (WINAPI *PFNREGLOADMUISTRINGW) (
     LPWSTR     pszOutBuf,
     DWORD      cbOutBuf,
     LPDWORD    pcbData,
-    DWORD      Flags,   
+    DWORD      Flags,
     LPCWSTR    pszDirectory
 );
 static PFNREGLOADMUISTRINGW pfnRegLoadMUIStringW;
@@ -141,11 +141,11 @@ typedef struct _KEY_VIRTUALIZATION_INFORMATION {
 	// BUG: MSDN DDK comment below is wrong.
 	//
     ULONG   VirtualSource           : 1; // MSDN: "Tells if the key has ever been virtualized, Can be 1 only if VirtualizationCandidate is 1"
-    ULONG   Reserved                : 27;   
+    ULONG   Reserved                : 27;
 } KEY_VIRTUALIZATION_INFORMATION, *PKEY_VIRTUALIZATION_INFORMATION;
 
 // NtQueryKey
-typedef NTSTATUS (WINAPI *PFNNTQUERYKEY)( 
+typedef NTSTATUS (WINAPI *PFNNTQUERYKEY)(
     IN HANDLE KeyHandle,
 	IN KEY_INFORMATION_CLASS KeyInformationClass,
 	OUT PVOID KeyInformation,
@@ -154,7 +154,7 @@ typedef NTSTATUS (WINAPI *PFNNTQUERYKEY)(
 );
 static PFNNTQUERYKEY pfnNtQueryKey;
 
-//////////////////////////////////////////////////////////////// end ntddk.h 
+//////////////////////////////////////////////////////////////// end ntddk.h
 
 #undef strrchr
 #define strrchr _mbsrchr // use the multibyte version of strrchr
@@ -285,7 +285,7 @@ _PrepReg(const char *szPath, struct find_reg *fr, DWORD dwType)
 	} else if (_mbsicmp((PCUSTR)szRoot, (PCUSTR)"HKEY_CURRENT_CONFIG") == 0) {
 		fr->fr_hRoot = HKEY_CURRENT_CONFIG;
 	// HKEY_CURRENT_USER_LOCAL_SETTINGS
-	// For non-roaming registry settings. 
+	// For non-roaming registry settings.
 	// The settings do in HKCULS do _not_ overlay HKCU.
 	// Apps must explicitly open HKEY_CURRENT_USER_LOCAL_SETTINGS to gain
 	// access to the non-roaming regvals (instead of HKEY_CURRENT_USER).
@@ -308,7 +308,7 @@ _PrepReg(const char *szPath, struct find_reg *fr, DWORD dwType)
 			// Single value, no key
 			fr->fr_szValue = xstrdup(szKey);
 		} else {
-			*sz = '\0'; 
+			*sz = '\0';
 			fr->fr_szKey = xstrdup(szKey);
 			fr->fr_szValue = xstrdup(sz+1);
 		}
@@ -331,7 +331,7 @@ _LookupReg(struct find_reg *fr, struct _finddatai64_t *pfd)
 	FILETIME ftWrite;
 
 	pfd->attrib = 0;
-	pfd->time_create = -1L; 
+	pfd->time_create = -1L;
 	pfd->time_access = _cached_now();
 	pfd->time_write = -1L;
 	pfd->size = 0;
@@ -346,7 +346,7 @@ _LookupReg(struct find_reg *fr, struct _finddatai64_t *pfd)
 			strcpy(pfd->name, "\\"); // synthetic root
 			return TRUE;
 		}
-		
+
 		switch (fr->fr_dwIndex) {
 			case 0:
 				strcpy(pfd->name, "HKLM");
@@ -403,7 +403,7 @@ _LookupReg(struct find_reg *fr, struct _finddatai64_t *pfd)
 		}
 		fr->fr_fd.attrib = FILE_ATTRIBUTE_DIRECTORY;
 		fr->fr_fd.time_write = ConvertFileTimeToTimeT(&ftWrite);
-		fr->fr_fd.time_create = fr->fr_fd.time_write; 
+		fr->fr_fd.time_create = fr->fr_fd.time_write;
 		fr->fr_fd.time_access = _cached_now();
 		fr->fr_fd.size = 0;
 		if (fr->fr_szKey != NULL) {
@@ -559,7 +559,7 @@ Again:
 		//
 		pfd->attrib &= ~FILE_ATTRIBUTE_VIRTUAL;
 		pfd->time_write = ConvertFileTimeToTimeT(&ftWrite);
-		pfd->time_create = fr->fr_fd.time_write; 
+		pfd->time_create = fr->fr_fd.time_write;
 		pfd->time_access = _cached_now();
 		pfd->size = 0;
 		fr->fr_dwIndex++;
@@ -609,7 +609,7 @@ enum_values:
 		// DESIGN BUG: Querying HKCU\Classes\VirtualStore returns the merged
 		// view when --virtual!
 		//
-		// WORKAROUND: Temporarily turn off virtual mode so we can inspect 
+		// WORKAROUND: Temporarily turn off virtual mode so we can inspect
 		// the actual HKCU\Classes\VirtualStore.
 		//
 		SetVirtualView(FALSE/*bEnable*/, FALSE/*bVerify*/);
@@ -848,7 +848,7 @@ print_registry_value(struct cache_entry *ce)
 		// HKLM\Software\Wow6432Node.
 		//
 		if (gbIsWindowsWOW64) {
-		  if (DynaLoad("ADVAPI32.DLL", "RegQueryReflectionKey", 
+		  if (DynaLoad("ADVAPI32.DLL", "RegQueryReflectionKey",
 				(PPFN)&pfnRegQueryReflectionKey)) {
 			//
 			// BUG: Documented as bReflectionEnabled but really
@@ -1075,7 +1075,7 @@ NoMui:
 		}
 
 		case REG_DWORD:
-			more_printf("            REG_DWORD=%u (0x%08X)\n", 
+			more_printf("            REG_DWORD=%u (0x%08X)\n",
 				*(PDWORD)pbData, *(PDWORD)pbData);
 			if (dwSize != sizeof(DWORD)) {
 				more_printf("            *** DWORD length (%u) is not standard. ***\n",
@@ -1084,7 +1084,7 @@ NoMui:
 			break;
 
 		case REG_QWORD:
-			more_printf("            REG_QWORD=%I64u (0x%I64X)\n", 
+			more_printf("            REG_QWORD=%I64u (0x%I64X)\n",
 				*(unsigned __int64 *)pbData, *(unsigned __int64 *)pbData);
 			if (dwSize != sizeof(unsigned __int64)) {
 				more_printf("            *** QWORD length (%u) is not standard. ***\n",
@@ -1130,7 +1130,7 @@ _GetRegistryLink(struct cache_entry *ce, char *szPath)
 	//
 	// Convert the registry path to Unicode
 	//
-	if (MultiByteToWideChar(get_codepage(), 0, fr->fr_szKey, -1, 
+	if (MultiByteToWideChar(get_codepage(), 0, fr->fr_szKey, -1,
 			wszPath, FILENAME_MAX) == 0) {
 		_RegFindClose((long)fr);
 		return NULL;
@@ -1221,7 +1221,7 @@ _GetRegistryLink(struct cache_entry *ce, char *szPath)
 		return NULL;
 	}
 
-	return szPath; 
+	return szPath;
 }
 
 } // end extern "C"
