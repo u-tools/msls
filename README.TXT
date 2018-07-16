@@ -1,8 +1,8 @@
 GNU ls ported to Microsoft Windows
 
 This is an adaptation of the GNU `ls' directory information
-utility for Microsoft Windows.  It shows informaton on
-on NTFS files in a format familiar to UNIX users.
+utility for Microsoft Windows.  It shows information on
+NTFS files in a format familiar to UNIX users.
 
 To install: Copy ls.exe to your favorite executable folder for your
 command line utilities.  Copy ls.exe C:\Windows\System32\ls.exe.  (On 64-bit
