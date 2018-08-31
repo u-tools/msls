@@ -50,12 +50,11 @@ static int _codepage = -1;
 #if WCHAR_MAX != 0xFFFF // If MSSDK05 or earlier
 //
 // BUG: VC6 forgot to define mbsinit outside of __cplusplus.
-// The __cplusplus def in wchar.h is totally wrong anyway.
 //
 int mbsinit(const mbstate_t *mbs)
 {
-	*mbs = 0;
-	return 0;
+    // Return TRUE if mbstate_t is still in the initial state
+    return (mbs==NULL || *mbs == 0);
 }
 #endif
 

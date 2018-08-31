@@ -36,10 +36,20 @@
 #define D_TYPE_IN_DIRENT 1
 #define _DIRENT_HAVE_D_TYPE 1
 
+// Define _CRTIMP (used for __mb_cur_max to avoid incompatible redefinition) // RIVY
+// from ctype.h
+#ifndef _CRTIMP
+#ifdef  _DLL
+#define _CRTIMP __declspec(dllimport)
+#else   /* ndef _DLL */
+#define _CRTIMP
+#endif  /* _DLL */
+#endif  /* _CRTIMP */
+
 #ifdef WIN32
 # undef MB_CUR_MAX
 # define MB_CUR_MAX __mb_cur_max // AEK fix MSSDK05 ctype.h 32-bit MSVCRT.DLL
-extern _CRTIMP int __mb_cur_max; // AEK
+_CRTIMP extern int __mb_cur_max; // AEK
 # undef __PCTYPE_FUNC
 # define __PCTYPE_FUNC _pctype  // AEK fix MSSDK05 ctype.h 32-bit MSVCRT.DLL
 #endif

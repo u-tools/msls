@@ -222,7 +222,7 @@ static void InitInterceptIsatty()
 	pfnIsatty = _isatty;
 #endif
 
-	pbIsatty = (PBYTE)pfnIsatty;
+    pbIsatty = (PBYTE)(*(void **)(&pfnIsatty));
 	//
 	// Cache the real isatty property for stdin, stdout, and stderr
 	//
@@ -243,7 +243,7 @@ static void InitInterceptIsatty()
 # define PATCH_INSN_LEN 5
 #endif
 
-	if (!(*pfnVirtualProtect)((PVOID)pfnIsatty, PATCH_INSN_LEN, PAGE_WRITECOPY, &dwPrevProtect)) {
+    if (!(*pfnVirtualProtect)(*(void **)(&pfnIsatty), PATCH_INSN_LEN, PAGE_WRITECOPY, &dwPrevProtect)) {
 		error(EXIT_FAILURE, 0, "Cannot change protection on _isatty().");
 		return; /*NOTREACHED*/
 	}
@@ -290,7 +290,7 @@ static void InitInterceptIsatty()
 #endif // x86
 #pragma warning(pop)
 	// Restore protection
-	if (!(*pfnVirtualProtect)(pfnIsatty, PATCH_INSN_LEN, dwPrevProtect, &dwDummy)) {
+    if (!(*pfnVirtualProtect)(*(void **)(&pfnIsatty), PATCH_INSN_LEN, dwPrevProtect, &dwDummy)) {
 		error(EXIT_FAILURE, 0, "Cannot restore protection on _isatty().");
 		return; /*NOTREACHED*/
 	}
