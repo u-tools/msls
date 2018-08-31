@@ -1,4 +1,4 @@
-e* `dir', `vdir' and `ls' directory listing programs for GNU.
+/* `dir', `vdir' and `ls' directory listing programs for GNU.
    Copyright (C) 85, 88, 90, 91, 1995-2001 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -4451,7 +4451,7 @@ put_indicator (const struct bin_str *ind)
     return; // ignore
   }
 
-  p2 = p; errno = 0; u1 = strtoul(p, &p2, 10/*base*/);
+  p2 = p; errno = 0; u1 = strtoul(p, &(char *)p2, 10/*base*/);  // RIVY
   if (p2 == p || errno != 0) {
     return; // not a number
   }

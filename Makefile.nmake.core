@@ -1,4 +1,5 @@
 # Makefile.nmake.core
+# Written by Roy Ivy III (https://github.com/rivy)
 ## emacs -*- mode: perl -*- ## modeline
 
 ####
@@ -169,6 +170,20 @@ RCOPTS_vc=
 RCOPTS_vc=/nologo
 !ENDIF
 
+!IF $(_CC_VERSION) < 1600
+#
+# Visual Studio 2008 or earlier supports creating apps that run on
+# Windows 95/98/ME, Windows NT, and Windows Server 2000.
+#
+SUBSYSTEM_VERSION=4.00   # Minimum supported subsystem is Win9x/NT (4.00)
+!ELSE
+#
+# Visual Studio 2010 (or later) does *not* support creating apps that run on
+# Windows 9x, NT, or Windows Server 2000.
+#
+SUBSYSTEM_VERSION=5.01   # Minimum supported subsystem is Windows XP (5.01)
+!ENDIF
+
 !IF "$(BUILD_USING_VC6)" == "1"
 LDOPTS_vc=/opt:nowin98 /ignore:4254
 !ELSE
@@ -232,7 +247,7 @@ CFLAGS=$(COPTS_basic) $(COPTS_basic_CFG) $(COPTS_static_CFG) $(COPTS_vc_CFG) \
 RCFLAGS=/l 0x409 $(RCOPTS_basic_CFG) $(RCOPTS_vc) /fo"$(INTDIR)\$(NAME).res"
 
 LDFLAGS=$(LIBS) /nologo /incremental:no /base:"0x20000000" \
-        /machine:I386 /subsystem:console /out:"$(OUTDIR)\$(NAME).$(TYPE)" /release \
+        /machine:I386 /subsystem:console,$(SUBSYSTEM_VERSION) /out:"$(OUTDIR)\$(NAME).$(TYPE)" /release \
         $(LDOPTS_basic_CFG) $(LDOPTS_vc) /map:"$(OUTDIR)\$(NAME).map"
 
 !IF ([@dir "$(NAME).rc" >NUL 2>NUL] == 0)

@@ -28,3 +28,6 @@ Debug
 **/Debug
 Release
 **/Release
+bak
+**/bak
+**/Makefile.OLD
