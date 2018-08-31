@@ -35,7 +35,7 @@
 /* The official name of this program (e.g., no `g' prefix).  */
 #define PROGRAM_NAME "dircolors"
 
-#define AUTHORS "H. Peter Anvin\nPorted to Microsoft Windows by Alan Klietz (alank@algintech.com)"
+#define AUTHORS "H. Peter Anvin\nPorted to Microsoft Windows by Alan Klietz (msls@u-tools.com)"
 
 #define LS_PREFIX "LS"
 #define LS_PROGRAM "ls"
@@ -132,7 +132,7 @@ file types and extensions.  Otherwise, a precompiled database is used.\n\
 For details on the format of these files, run `dircolors --print-database'.\n\
 "));
       //puts (_("\nReport bugs to <bug-fileutils@gnu.org>."));
-      puts (_("\nReport bugs to <alank@algintech.com>."));
+      puts (_("\nReport bugs to <msls@u-tools.com>."));
     }
 
   exit (status == 0 ? EXIT_SUCCESS : EXIT_FAILURE);

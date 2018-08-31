@@ -5,7 +5,7 @@
 #
 # Based on GNU FileUtils 4.1
 #
-# Windows Extensions copyright (c) 2004, Algin Technology LLC
+# Windows Extensions copyright (c) 2004-2018, U-Tools Software LLC
 # Distributed under GNU General Public License version 2.
 #
 
@@ -62,4 +62,4 @@ OBJS= \
 
 ME_FILENAME=Makefile.nmake
 
-!INCLUDE $(ME_FILENAME).core
+!INCLUDE ..\$(ME_FILENAME).core
