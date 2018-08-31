@@ -10,7 +10,11 @@
 *.{bat,[bB][aA][tT]}    text eol=crlf
 *.{cmd,[cC][mM][dD]}    text eol=crlf
 
-Makefile.nmake 			text eol=lf
-Makefile.nmake.core 	text eol=lf
+.gitattributes          text eol=lf
+.gitignore              text eol=lf
+.editorconfig           text eol=lf
 
-README.mkd				text eol=lf
+Makefile.nmake          text eol=lf
+Makefile.nmake.core     text eol=lf
+
+README.mkd              text eol=lf
