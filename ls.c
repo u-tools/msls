@@ -1,4 +1,4 @@
-/* `dir', `vdir' and `ls' directory listing programs for GNU.
+e* `dir', `vdir' and `ls' directory listing programs for GNU.
    Copyright (C) 85, 88, 90, 91, 1995-2001 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -2265,6 +2265,11 @@ Use `--si' for the old meaning."));
   dirname_quoting_options = clone_quoting_options (NULL);
   set_char_quoting (dirname_quoting_options, ':', 1);
 
+#ifdef WIN32 // don't escape '@' characters on Win32
+  set_char_quoting (filename_quoting_options, '@', 0);
+  set_char_quoting (dirname_quoting_options, '@', 0);
+#endif
+
   /* If -c or -u is specified and not -l (or any other option that implies -l),
      and no sort-type was specified, then sort by the ctime (-c) or atime (-u).
      The behavior of ls when using either -c or -u but with neither -l nor -t
@@ -2844,14 +2849,19 @@ file_interesting (const struct dirent *next)
     if (fnmatch (ignore->pattern, next->d_name, FNM_PERIOD) == 0)
       return 0;
 
-  if (really_all_files
-      || next->d_name[0] != '.'
-      || (all_files
-	  && next->d_name[1] != '\0'
-	  && (next->d_name[1] != '.' || next->d_name[2] != '\0')))
-    return 1;
+  if (next->d_name[0] == '.' && next->d_name[1] == '\0') return really_all_files;
+  if (next->d_name[0] == '.' && next->d_name[1] == '.' && next->d_name[2] == '\0') return really_all_files;
 
-  return 0;
+  if (all_files) return 1;
+
+  if (next->d_name[0] == '.') return 0;
+  if (next->d_name[0] == '_') return 0;
+  {
+    unsigned long attribs = next->d_ce->dwFileAttributes;
+    if (attribs & FILE_ATTRIBUTE_HIDDEN) return 0;
+  }
+
+  return 1;
 }
 
 /* Enter and remove entries in the table `files'.  */
@@ -3209,9 +3219,8 @@ extract_dirs_from_files (const char *dirname, int recursive)
 static void
 sort_files (void)
 {
-  int (*func) ();
-
-  func = NULL; // AEK
+  typedef int (*qsort_compare_t)( const void *, const void * );
+  qsort_compare_t func = NULL;
 
   switch (sort_type)
     {
@@ -3252,7 +3261,7 @@ sort_files (void)
       abort ();
     }
 
-  qsort (files, files_index, sizeof (struct fileinfo), func);
+  qsort ( (void *)files, (size_t)files_index, (size_t)sizeof (struct fileinfo), func); // RIVY
 }
 
 /* Comparison routines for sorting the files. */
@@ -3618,7 +3627,7 @@ print_long_format (const struct fileinfo *f)
   mode_string (f->stat.st_dm_mode, modebuf);
 #else
 # ifdef WIN32 // AEK
-  win32_mode_string (&f->stat, modebuf); // fancy ACL check
+  win32_mode_string (&((struct fileinfo *)f)->stat, modebuf); // fancy ACL check    // RIVY
 # else
   mode_string (f->stat.st_mode, modebuf);
 # endif
@@ -3876,11 +3885,11 @@ print_long_format (const struct fileinfo *f)
 	  print_name_with_quoting (f->linkname, f->linkmode, f->linkok - 1,
 				   NULL);
 	  if (indicator_style != none)
-	    print_type_indicator (&f->stat, f->linkmode);
+            print_type_indicator (&((struct fileinfo *)f)->stat, f->linkmode);  // RIVY
 	}
     }
   else if (indicator_style != none)
-    print_type_indicator (&f->stat, f->stat.st_mode);
+    print_type_indicator (&((struct fileinfo *)f)->stat, f->stat.st_mode);     // RIVY
 }
 
 /* Output to OUT a quoted representation of the file name NAME,
@@ -4108,7 +4117,7 @@ print_file_name_and_frills (const struct fileinfo *f)
   print_name_with_quoting (f->name, FILE_OR_LINK_MODE (f), f->linkok, NULL);
 
   if (indicator_style != none)
-    print_type_indicator (&f->stat, f->stat.st_mode);
+    print_type_indicator (&((struct fileinfo *)f)->stat, f->stat.st_mode);     // RIVY
 }
 
 static void
@@ -4259,19 +4268,19 @@ print_color_indicator (const char *name, unsigned int mode, int linkok)
       tmp_str.len += color_indicator[C_COMPRESSED].len;
     }
     tmp_str.string = (char*) alloca(tmp_str.len+1);
-    strncpy(tmp_str.string, str->string, str->len);
+    strncpy((char *)tmp_str.string, str->string, str->len);
     pos = str->len;
     if (recent) {
-      strncpy(tmp_str.string+pos, color_indicator[C_RECENT].string,
+      strncpy((char *)tmp_str.string+pos, color_indicator[C_RECENT].string,
       color_indicator[C_RECENT].len);
       pos += color_indicator[C_RECENT].len;
     }
     if (compressed) {
-      strncpy(tmp_str.string+pos, color_indicator[C_COMPRESSED].string,
+      strncpy((char *)tmp_str.string+pos, color_indicator[C_COMPRESSED].string,
       color_indicator[C_COMPRESSED].len);
     }
     if (streams) {
-      strncpy(tmp_str.string+pos, color_indicator[C_STREAMS].string,
+      strncpy((char *)tmp_str.string+pos, color_indicator[C_STREAMS].string,
       color_indicator[C_STREAMS].len);
     }
 
@@ -4361,7 +4370,7 @@ static unsigned int _ParseEscape(const char **p, const char **p2)
 
   if (**p2 == ';') {
     *p = ++*p2;
-    *p2 = *p; errno = 0; ret = strtol(*p, p2, 10/*base*/);
+    *p2 = *p; errno = 0; ret = strtol(*p, (char **)p2, 10/*base*/);     // RIVY
     if (*p2 == *p || errno != 0) {
       return BAD_ESCAPE;
     }

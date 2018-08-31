@@ -29,8 +29,20 @@
 #include "config.h"
 
 #ifdef WIN32
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+// For VC6, disable warnings from various standard Windows headers
+// NOTE: #pragma warning(push) ... #pragma warning(pop) is broken/unusable for MSVC 6 (re-enables multiple other warnings)
+#pragma warning(disable: 4068)  // DISABLE: unknown pragma warning
+#pragma warning(disable: 4035)  // DISABLE: no return value warning
+#endif
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+#pragma warning(default: 4068)  // RESET: unknown pragma warning
+#pragma warning(default: 4035)  // RESET: no return value warning
+#endif
 #endif
 
 #include <stdio.h>
@@ -63,9 +75,15 @@
 //
 // (Also use setvbuf() to get the best speedup.)
 //
+// Visual Studio 2015's UCRT hides FILE as an opaque type so this optimization
+// is not longer possible.  Instead we define _CRT_DISABLE_PERFCRIT_LOCKS
+// in config.h.
+//
+#if defined (_MSC_VER) && (_MSC_VER < 1900) // If pre-Visual Studio 2015
 #undef putc
 #define putc(_c,_stream)  (--(_stream)->_cnt >= 0 \
     ? 0xff & (*(_stream)->_ptr++ = (char)(_c)) :  _flsbuf((_c),(_stream)))
+#endif
 #endif
 
 static int more_enabled;
@@ -180,7 +198,8 @@ static void InitInterceptIsatty()
 	DWORD dwDummy = 0;
 	PBYTE pbIsatty = NULL;
 
-	static PVOID pfnIsatty;
+	typedef int (*PFN_ISATTY)(int);
+	static PFN_ISATTY pfnIsatty;
 #ifdef _DLL
 # ifdef _DEBUG
 #  if _MSC_VER < 1300 // if VC6
@@ -219,12 +238,12 @@ static void InitInterceptIsatty()
 	}
 
 #ifdef _WIN64
-# define PATCH_INSN_LEN 14
+# define PATCH_INSN_LEN 17
 #else
 # define PATCH_INSN_LEN 5
 #endif
 
-	if (!(*pfnVirtualProtect)(pfnIsatty, PATCH_INSN_LEN, PAGE_WRITECOPY, &dwPrevProtect)) {
+	if (!(*pfnVirtualProtect)((PVOID)pfnIsatty, PATCH_INSN_LEN, PAGE_WRITECOPY, &dwPrevProtect)) {
 		error(EXIT_FAILURE, 0, "Cannot change protection on _isatty().");
 		return; /*NOTREACHED*/
 	}
@@ -243,18 +262,20 @@ static void InitInterceptIsatty()
 	// WORKAROUND: Insert a PAUSE instruction (F3 90) after the indirect JMP.
 	// This tells the CPU micro-decoder to not attempt speculative execution.
 	//
+	// 3E               ; no-track prefix for control-flow enforcement
 	// FF 25 00000002   ; Relative offset from next insn to an absolute address
 	// F3 90			; PAUSE insn to stop decoding insns
 	// xx xx xx xx xx xx xx xx ; absolute address of function _my_isatty
 	//
 	//
-	pbIsatty[0] = 0xFF;
-	pbIsatty[1] = 0x25;  // Indirect JMP
+	pbIsatty[0] = 0x3E; // jmp/call no-track prefix for control-flow enforcement
+	pbIsatty[1] = 0xFF;
+	pbIsatty[2] = 0x25;  // Indirect JMP
 	// Not aligned
-	*(PDWORD)(pbIsatty + 2) = 2; // indirect addr
-	pbIsatty[6] = 0xF3;  // PAUSE instruction
-	psIsatty[7] = 0x90;
-	*(PQWORD)(pbIsatty + 8) = (QWORD)_my_isatty;
+	*(PDWORD)(pbIsatty + 3) = 2; // indirect addr
+	pbIsatty[7] = 0xF3;  // PAUSE instruction
+	psIsatty[8] = 0x90;
+	*(PQWORD)(pbIsatty + 9) = (QWORD)_my_isatty;
 #else
 	//
 	// Patch _isatty() to jump to _my_isatty().

@@ -1,0 +1,65 @@
+## emacs -*- coding: utf8-unix; mode: makefile; -*-
+#
+# msls - GNU ls for Microsoft Windows
+# Ported to Microsoft Windows by Alan Klietz
+#
+# Based on GNU FileUtils 4.1
+#
+# Windows Extensions copyright (c) 2004, Algin Technology LLC
+# Distributed under GNU General Public License version 2.
+#
+
+NAME=ls
+TYPE=exe
+
+DEFS=/D HAVE_CONFIG_H /D _CONSOLE /D WIN32 /D _WIN32_WINNT=0x0500 \
+	/D STRICT /D _MBCS /D _CRT_SECURE_NO_WARNINGS
+
+INCLUDES=/I.
+
+LIBS=kernel32.lib advapi32.lib shell32.lib \
+	user32.lib ole32.lib netapi32.lib rpcrt4.lib \
+	delayimp.lib /delay:nobind \
+	/delayload:ole32.dll /delayload:shell32.dll /delayload:netapi32.dll /delayload:rpcrt4.dll
+
+OBJS= \
+	"$(INTDIR)\argmatch.obj" \
+	"$(INTDIR)\basename.obj" \
+	"$(INTDIR)\closeout.obj" \
+	"$(INTDIR)\CStr.obj" \
+	"$(INTDIR)\dirent.obj" \
+	"$(INTDIR)\error.obj" \
+	"$(INTDIR)\filemode.obj" \
+	"$(INTDIR)\fnmatch.obj" \
+	"$(INTDIR)\getopt.obj" "$(INTDIR)\getopt1.obj" \
+	"$(INTDIR)\glob.obj" \
+	"$(INTDIR)\human.obj" \
+	"$(INTDIR)\mbswidth.obj" \
+	"$(INTDIR)\more.obj" \
+	"$(INTDIR)\obstack.obj" \
+	"$(INTDIR)\path-concat.obj" \
+	"$(INTDIR)\quotearg.obj" \
+	"$(INTDIR)\strncasecmp.obj" \
+	"$(INTDIR)\version-etc.obj" \
+	"$(INTDIR)\windows-support.obj" \
+	"$(INTDIR)\xmalloc.obj" \
+	"$(INTDIR)\xmbrtowc.obj" \
+	"$(INTDIR)\xstrdup.obj" \
+	"$(INTDIR)\xstrtol.obj" \
+	"$(INTDIR)\xstrtoul.obj" \
+	"$(INTDIR)\FindFiles.obj" \
+	"$(INTDIR)\Hash.obj" \
+	"$(INTDIR)\ObjectId.obj" \
+	"$(INTDIR)\Registry.obj" \
+	"$(INTDIR)\Reparse.obj" \
+	"$(INTDIR)\Security.obj" \
+	"$(INTDIR)\Shortcut.obj" \
+	"$(INTDIR)\Streams.obj" \
+	"$(INTDIR)\Token.obj" \
+	"$(INTDIR)\ViewAs.obj" \
+
+####
+
+ME_FILENAME=Makefile.nmake
+
+!INCLUDE $(ME_FILENAME).core

@@ -74,7 +74,6 @@ OBJS= \
 	 "$(INTDIR)\xmbrtowc.obj" \
 	 "$(INTDIR)\strndup.obj" \
 	 "$(INTDIR)\strnlen.obj" \
-	 "$(INTDIR)\__fpending.obj" \
 	 "$(INTDIR)\closeout.obj" \
 	 "$(INTDIR)\getline.obj" \
 	 "$(INTDIR)\version-etc.obj" \

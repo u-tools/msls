@@ -79,7 +79,7 @@ __argmatch_die (void)
    Default to __argmatch_die, but allow caller to change this at run-time. */
 argmatch_exit_fn argmatch_die = __argmatch_die;
 
-
+
 /* If ARG is an unambiguous match for an element of the
    null-terminated array ARGLIST, return the index in ARGLIST
    of the matched element, else -1 if it does not match any element

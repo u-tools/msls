@@ -94,7 +94,7 @@ getopt_long_only (argc, argv, options, long_options, opt_index)
 
 
 #endif	/* Not ELIDE_CODE.  */
-
+
 #ifdef TEST
 
 #include <stdio.h>

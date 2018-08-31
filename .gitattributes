@@ -3,6 +3,14 @@
 #
 
 #
-# Default all files are auto (\r\n on Windows)
+# Source files are \r\n on Windows and \n on Unix
 #
 * text=auto
+
+*.{bat,[bB][aA][tT]}    text eol=crlf
+*.{cmd,[cC][mM][dD]}    text eol=crlf
+
+Makefile.nmake 			text eol=lf
+Makefile.nmake.core 	text eol=lf
+
+README.mkd				text eol=lf

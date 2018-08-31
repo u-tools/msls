@@ -250,7 +250,7 @@ OBJS="$(INTDIR)\xmalloc.obj" "$(INTDIR)\xstrdup.obj" \
 	 "$(INTDIR)\human.obj" \
 	 "$(INTDIR)\fnmatch.obj" "$(INTDIR)\argmatch.obj" \
 	 "$(INTDIR)\strncasecmp.obj" "$(INTDIR)\filemode.obj" \
-	 "$(INTDIR)\error.obj" "$(INTDIR)\__fpending.obj" \
+	 "$(INTDIR)\error.obj" \
 	 "$(INTDIR)\closeout.obj" "$(INTDIR)\basename.obj" \
 	 "$(INTDIR)\getopt1.obj" "$(INTDIR)\getopt.obj" \
 	 "$(INTDIR)\dirent.obj" "$(INTDIR)\xmbrtowc.obj" \

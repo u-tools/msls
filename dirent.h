@@ -15,8 +15,20 @@
 #ifndef _XDIRENT_H_
 #define _XDIRENT_H_
 
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+// For VC6, disable warnings from various standard Windows headers
+// NOTE: #pragma warning(push) ... #pragma warning(pop) is broken/unusable for MSVC 6 (re-enables multiple other warnings)
+#pragma warning(disable: 4068)  // DISABLE: unknown pragma warning
+#pragma warning(disable: 4035)  // DISABLE: no return value warning
+#endif
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+#pragma warning(default: 4068)  // RESET: unknown pragma warning
+#pragma warning(default: 4035)  // RESET: no return value warning
+#endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -160,7 +172,9 @@ void __cdecl seekdir (DIR*, long);
 
 #define FILE_ATTRIBUTE_FIXED_DISK 0x01000000 // pseudo-attrib for fixed disk
 #define FILE_ATTRIBUTE_STREAMS    0x02000000 // pseudo-attrib for file w/streams
-#define FILE_ATTRIBUTE_EA         0x04000000 // pseudo-attrib for extended-attribs
+#ifndef FILE_ATTRIBUTE_EA
+# define FILE_ATTRIBUTE_EA        0x04000000 // pseudo-attrib for extended-attribs
+#endif
 
 #define DTTOIF(d) (1 << ((d)+11))  // Convert DT_xxx to S_IFMT file-type mask
 

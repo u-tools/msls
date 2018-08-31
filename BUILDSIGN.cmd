@@ -3,7 +3,12 @@ setlocal
 set PACKAGE=msls
 rem
 REM
-REM BUILD.CMD - Build and install msls
+REM BUILDSIGN.CMD - Build and sign msls for public release
+REM Written by Alan Klietz
+REM
+REM This script is for building and signing the software
+REM package for public download at https://u-tools.com/msls. 
+REM It is not likely to be helpful to you.
 REM
 choice /C DR /N /M "[D]ebug or [R]elease? "
 if errorlevel 2 set BLDTYPE=Release
@@ -11,7 +16,7 @@ if errorlevel 1 set BLDTYPE=Debug
 call SETBUILD.CMD vc6
 nmake /nologo clean CFG="%PACKAGE% - Win32 %BLDTYPE%"
 if errorlevel 1 goto done
-if "%BLDTYPE%"=="Release" C:\Python32\python.exe BumpVersion.py
+if "%BLDTYPE%"=="Release" C:\Python32\python.exe dbin\BumpVersion.py
 nmake /nologo CFG="%PACKAGE% - Win32 %BLDTYPE%"
 if errorlevel 1 goto done
 cd dircolors
@@ -35,8 +40,6 @@ rem
 rem
 choice /C YN /M "Build Distribution "
 if errorlevel 2 goto done
-rem The remainder of this file is for packaging the distribution
-rem and is not likely to be helpful to you
 rem
 set URL="https://u-tools.com/msls"
 rem

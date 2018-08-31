@@ -1,13 +1,30 @@
-.git
+# NOTE: default = GLOBSTAR syntax
+# URLref: [.gitignore] http://git-scm.com/docs/gitignore @@ http://archive.is/Rk6rO
+
+# ignore build generated files
+/**/\.build/**
+/**/\_build/**
+/**/\#build/**
+
+####
+
 .cvsignore
+**/.cvsignore
 .sync_txt
+**/.sync_txt
+CVS
+**/CVS
+OLD
+**/OLD
 DISTRIB_EXE
 DISTRIB_SRC
 DISTRIB_ZIP
 UNIX
-CVS
-dircolors/CVS
 TODO
+**/TODO
 _TODO.txt
+**/_TODO.txt
 Debug
+**/Debug
 Release
+**/Release
