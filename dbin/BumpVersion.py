@@ -8,10 +8,12 @@ import time
 # Side effect:
 #	Also bump the version in ls.rc and config.h
 #
+# Written by Alan Klietz (https://u-tools.com/msls)
+#
 
-szManifestFile = 'ls.manifest'
-szRcFile = "ls.rc"
-szConfigFile = "config.h"
+szManifestFile = '../ls/ls.manifest'
+szRcFile = "../ls/ls.rc"
+szConfigFile = "../ls/config.h"
 
 gstrVer = None
 gstrFullVer = None

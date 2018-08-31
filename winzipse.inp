@@ -1,1 +1,0 @@
--win32 -st"msls" -y -overwrite -c NOTEPAD README.TXT
