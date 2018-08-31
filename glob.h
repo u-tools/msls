@@ -18,7 +18,10 @@
 #ifndef	_GLOB_H_
 #define	_GLOB_H_
 
+#ifndef _MSC_VER
+// RIVY ~ AVOID for MSVC; stdc.h doens't understand MSVC; it redefines "const" and breaks function prototyping for MSVC
 #include "stdc.h"
+#endif
 
 extern int glob_pattern_p __P((char *, char*)); // AEK
 extern char **glob_vector __P((char *, char *));

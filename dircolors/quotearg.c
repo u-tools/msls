@@ -548,7 +548,7 @@ quotearg_n_options (int n, char const *arg,
 
   if (nslots <= n)
     {
-      int n1 = n + 1;
+      size_t n1 = n + 1;
       size_t s = n1 * sizeof (struct slotvec);
       if (! (0 < n1 && n1 == s / sizeof (struct slotvec)))
 	abort ();

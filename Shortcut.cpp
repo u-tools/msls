@@ -9,10 +9,22 @@
 // Distributed under GNU General Public License version 2.
 //
 
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+// For VC6, disable warnings from various standard Windows headers
+// NOTE: #pragma warning(push) ... #pragma warning(pop) is broken/unusable for MSVC 6 (re-enables multiple other warnings)
+#pragma warning(disable: 4068)  // DISABLE: unknown pragma warning
+#pragma warning(disable: 4035)  // DISABLE: no return value warning
+#endif
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <ole2.h>
 #include <shlobj.h> // IShellLink
+
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+#pragma warning(default: 4068)  // RESET: unknown pragma warning
+#pragma warning(default: 4035)  // RESET: no return value warning
+#endif
 
 #if HAVE_CONFIG_H
 # include <config.h>

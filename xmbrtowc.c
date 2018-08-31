@@ -25,8 +25,21 @@
 #include <mbctype.h>
 #include <locale.h>
 
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+// For VC6, disable warnings from various standard Windows headers
+// NOTE: #pragma warning(push) ... #pragma warning(pop) is broken/unusable for MSVC 6 (re-enables multiple other warnings)
+#pragma warning(disable: 4068)  // DISABLE: unknown pragma warning
+#pragma warning(disable: 4035)  // DISABLE: no return value warning
+#endif
+
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <errno.h>
+
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+#pragma warning(default: 4068)  // RESET: unknown pragma warning
+#pragma warning(default: 4035)  // RESET: no return value warning
+#endif
 
 #include "error.h"
 
@@ -56,7 +69,7 @@ int get_codepage()
 {
 	//
 	// BUG: The XP MUI version of Windows is based on the English
-	// version, with the MUI languages layered on top of it.
+	// version with the MUI languages layered on top of it.
 	//
 	// However GetACP/GetOEMCP are insensitive to the MUI language.
 	// In MUI XP, for example, GetACP always is 1252 and GetOEMCP is 437
@@ -292,6 +305,7 @@ static size_t _utf8_len(const char *s)
 }
 
 
+#if defined(_MSC_VER) && (_MSC_VER < 1900) // If pre-UCRT
 //
 // Implement mbrtowc per Standard ANSI C using MultiByteToWideChar
 // and the user default current code page.
@@ -409,6 +423,7 @@ xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst)
 
 	return 1; // single byte
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////////
 //
@@ -417,19 +432,19 @@ xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst)
 // Requires Vista or later.
 //
 
-typedef struct _CONSOLE_FONT_INFOEX {
+typedef struct _CONSOLE_FONT_INFOEX_VISTA {
     ULONG cbSize;
     DWORD nFont;
     COORD dwFontSize;
     UINT FontFamily;
     UINT FontWeight;
     WCHAR FaceName[LF_FACESIZE/*32*/];
-} CONSOLE_FONT_INFOEX, *PCONSOLE_FONT_INFOEX;
+} CONSOLE_FONT_INFOEX_VISTA, *PCONSOLE_FONT_INFOEX_VISTA;
 
 typedef BOOL (WINAPI *PFNGETCURRENTCONSOLEFONTEX)(
 	HANDLE hConsoleOutput,
 	BOOL bMaximumWindow,
-	PCONSOLE_FONT_INFOEX lpConsoleCurrentFontEx
+	PCONSOLE_FONT_INFOEX_VISTA lpConsoleCurrentFontEx
 );
 static PFNGETCURRENTCONSOLEFONTEX pfnGetCurrentConsoleFontEx;
 
@@ -471,7 +486,7 @@ static int CALLBACK EnumFontFamiliesExProcW(ENUMLOGFONTEXW *pelfe,
 int IsConsoleFontTrueType()
 {
 	HANDLE hConsole;
-	CONSOLE_FONT_INFOEX cfix;
+	CONSOLE_FONT_INFOEX_VISTA cfix;
 	LOGFONTW lf;
 	HDC hDC;
 

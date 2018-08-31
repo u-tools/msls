@@ -249,7 +249,7 @@ dequote_pathname (pathname)
   pathname[j] = '\0';
 }
 
-
+
 
 /* Test whether NAME exists. */
 
@@ -313,7 +313,7 @@ glob_vector (pat, dir)
   register char *nextname, *npat;
   unsigned int count;
   int lose, skip;
-  register char **name_vector;
+  register char **name_vector = NULL;
   register unsigned int i;
   int flags;		/* Flags passed to fnmatch (). */
 
@@ -523,7 +523,7 @@ glob_vector (pat, dir)
   name_vector[count] = NULL;
   return (name_vector);
 }
-
+
 /* Return a new array which is the concatenation of each string in ARRAY
    to DIR.  This function expects you to pass in an allocated ARRAY, and
    it takes care of free()ing that array.  Thus, you might think of this
@@ -580,7 +580,7 @@ glob_dir_to_array (dir, array)
 
   return (result);
 }
-
+
 /* Do globbing on PATHNAME.  Return an array of pathnames that match,
    marking the end of the array with a null-pointer as an element.
    If no pathnames match, then the array is empty (first element is null).
@@ -760,7 +760,7 @@ glob_filename (pathname)
 #endif /* SHELL */
   return (NULL);
 }
-
+
 #if defined (TEST)
 
 main (argc, argv)

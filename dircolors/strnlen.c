@@ -37,6 +37,7 @@
 char *memchr ();
 #endif
 
+#if defined(_MSC_VER) && (_MSC_VER < 1900) // If pre-Visual Studio 2015 UCRT
 #undef __strnlen
 #undef strnlen
 
@@ -55,4 +56,5 @@ __strnlen (const char *string, size_t maxlen)
 }
 #ifdef weak_alias
 weak_alias (__strnlen, strnlen)
+#endif
 #endif

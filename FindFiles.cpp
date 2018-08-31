@@ -9,8 +9,21 @@
 
 // _aefindfirsti64() and _aefindnexti64()
 
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+// For VC6, disable warnings from various standard Windows headers
+// NOTE: #pragma warning(push) ... #pragma warning(pop) is broken/unusable for MSVC 6 (re-enables multiple other warnings)
+#pragma warning(disable: 4068)  // DISABLE: unknown pragma warning
+#pragma warning(disable: 4035)  // DISABLE: no return value warning
+#endif
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+#pragma warning(default: 4068)  // RESET: unknown pragma warning
+#pragma warning(default: 4035)  // RESET: no return value warning
+#endif
+
 #include <ole2.h>
 
 #if HAVE_CONFIG_H

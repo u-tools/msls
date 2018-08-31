@@ -20,9 +20,21 @@
 #include <ctype.h>
 #include <wchar.h>
 
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+// For VC6, disable warnings from various standard Windows headers
+// NOTE: #pragma warning(push) ... #pragma warning(pop) is broken/unusable for MSVC 6 (re-enables multiple other warnings)
+#pragma warning(disable: 4068)  // DISABLE: unknown pragma warning
+#pragma warning(disable: 4035)  // DISABLE: no return value warning
+#endif
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <errno.h>
+
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+#pragma warning(default: 4068)  // RESET: unknown pragma warning
+#pragma warning(default: 4035)  // RESET: no return value warning
+#endif
 
 #include "error.h"
 
@@ -35,15 +47,17 @@ static void _init_codepage();
 
 static int _codepage = -1;
 
+#if WCHAR_MAX != 0xFFFF // If MSSDK05 or earlier
 //
 // BUG: VC6 forgot to define mbsinit outside of __cplusplus.
 // The __cplusplus def in wchar.h is totally wrong anyway.
 //
-int mbsinit(mbstate_t *mbs)
+int mbsinit(const mbstate_t *mbs)
 {
 	*mbs = 0;
 	return 0;
 }
+#endif
 
 int get_codepage()
 {
@@ -98,6 +112,7 @@ static size_t _utf8_len(const char *s)
 }
 
 
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
 //
 // Implement mbrtowc per Standard ANSI C using MultiByteToWideChar
 // and the user default current code page.
@@ -219,6 +234,7 @@ xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst)
 
 	return 1; // single byte
 }
+#endif
 
 /*
 vim:tabstop=4:shiftwidth=4:noexpandtab

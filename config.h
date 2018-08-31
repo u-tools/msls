@@ -39,7 +39,7 @@
 #ifdef WIN32
 # undef MB_CUR_MAX
 # define MB_CUR_MAX __mb_cur_max // AEK fix MSSDK05 ctype.h 32-bit MSVCRT.DLL
-extern __declspec(dllimport) int __mb_cur_max; // AEK
+extern _CRTIMP int __mb_cur_max; // AEK
 # undef __PCTYPE_FUNC
 # define __PCTYPE_FUNC _pctype  // AEK fix MSSDK05 ctype.h 32-bit MSVCRT.DLL
 #endif
@@ -240,7 +240,11 @@ extern __declspec(dllimport) int __mb_cur_max; // AEK
 
 /* Define to 1 if you have the declaration of `strnlen', and to 0 if you
    don't. */
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
 #define HAVE_DECL_STRNLEN 0
+#else
+#define HAVE_DECL_STRNLEN 1
+#endif
 
 /* Define to 1 if you have the declaration of `strstr', and to 0 if you don't.
    */
@@ -262,10 +266,6 @@ extern __declspec(dllimport) int __mb_cur_max; // AEK
 /* Define to 1 if you have the declaration of `wcwidth', and to 0 if you
    don't. */
 #define HAVE_DECL_WCWIDTH 0
-
-/* Define to 1 if you have the declaration of `__fpending', and to 0 if you
-   don't. */
-#define HAVE_DECL___FPENDING 0
 
 /* Define if you have the <dirent.h> header file, and it defines `DIR'. */
 #define HAVE_DIRENT_H 1
@@ -883,9 +883,6 @@ extern __declspec(dllimport) int __mb_cur_max; // AEK
 /* Define if you have the `__argz_stringify' function. */
 /* #undef HAVE___ARGZ_STRINGIFY */
 
-/* Define if you have the `__fpending' function. */
-/* #undef HAVE___FPENDING */
-
 /* Define if you have the `__secure_getenv' function. */
 /* #undef HAVE___SECURE_GETENV */
 
@@ -1052,7 +1049,7 @@ extern __declspec(dllimport) int __mb_cur_max; // AEK
 /* #undef UMAX4_3 */
 
 /* Version number of package */
-#define VERSION "4.7.321 2018/07"
+#define VERSION "4.8.322 2018/08"
 
 /* Define if your system defines `struct winsize' in sys/ptem.h. */
 /* #undef WINSIZE_IN_PTEM */
@@ -1169,3 +1166,13 @@ typedef unsigned __int64 uintmax_t; // AEK
 #pragma warning(disable: 4127)  // constant exprs ok - AEK
 #pragma warning(disable: 4001)  // single-line comments ok - AEK
 #pragma warning(disable: 4305)  // truncated cast ok basetsd.h POINTER_64 - AEK
+
+#if defined(_MSC_VER) && (_MSC_VER < 1300) // RIVY
+// For VC6, disable warnings from various standard Windows headers
+#pragma warning(disable: 4068) // DISABLE: unknown pragma warnings (in WinGDI.h)
+#pragma warning(disable: 4035) // DISABLE: no return value warnings (in WinNT.h)
+#endif
+
+#pragma warning(disable: 4996)  // DISABLE: POSIX deprecated warnings
+
+#define _CRT_DISABLE_PERFCRIT_LOCKS // Big perf win -- ls is single-threaded

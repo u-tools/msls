@@ -7,9 +7,22 @@
 // Distributed under GNU General Public License version 2.
 //
 
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+// For VC6, disable warnings from various standard Windows headers
+// NOTE: #pragma warning(push) ... #pragma warning(pop) is broken/unusable for MSVC 6 (re-enables multiple other warnings)
+#pragma warning(disable: 4068)  // DISABLE: unknown pragma warning
+#pragma warning(disable: 4035)  // DISABLE: no return value warning
+#endif
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <ole2.h>
+
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+#pragma warning(default: 4068)  // RESET: unknown pragma warning
+#pragma warning(default: 4035)  // RESET: no return value warning
+#endif
+
 #include <wincrypt.h> // prereq for winefs.h
 #include <winefs.h>  // for QueryUsersOnEncryptedFile
 #include <aclapi.h> // for Trustee
@@ -80,7 +93,7 @@ static DWORD gdwSdSerial = 1;  // next SD serial # to allocate
    Security on Windows is difficult to understand.  The best way
    to master it is to follow it historically.
    Each layer is backward compatible.  Start with Windows NT,
-   then study Windows 2000, XP, and Vista in that order.
+   then study Windows 2000, XP, Vista, and Win7/Win10 in that order.
 
    Some of the cruft can be ignored.  For example, object ACEs
    are used only for Active Directory and are not applicable
@@ -710,7 +723,6 @@ BOOL LookupSidName(PSID pSid, LPTSTR szBuf, DWORD dwBufLen,
 			//
 			// Add to hash table
 			//
-			SID sid(pSid);
 			strName = szBuf;
 			gMapSidToName.SetAt(sid, strName);
 			return TRUE; // found
@@ -2494,7 +2506,7 @@ print_long_acl(struct cache_entry *ce)
 	if (!(*pfnConvertSecurityDescriptorToStringSecurityDescriptor)(psd,
 			SDDL_REVISION_1, dwFlags, &szStringBuf, NULL)) {
 		//
-		// This can happen on FAT C:\
+		// This can happen on FAT "C:\"
 		//
 		more_puts("Missing or bad Security Descriptor.\n"); // garbage SD?
 	}

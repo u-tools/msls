@@ -43,7 +43,6 @@ extern int errno;
 #include "closeout.h"
 #include "error.h"
 #include "quotearg.h"
-#include "__fpending.h"
 
 static int default_exit_status = EXIT_FAILURE;
 static const char *file_name;
@@ -92,9 +91,6 @@ void
 close_stdout_status (int status)
 {
   int e = ferror (stdout) ? 0 : -1;
-
-  if (__fpending (stdout) == 0)
-    return;
 
   if (fclose (stdout) != 0)
     e = errno;

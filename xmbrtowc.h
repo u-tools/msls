@@ -11,10 +11,12 @@
 extern "C" {
 #endif
 
+
+#if defined(_MSC_VER) && (_MSC_VER < 1900) // If pre-UCRT
 extern size_t __cdecl
 xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst);
-
 #define mbrtowc(pwc,s,n,pst) xmbrtowc(pwc,s,n,pst)
+#endif
 
 #ifndef __cplusplus
 //

@@ -17,6 +17,10 @@
 
 /* Written by Jim Meyering. */
 
+#if defined(_MSC_VER) && (_MSC_VER < 1300)  // RIVY
+#pragma warning(disable: 4702)  // DISABLE: unreachable code warning
+#endif
+
 #if HAVE_CONFIG_H
 # include <config.h>
 #endif

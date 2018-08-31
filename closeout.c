@@ -43,7 +43,6 @@ extern int errno;
 #include "closeout.h"
 #include "error.h"
 #include "quotearg.h"
-#include "__fpending.h"
 #include "more.h" // AEK
 
 static int default_exit_status = EXIT_FAILURE;
@@ -96,9 +95,6 @@ close_stdout_status (int status)
 
   more_fflush(stdmore); // AEK
   more_fflush(stdmore_err); // AEK
-
-  if (__fpending (stdout) == 0)
-    return;
 
   if (fclose (stdout) != 0)
     e = errno;

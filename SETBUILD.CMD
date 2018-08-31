@@ -1,13 +1,11 @@
 @echo off
 REM
-REM SETBUILD.CMD - Set build environment for various compilers.
+REM SETBUILD.CMD - Set the build environment for various compilers.
 REM Written by Alan Klietz
 REM
-REM Copyright (c) 1997-2018, U-Tools Software LLC.  Distributed under GNU
-REM General Public License version 2.
-REM
-REM You will need to edit the drive letters and paths to match your
-REM particular configuration.
+REM This script is for building and signing the software
+REM package for public download at https://u-tools.com/msls. 
+REM It is not likely to be helpful to you.
 REM
 if "%LOCALAPPDATA%"=="" ( set VC8Settings=%USERPROFILE%\Local Settings\Application Data\Microsoft\VisualStudio\8.0\
 set VC9Settings=%USERPROFILE%\Local Settings\Application Data\Microsoft\VisualStudio\9.0\
