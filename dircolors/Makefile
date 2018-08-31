@@ -31,8 +31,8 @@ CFG=dircolors - Win32 Debug
 CPP=cl
 
 DEFS=/D HAVE_CONFIG_H /D _CONSOLE /D WIN32 /D _WIN32_WINNT=0x0500 \
-	 /DSTRICT /D _MBCS
-INCLUDES=/I. /I..\.
+	 /DSTRICT /D _MBCS /D _CRT_SECURE_NO_WARNINGS
+INCLUDES=/I. /I..\. /I..\ls\.
 
 LD=link
 LIBS=kernel32.lib advapi32.lib shell32.lib
