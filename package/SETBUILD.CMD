@@ -81,6 +81,7 @@ rem
 set PATH=%basepath%
 set INCLUDE=%baseinclude%
 set LIB=%baselib%
+set VCVARS_ARE_SET=1
 rem
 if "%1"=="msvc16" goto m16
 if "%1"=="vc6" goto vc6
@@ -138,6 +139,7 @@ set WindowsSdkDir=
 set WindowsSdkDir06=
 set DevEnvDir=
 set LIBPATH=
+set VCVARS_ARE_SET=
 :norestore
 goto done
 :m16

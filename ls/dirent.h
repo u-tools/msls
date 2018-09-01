@@ -170,11 +170,20 @@ void __cdecl seekdir (DIR*, long);
 
 #define S_ISSTREAM(mode) (mode & S_STREAM)
 
+#ifndef FILE_ATTRIBUTE_DEVICE // BUG: Missing from VS6 winnt.h
+# define FILE_ATTRIBUTE_DEVICE    0x00000040 // File is a device object
+#endif
+
+#undef FILE_ATTRIBUTE_ENCRYPTED
+#define FILE_ATTRIBUTE_ENCRYPTED  0x00004000 // BUG: VS6 winnt.h uses 0x40
+
+#ifndef FILE_ATTRIBUTE_EA
+# define FILE_ATTRIBUTE_EA        0x00040000 // extended attributes are present
+#endif
+
 #define FILE_ATTRIBUTE_FIXED_DISK 0x01000000 // pseudo-attrib for fixed disk
 #define FILE_ATTRIBUTE_STREAMS    0x02000000 // pseudo-attrib for file w/streams
-#ifndef FILE_ATTRIBUTE_EA
-# define FILE_ATTRIBUTE_EA        0x04000000 // pseudo-attrib for extended-attribs
-#endif
+
 
 #define DTTOIF(d) (1 << ((d)+11))  // Convert DT_xxx to S_IFMT file-type mask
 
