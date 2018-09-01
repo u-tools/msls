@@ -6,11 +6,16 @@
 
 ## Description
 
-`msls` is an adaptation of the GNU `ls` directory information utility for Microsoft
-Windows. It shows information on on FAT/NTFS/SMB files in a format familiar to UNIX
-users.
+`msls` is an adaptation of the GNU `ls` directory information utility for
+Microsoft Windows. It lists exhaustive information on on Windows files
+in a format familiar to UNIX users, including information on DACLs/SACLs,
+integrity levels, reparse points, shortcuts, hard links, symbolic links,
+hidden streams, encryption, compaction, virtualization,
+object tracking identifier, and offline status.
 
-You can download `ls` at [u-tools.com/download](https://u-tools.com/download).
+See the [documentation](https://u-tools.com/msls.htm) for details.
+
+You can download `ls` at [u-tools.com/msls](https://u-tools.com/msls).
 Also included is a native Windows version of the `grep` text search utility.
 
 The primary repository is hosted on github at https://github.com/u-tools/msls
