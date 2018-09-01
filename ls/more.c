@@ -76,7 +76,7 @@
 // (Also use setvbuf() to get the best speedup.)
 //
 // Visual Studio 2015's UCRT hides FILE as an opaque type so this optimization
-// is not longer possible.  Instead we define _CRT_DISABLE_PERFCRIT_LOCKS
+// is no longer possible.  Instead we define _CRT_DISABLE_PERFCRIT_LOCKS
 // in config.h.
 //
 #if defined (_MSC_VER) && (_MSC_VER < 1900) // If pre-Visual Studio 2015
