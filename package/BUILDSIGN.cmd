@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal enableextensions
 set PACKAGE=msls
 rem
 REM
@@ -11,31 +11,35 @@ REM package for public download at https://u-tools.com/msls.
 REM It is not likely to be helpful to you.
 REM
 choice /C DR /N /M "[D]ebug or [R]elease? "
-if errorlevel 2 set BLDTYPE=Release
-if errorlevel 1 set BLDTYPE=Debug
+if errorlevel 2 set BLDTYPE=Release& set TARGET=release
+if errorlevel 1 set BLDTYPE=Debug& set TARGET=debug
 call SETBUILD.CMD vc6
-nmake /nologo clean CFG="%PACKAGE% - Win32 %BLDTYPE%"
 if errorlevel 1 goto done
-if "%BLDTYPE%"=="Release" C:\Python32\python.exe dbin\BumpVersion.py
-nmake /nologo CFG="%PACKAGE% - Win32 %BLDTYPE%"
-if errorlevel 1 goto done
-cd dircolors
-nmake /nologo CFG="dircolors - Win32 %BLDTYPE%"
+set OUTDIR_LS=..\ls\#build\%target%.(cl@1200)
+set OUTDIR_DIRCOLORS=..\dircolors\#build\%target%.(cl@1200)
+cd ..\ls
+call build.bat clean CFG="%TARGET%"
 if errorlevel 1 ( cd .. & goto done )
-cd ..
+cd ..\dircolors
+call build.bat clean CFG="%TARGET%"
+if errorlevel 1 ( cd .. & goto done )
+cd ..\dbin
+if "%BLDTYPE%"=="Release" C:\Python32\python.exe .\BumpVersion.py
+cd ..\ls
+call build.bat CFG="%TARGET%"
+if errorlevel 1 ( cd .. & goto done )
+cd ..\dircolors
+call build.bat CFG="%TARGET%"
+if errorlevel 1 ( cd .. & goto done )
+cd ..\package
 if "%BLDTYPE%"=="Release" goto release
 goto done
 :release
 rem
-rem Install into final location.  This path will vary depending
-rem on your folder layout.
+copy /Y %OUTDIR_DIRCOLORS%\dircolors.exe c:\lbin\dircolors.exe
 rem
-copy /Y Release\ls.exe c:\lbin\ls.exe
-copy /Y Release\ls.exe c:\vmshared\ls.exe
-copy /Y dircolors\Release\dircolors.exe c:\lbin\dircolors.exe
-rem
-copy /Y DOC\msls.htm c:\inetpub\wwwroot\utools\msls.htm
-copy /Y DOC\msls.css c:\inetpub\wwwroot\utools\msls.css
+copy /Y ..\DOC\msls.htm c:\inetpub\wwwroot\utools\msls.htm
+copy /Y ..\DOC\msls.css c:\inetpub\wwwroot\utools\msls.css
 rem
 rem
 choice /C YN /M "Build Distribution "
@@ -63,48 +67,52 @@ if errorlevel 1 exit /b 1
 SET TITLE="ls for Windows"
 rem
 set /P PASSPHRASE=Enter the passphrase?
-%SIGNTOOL% sign /v /f %CERTCODEPFX% /fd sha1 /t "http://timestamp.verisign.com/scripts/timestamp.dll" /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% Release\ls.exe
+%SIGNTOOL% sign /v /f %CERTCODEPFX% /fd sha1 /t "http://timestamp.verisign.com/scripts/timestamp.dll" /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %OUTDIR_LS%\ls.exe
 if errorlevel 1 goto done
 sleep 3
-%SIGNTOOL% sign /v /as /f %CERTCODEPFX% /fd sha256 /tr "http://sha256timestamp.ws.symantec.com/sha256/timestamp" /td sha256 /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% Release\ls.exe
+%SIGNTOOL% sign /v /as /f %CERTCODEPFX% /fd sha256 /tr "http://sha256timestamp.ws.symantec.com/sha256/timestamp" /td sha256 /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %OUTDIR_LS%\ls.exe
 if errorlevel 1 goto done
-copy /Y Release\ls.exe c:\lbin\ls.exe
-copy /Y Release\ls.exe c:\vmshared\ls.exe
+copy /Y %OUTDIR_LS%\ls.exe c:\lbin\ls.exe
+copy /Y %OUTDIR_LS%\ls.exe c:\vmshared\ls.exe
 rem
 rem Make DISTRIB for distribution
 rem
-rm -rf DISTRIB_EXE
-mkdir DISTRIB_EXE
-copy Release\ls.exe DISTRIB_EXE
-copy dircolors\Release\dircolors.exe DISTRIB_EXE
-copy README.TXT DISTRIB_EXE
-copy COPYING DISTRIB_EXE
-copy DOC\* DISTRIB_EXE
-copy C:\lbin\grep.exe DISTRIB_EXE
+rm -rf ..\DISTRIB_EXE
+mkdir ..\DISTRIB_EXE
+copy %OUTDIR_LS%\ls.exe ..\DISTRIB_EXE
+copy %OUTDIR_DIRCOLORS%\dircolors.exe ..\DISTRIB_EXE
+copy ..\README.mkd ..\DISTRIB_EXE
+copy ..\LICENSE.txt ..\DISTRIB_EXE
+copy ..\DOC\* ..\DISTRIB_EXE
+copy C:\lbin\grep.exe ..\DISTRIB_EXE
 rem
 rem Make DISTRIB_SRC for distribution
 rem
-rm -rf DISTRIB_SRC
-mkdir DISTRIB_SRC
-copy README.TXT DISTRIB_SRC\README.TXT
-copy COPYING DISTRIB_SRC\COPYING
-copy *.h DISTRIB_SRC
-copy *.c DISTRIB_SRC
-copy *.cpp DISTRIB_SRC
-copy *.cmd DISTRIB_SRC
-copy *.rc DISTRIB_SRC
-copy *.manifest DISTRIB_SRC
-copy Makefile DISTRIB_SRC\Makefile
-mkdir DISTRIB_SRC\dircolors
-copy dircolors\*.h?? DISTRIB_SRC\dircolors
-copy dircolors\*.c DISTRIB_SRC\dircolors
-copy dircolors\Makefile DISTRIB_SRC\dircolors\Makefile
+rm -rf ..\DISTRIB_SRC
+mkdir ..\DISTRIB_SRC
+mkdir ..\DISTRIB_SRC\ls
+copy ..\README.mkd ..\DISTRIB_SRC\README.mkd
+copy ..\LICENSE.txt ..\DISTRIB_SRC\LICENSE.txt
+copy ..\build.bat ..\DISTRIB_SRC\build.bat
+copy ..\Makefile.nmake.core ..\DISTRIB_SRC\Makefile.nmake.core
+copy ..\ls\*.h ..\DISTRIB_SRC\ls
+copy ..\ls\*.c ..\DISTRIB_SRC\ls
+copy ..\ls\*.cpp ..\DISTRIB_SRC\ls
+copy ..\ls\*.bat ..\DISTRIB_SRC\ls
+copy ..\ls\*.rc ..\DISTRIB_SRC\ls
+copy ..\ls\*.manifest ..\DISTRIB_SRC\ls
+copy ..\Makefile.nmake ..\DISTRIB_SRC\ls\Makefile.nmake
+mkdir ..\DISTRIB_SRC\dircolors
+copy ..\dircolors\*.h?? ..\DISTRIB_SRC\dircolors
+copy ..\dircolors\*.c ..\DISTRIB_SRC\dircolors
+copy ..\dircolors\build.bat ..\DISTRIB_SRC\dircolors\build.bat
+copy ..\dircolors\Makefile.nmake ..\DISTRIB_SRC\dircolors\Makefile.nmake
 rem
 rem Build zip packages
 rem
-rm -rf DISTRIB_ZIP
-mkdir DISTRIB_ZIP
-cd DISTRIB_EXE
+rm -rf ..\DISTRIB_ZIP
+mkdir ..\DISTRIB_ZIP
+cd ..\DISTRIB_EXE
 zip.exe -9 -v -o -r ..\DISTRIB_ZIP\%PACKAGE%.zip *
 cd ..\DISTRIB_SRC
 zip.exe -9 -v -o -r ..\DISTRIB_ZIP\%PACKAGE%_src.zip *
@@ -115,7 +123,7 @@ goto cont
 :64bit
 set WZIPSE="%ProgramFiles(x86)%\wzipse\winzipse.exe"
 :cont
-%WZIPSE% %PACKAGE%.zip @..\winzipse.inp
+%WZIPSE% %PACKAGE%.zip @..\package\winzipse.inp
 rem
 rem Sign the self-extracting .EXE with Authenticode Certificate
 rem
@@ -125,7 +133,11 @@ if errorlevel 1 goto done
 sleep 3
 %SIGNTOOL% sign /v /as /f %CERTCODEPFX% /fd sha256 /tr "http://sha256timestamp.ws.symantec.com/sha256/timestamp" /td sha256 /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %PACKAGE%.exe
 if errorlevel 1 goto done
-cd ..
+cd ..\ls
+call build.bat clean CFG="%TARGET%"
+cd ..\dircolors
+call build.bat clean CFG="%TARGET%"
+cd ..\package
 echo Build complete in DISTRIB_ZIP.
 echo To publish run \Releases\msls\PublishRelease.cmd
 :done

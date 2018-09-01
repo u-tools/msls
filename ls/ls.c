@@ -4871,7 +4871,7 @@ List information about the FILEs (the current directory by default).\n"));
 %s version %s for Microsoft Windows.\n"), program_name, VERSION); // AEK
       more_printf (_("\
 Microsoft Windows extensions by Alan Klietz\n\
-Get the latest version at https://u-tools.com/msls.asp\n")); // AEK
+Get the latest version at https://u-tools.com/msls\n")); // AEK
       more_printf (_("\n\
   -a, --all                  do not hide entries starting with .\n\
   -A, --almost-all           do not list implied . and ..\n\

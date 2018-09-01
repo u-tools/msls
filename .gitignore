@@ -9,26 +9,17 @@
 ####
 
 .cvsignore
-**/.cvsignore
 .sync_txt
-**/.sync_txt
 CVS
-**/CVS
 OLD
-**/OLD
 DISTRIB_EXE
 DISTRIB_SRC
 DISTRIB_ZIP
 UNIX
 TODO
-**/TODO
 _TODO.txt
-**/_TODO.txt
 Debug
-**/Debug
 Release
-**/Release
 bak
-**/bak
-**/Makefile.OLD
+Makefile.OLD
 
