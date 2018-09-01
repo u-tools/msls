@@ -13,7 +13,7 @@ users.
 You can download `ls` at [u-tools.com/download](https://u-tools.com/download).
 Also included is a native Windows version of the `grep` text search utility.
 
-The primary repository is hosted on github at https://github.com/utools/msls
+The primary repository is hosted on github at https://github.com/u-tools/msls
 
 ## Requirements
 
@@ -22,7 +22,7 @@ The primary repository is hosted on github at https://github.com/utools/msls
 
 ## Build Instructions
 
-    git clone https://github.com/utools/msls REPO_DIR
+    git clone https://github.com/u-tools/msls REPO_DIR
     cd REPO_DIR
     build &:: "release" is the default target
 
@@ -53,7 +53,7 @@ Set the "LS_OPTIONS" environment variable in Control Panel -> System
 
     -bhAC --more --color=auto --recent --streams
 
-For `grep` the recommended option settings are:
+For `grep` the recommended settings for "GREP_OPTIONS" are:
 
     --binary-files=text -d skip --color=auto
 
