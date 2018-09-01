@@ -1,8 +1,6 @@
 #ifndef GETSTR_H_
 # define GETSTR_H_ 1
 
-/* $Id: getstr.h,v 1.1 2004/02/02 07:16:31 alank Exp $ */
-
 # include <stdio.h>
 
 # ifndef PARAMS

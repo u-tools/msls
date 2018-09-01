@@ -23,8 +23,8 @@ CREATEPROCESS_MANIFEST_RESOURCE_ID  RT_MANIFEST  "ls.manifest"
 // Version
 //
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 4, 7, 328, 1
- PRODUCTVERSION 4, 7, 328, 1
+ FILEVERSION 4, 8, 329, 1
+ PRODUCTVERSION 4, 8, 329, 1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -41,13 +41,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "U-Tools Software LLC\0"
             VALUE "FileDescription", "LS\0"
-            VALUE "FileVersion", "4.8.328.1\0"
+            VALUE "FileVersion", "4.8.329.1\0"
             VALUE "InternalName", "LS\0"
             VALUE "LegalCopyright", "Copyright © 2018, U-Tools Software LLC\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "LS.EXE\0"
             VALUE "ProductName", "Windows LS\0"
-            VALUE "ProductVersion", "4.8.328.1\0"
+            VALUE "ProductVersion", "4.8.329.1\0"
         END
     END
     BLOCK "VarFileInfo"

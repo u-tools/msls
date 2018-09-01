@@ -2,11 +2,6 @@
 # .gitattributes
 #
 
-#
-# Source files are \r\n on Windows and \n on Unix
-#
-* text=auto
-
 *.{bat,[bB][aA][tT]}    text eol=crlf
 *.{cmd,[cC][mM][dD]}    text eol=crlf
 
