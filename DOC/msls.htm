@@ -43,44 +43,44 @@ the <A HREF="http://utools.com/"><B>UTools</B></A> web site.
 <H2>Table of Contents</H2>
 <UL>
   <LI><A
-	  href="#Basic Information">Basic Information</A>
+      href="#Basic Information">Basic Information</A>
 
   <LI><A
-	  href="#Mode%20Structure">File Permissions</A>
-	<UL>
-		<LI><A href="#integrity">Vista Mandatory Integrity Levels</A></LI>
-	</UL>
+      href="#Mode%20Structure">File Permissions</A>
+    <UL>
+        <LI><A href="#integrity">Vista Mandatory Integrity Levels</A></LI>
+    </UL>
 
   <LI><A
-	  href="#pretty">Prettifying the Output</A>
+      href="#pretty">Prettifying the Output</A>
 
   <LI><A
-	  href="#ls%20invocation"><B>ls</B>: Files and Options</A>
+      href="#ls%20invocation"><B>ls</B>: Files and Options</A>
 
   <LI><A href="#options">Command Options</A>
 
-	<UL>
+    <UL>
       <LI><A href="#What%20information%20is%20listed">Options: What information is listed?</A>
-	 <UL>
-		 <LI><A href="#streams">Hidden Streams in Files: --streams</A>
-		 <LI><A href="#token">Vista Elevation: Viewing Your Process Token</A>
-		 <LI><A href="#encrypted">Encrypted Files</A>
-		 <LI><A href="#objectids">Object Tracking Identifiers</A>
-		 <LI><A href="#perf">Performance: --slow vs --fast</A>
+     <UL>
+         <LI><A href="#streams">Hidden Streams in Files: --streams</A>
+         <LI><A href="#token">Vista Elevation: Viewing Your Process Token</A>
+         <LI><A href="#encrypted">Encrypted Files</A>
+         <LI><A href="#objectids">Object Tracking Identifiers</A>
+         <LI><A href="#perf">Performance: --slow vs --fast</A>
      </UL>
       <LI><A href="#Which%20files%20are%20listed">Options: Which files are listed?</A>
-	  <UL>
-		 <LI><A href="#64bit">64-bit Operating Systems</A>
-		 <LI><A href="#virtual">Vista File and Registry Virtualization</A>
-	  </UL>
+      <UL>
+         <LI><A href="#64bit">64-bit Operating Systems</A>
+         <LI><A href="#virtual">Vista File and Registry Virtualization</A>
+      </UL>
       <LI><A href="#Sorting%20the%20output">Options: Sorting the output</A>
-	  <UL>
+      <UL>
         <LI><A href="#More%20details%20about%20version%20sort">More details about version sort</A>
-	</UL>
+    </UL>
       <LI><A href="#General%20output%20formatting">Options: General output formatting</A>
-	 <UL>
-	    <LI><A href="#Block%20Size">Block size</A>
-	    <LI><A href="#timestyle">Time style</A>
+     <UL>
+        <LI><A href="#Block%20Size">Block size</A>
+        <LI><A href="#timestyle">Time style</A>
      </UL>
      <LI><A href="#Formatting%20the%20file%20names">Options: Formatting the file names</A> </LI>
     </UL>
@@ -358,11 +358,11 @@ only be set by system administrators.
 There are five mandatory integrity levels:</P>
 
 <UL>
-	<LI>Low - for sandbox applications such as Internet Explorer.</LI>
-	<LI>Medium - for regular users and non-elevated administrators.</LI>
-	<LI>High - for administrators running in elevated mode.</LI>
-	<LI>System - for system services.</LI>
-	<LI>ProtectedProcess - for Digital Rights Management (DRM) processes.</LI>
+    <LI>Low - for sandbox applications such as Internet Explorer.</LI>
+    <LI>Medium - for regular users and non-elevated administrators.</LI>
+    <LI>High - for administrators running in elevated mode.</LI>
+    <LI>System - for system services.</LI>
+    <LI>ProtectedProcess - for Digital Rights Management (DRM) processes.</LI>
 </UL>
 
 <P>If a file or a registry key has no integrity level it defaults to medium.</P>
@@ -387,9 +387,9 @@ can have associated with it up to three different types
 of mandatory protection:</P>
 
 <UL>
-	<LI>No-Write-Up - disallow writing to the file from a lower integrity level.</LI>
-	<LI>No-Read-Up - disallow reading from the file from a lower integrity level.</LI>
-	<LI>No-Execute-Up - disallow executing the file from a lower integrity level.</LI>
+    <LI>No-Write-Up - disallow writing to the file from a lower integrity level.</LI>
+    <LI>No-Read-Up - disallow reading from the file from a lower integrity level.</LI>
+    <LI>No-Execute-Up - disallow executing the file from a lower integrity level.</LI>
 </UL>
 
 <P>You can set or modify integrity levels using the console command-line
@@ -405,11 +405,11 @@ a <DFN>mode string</DFN> (this is <SMALL>UNIX</SMALL> jargon).  A
 mode string has an initial character that defines the type of file:
 </P>
 <UL>
-	<LI><CODE>-</CODE> for a regular file
-	<LI><CODE>d</CODE> for directory (aka folder)
-	<LI><CODE>c</CODE> for a compressed file<BR>
-	<LI><CODE>S</CODE> for a sparse file
-	<LI><CODE>l</CODE> for a link (reparse-point, shortcut, or symbolic link)</LI>
+    <LI><CODE>-</CODE> for a regular file
+    <LI><CODE>d</CODE> for directory (aka folder)
+    <LI><CODE>c</CODE> for a compressed file<BR>
+    <LI><CODE>S</CODE> for a sparse file
+    <LI><CODE>l</CODE> for a link (reparse-point, shortcut, or symbolic link)</LI>
 </UL>
 <P>(<SMALL>UNIX</SMALL> supports other file types
 not listed here.)
@@ -458,33 +458,33 @@ with various distinctive colors.
 
 <TABLE BGCOLOR=BLACK CELLSPACING=2 CELLPADDING=2 BORDER=0>
 <TR><TD>
-	<FONT COLOR="CCCCCC">Regular files are shown with </FONT><FONT COLOR="#CCCCCC">White Letters</FONT>
+    <FONT COLOR="CCCCCC">Regular files are shown with </FONT><FONT COLOR="#CCCCCC">White Letters</FONT>
 </TD></TR>
 <TR><TD>
-	<FONT COLOR="CCCCCC">Directories are shown with </FONT><FONT COLOR="#00CC00">Green Letters</FONT>
+    <FONT COLOR="CCCCCC">Directories are shown with </FONT><FONT COLOR="#00CC00">Green Letters</FONT>
 </TD></TR>
 <TR><TD>
-		<FONT COLOR="CCCCCC">Executable programs are shown with </FONT><FONT COLOR="#CCCC00">Yellow Letters</FONT>
+        <FONT COLOR="CCCCCC">Executable programs are shown with </FONT><FONT COLOR="#CCCC00">Yellow Letters</FONT>
 </TD></TR>
 <TR><TD>
-		<FONT COLOR="CCCCCC">Multimedia files (.mpg, .gif, etc) are shown with </FONT><FONT COLOR="#CC00CC">Magenta Letters</FONT>
+        <FONT COLOR="CCCCCC">Multimedia files (.mpg, .gif, etc) are shown with </FONT><FONT COLOR="#CC00CC">Magenta Letters</FONT>
 </TD></TR>
 <TR><TD>
-		<FONT COLOR="CCCCCC">Compressed archives (.zip, .gz, etc) are shown with </FONT><FONT COLOR="#00CCCC">Cyan Letters</FONT>
+        <FONT COLOR="CCCCCC">Compressed archives (.zip, .gz, etc) are shown with </FONT><FONT COLOR="#00CCCC">Cyan Letters</FONT>
 </TD></TR>
 <TR><TD>
-		<FONT COLOR="CCCCCC">Compressed NTFS files are also shown with </FONT><FONT COLOR="#00CCCC">Cyan Letters</FONT><FONT COLOR="CCCCCC"><BR>if you use <CODE>--compressed</CODE></FONT>
+        <FONT COLOR="CCCCCC">Compressed NTFS files are also shown with </FONT><FONT COLOR="#00CCCC">Cyan Letters</FONT><FONT COLOR="CCCCCC"><BR>if you use <CODE>--compressed</CODE></FONT>
 </TD></TR>
 <TR><TD>
-		<FONT COLOR="CCCCCC">Special files such as encrypted files, hidden
-			<a href="#streams">streams</a>,
-			<BR>and symbolic links are shown with </FONT><FONT COLOR="#0000FF">Blue Letters</FONT>
+        <FONT COLOR="CCCCCC">Special files such as encrypted files, hidden
+            <a href="#streams">streams</a>,
+            <BR>and symbolic links are shown with </FONT><FONT COLOR="#0000FF">Blue Letters</FONT>
 </TD></TR>
 <TR><TD>
-		<FONT COLOR="CCCCCC">Broken symbolic links are shown with </FONT><FONT COLOR="#FF0000">Red Letters</FONT>
+        <FONT COLOR="CCCCCC">Broken symbolic links are shown with </FONT><FONT COLOR="#FF0000">Red Letters</FONT>
 </TD></TR>
 <TR><TD>
-		<FONT COLOR="CCCCCC">Recently modified files are shown with </FONT><FONT COLOR="#FFFFFF">Intense White Letters</FONT><FONT COLOR="CCCCCC"><BR>if you use <CODE>--recent</CODE></FONT>
+        <FONT COLOR="CCCCCC">Recently modified files are shown with </FONT><FONT COLOR="#FFFFFF">Intense White Letters</FONT><FONT COLOR="CCCCCC"><BR>if you use <CODE>--recent</CODE></FONT>
 </TD></TR>
 </TABLE>
 
@@ -517,7 +517,7 @@ On these smarter consoles <B>ls</B> will show
 <span class="nobr"><CODE>--recent</CODE></span>
 files using
 <TABLE BGCOLOR=BLACK CELLSPACING=0 CELLPADDING=4 BORDER=0>
-	<TR><TD>
+    <TR><TD>
 <FONT COLOR="#EEEEEE"><U>Underlined Letters</U></FONT>
 </TD></TR>
 </TABLE>
@@ -530,7 +530,7 @@ to classify the file type with a suffix,
 one of the characters <span class="nobr"><CODE>*\@$</CODE></span>.  The
 characters denote
 an executable file <CODE>*</CODE>, a directory <CODE>\</CODE>,
-		a symbolic link <CODE>@</CODE>, or a hidden stream <CODE>$</CODE>,
+        a symbolic link <CODE>@</CODE>, or a hidden stream <CODE>$</CODE>,
 respectively.
 </P>
 
@@ -611,16 +611,16 @@ The options are grouped into categories and described in the sections below.
 <UL>
   <LI><A href="#What%20information%20is%20listed">Options: What information is listed?</A>
   <UL>
-	<LI><A href="#streams">Hidden Streams in Files: --streams</A>
-	<LI><A href="#token">Vista Elevation: Viewing Your Process Token</A>
-	<LI><A href="#encrypted">Encrypted Files</A>
-	<LI><A href="#objectids">Object Tracking Identifiers</A>
-	<LI><A href="#perf">Performance: --slow vs --fast</A>
+    <LI><A href="#streams">Hidden Streams in Files: --streams</A>
+    <LI><A href="#token">Vista Elevation: Viewing Your Process Token</A>
+    <LI><A href="#encrypted">Encrypted Files</A>
+    <LI><A href="#objectids">Object Tracking Identifiers</A>
+    <LI><A href="#perf">Performance: --slow vs --fast</A>
   </UL>
   <LI><A href="#Which%20files%20are%20listed">Options: Which files are listed?</A>
   <UL>
-	<LI><A href="#64bit">64-bit Operating Systems</A>
-	<LI><A href="#virtual">Vista File and Registry Virtualization</A>
+    <LI><A href="#64bit">64-bit Operating Systems</A>
+    <LI><A href="#virtual">Vista File and Registry Virtualization</A>
   </UL>
   <LI><A href="#Sorting%20the%20output">Options: Sorting the output</A>
   <UL>
@@ -628,8 +628,8 @@ The options are grouped into categories and described in the sections below.
   </UL>
   <LI><A href="#General%20output%20formatting">Options: General output formatting</A>
   <UL>
-	  <LI><A href="#Block%20Size">Block size</A>
-	  <LI><A href="#timestyle">Time style</A>
+      <LI><A href="#Block%20Size">Block size</A>
+      <LI><A href="#timestyle">Time style</A>
   </UL>
   <LI><A href="#Formatting%20the%20file%20names">Options: Formatting the file names</A> </LI>
 </UL>
@@ -646,40 +646,40 @@ The options are grouped into categories and described in the sections below.
   <DD>Show the Access Control Lists (ACLs).
   <VAR>style</VAR> if specified may be one of
   <UL>
-	  <LI><CODE>none</CODE> - Do not show the ACL at all.  Instead return
-	  the dummy mode string <span class="nobr"><CODE>-rw-rw-rw-</CODE>,</span>
-	  modulo any file attributes
-	  (such as Read Only).
-	  This is the default if the file system is not a local hard disk.
-	  (See <span class="nobr"><CODE>--fast</CODE></span> and <span class="nobr"><CODE>--slow</CODE>.</span>)
-	  &nbsp; FAT file systems always return <span class="nobr"><CODE>-rw-rw-rw-</CODE>.</span>
+      <LI><CODE>none</CODE> - Do not show the ACL at all.  Instead return
+      the dummy mode string <span class="nobr"><CODE>-rw-rw-rw-</CODE>,</span>
+      modulo any file attributes
+      (such as Read Only).
+      This is the default if the file system is not a local hard disk.
+      (See <span class="nobr"><CODE>--fast</CODE></span> and <span class="nobr"><CODE>--slow</CODE>.</span>)
+      &nbsp; FAT file systems always return <span class="nobr"><CODE>-rw-rw-rw-</CODE>.</span>
 
-	  <LI><CODE>short</CODE> - Show a summary of the ACL in the mode string.
+      <LI><CODE>short</CODE> - Show a summary of the ACL in the mode string.
       For the format of the mode string see <A href="#Mode%20Structure"><B>File Permissions</B></A>
-	  and <A HREF="#long"><span class="nobr"><CODE>--format=long</CODE></span></A>.
-	  This is the default if the file system
-	  is a local hard disk.
+      and <A HREF="#long"><span class="nobr"><CODE>--format=long</CODE></span></A>.
+      This is the default if the file system
+      is a local hard disk.
 
-	  <LI><CODE>long</CODE> - Show the complete ACL in a long encoded
-	  SDDL string.  <B>ls</B> attempts to
-	  prettify the string somewhat by substituting user names for
-	  SID strings and by substituting common file masks with text descriptions.
-	  For example, &ldquo;Read&rdquo; is substituted for <span class="nobr"><CODE>0x1200A9</CODE>.</span>
-	  With the -n option the string is shown as-is with no substitutions.
+      <LI><CODE>long</CODE> - Show the complete ACL in a long encoded
+      SDDL string.  <B>ls</B> attempts to
+      prettify the string somewhat by substituting user names for
+      SID strings and by substituting common file masks with text descriptions.
+      For example, &ldquo;Read&rdquo; is substituted for <span class="nobr"><CODE>0x1200A9</CODE>.</span>
+      With the -n option the string is shown as-is with no substitutions.
 
-	  <LI><CODE>very-long</CODE> - Break out the entire ACL in a
-	  very verbose format.  The output style is similar to the CACLS.EXE
-	  utility.  <B>ls</B> attempts to make the descriptions
-	  as intuitive as possible, at the risk of even more verbosity.
-	  With <span class="nobr"><CODE>-n</CODE></span> display numeric SIDs in
-	  the verbose description (see <span class="nobr"><A HREF="#sids"><CODE>--sids</CODE></A>).</span>
-	  See also <span class="nobr"><A HREF="#view-security"><CODE>--view-security</CODE></A></span>.
+      <LI><CODE>very-long</CODE> - Break out the entire ACL in a
+      very verbose format.  The output style is similar to the CACLS.EXE
+      utility.  <B>ls</B> attempts to make the descriptions
+      as intuitive as possible, at the risk of even more verbosity.
+      With <span class="nobr"><CODE>-n</CODE></span> display numeric SIDs in
+      the verbose description (see <span class="nobr"><A HREF="#sids"><CODE>--sids</CODE></A>).</span>
+      See also <span class="nobr"><A HREF="#view-security"><CODE>--view-security</CODE></A></span>.
 
-	  <LI><CODE>exhaustive</CODE> - Same as <CODE>very-long</CODE> except
-	  show exhaustive information.  Display a complete dump of
-	  the security descriptor.
+      <LI><CODE>exhaustive</CODE> - Same as <CODE>very-long</CODE> except
+      show exhaustive information.  Display a complete dump of
+      the security descriptor.
 
-	</LI>
+    </LI>
   </UL>
   <BR>
 
@@ -718,23 +718,23 @@ The options are grouped into categories and described in the sections below.
   is not not <CODE>none</CODE>.
   <VAR>style</VAR> if specified may be one of
   <UL>
-	  <LI><CODE>none</CODE> - Do not fetch the POSIX group SID at all.  Instead show
-	  a dummy value (0).  This is the default
-	  if <span class="nobr"><CODE>--fast</CODE></span> is specified
-	  and the file system is not a local hard disk.  FAT disks and
-	  CD-ROMs always return 0.
+      <LI><CODE>none</CODE> - Do not fetch the POSIX group SID at all.  Instead show
+      a dummy value (0).  This is the default
+      if <span class="nobr"><CODE>--fast</CODE></span> is specified
+      and the file system is not a local hard disk.  FAT disks and
+      CD-ROMs always return 0.
 
-	  <LI><CODE>short</CODE> - Show short POSIX group names
-	  (16 characters max).  Strip away
-	  the domain part of the name <span class="nobr">(<VAR>domain\group</VAR>)</span> leaving
-	  only <VAR>group</VAR>.
-	  This is the default if the file system
-	  is a local hard disk or if <span class="nobr"><CODE>--slow</CODE></span> is specified.
-	  Implies <span class="nobr"><CODE>-g</CODE></span>.
+      <LI><CODE>short</CODE> - Show short POSIX group names
+      (16 characters max).  Strip away
+      the domain part of the name <span class="nobr">(<VAR>domain\group</VAR>)</span> leaving
+      only <VAR>group</VAR>.
+      This is the default if the file system
+      is a local hard disk or if <span class="nobr"><CODE>--slow</CODE></span> is specified.
+      Implies <span class="nobr"><CODE>-g</CODE></span>.
 
-	  <LI><CODE>long</CODE> - Show long POSIX group names (unlimited length).
-	  Include the domain part of the name <span class="nobr">(<VAR>domain\group</VAR>).</span>
-	  Implies <span class="nobr"><CODE>-g</CODE></span>.
+      <LI><CODE>long</CODE> - Show long POSIX group names (unlimited length).
+      Include the domain part of the name <span class="nobr">(<VAR>domain\group</VAR>).</span>
+      Implies <span class="nobr"><CODE>-g</CODE></span>.
   </UL>
   </DD>
 
@@ -799,14 +799,14 @@ The options are grouped into categories and described in the sections below.
   with capital letters:</P>
 
   <DL>
-	<DT><CODE>-------R--</CODE></DT>
-	<DD>The file or directory grants read access to WinRT apps.</DD>
+    <DT><CODE>-------R--</CODE></DT>
+    <DD>The file or directory grants read access to WinRT apps.</DD>
     <BR>
-	<DT><CODE>--------W-</CODE></DT>
-	<DD>The file or directory grants write access to WinRT apps.</DD>
+    <DT><CODE>--------W-</CODE></DT>
+    <DD>The file or directory grants write access to WinRT apps.</DD>
     <BR>
-	<DT><CODE>---------X</CODE></DT>
-	<DD>The file or directory grants execution access to WinRT apps.</DD>
+    <DT><CODE>---------X</CODE></DT>
+    <DD>The file or directory grants execution access to WinRT apps.</DD>
     <BR>
   </DL>
 
@@ -824,40 +824,40 @@ The options are grouped into categories and described in the sections below.
   <DL>
     <DT><CODE>---s------</CODE>
     <DD>The file has the System attribute set.  Files with this bit
-	are normally invisible in Windows Explorer and cannot be modified.
+    are normally invisible in Windows Explorer and cannot be modified.
     <BR>
     <DT><CODE>------h---</CODE>
-	<DD>The file has the Hidden attribute set.    Files with this bit
-	are normally invisible in Windows Explorer.
+    <DD>The file has the Hidden attribute set.    Files with this bit
+    are normally invisible in Windows Explorer.
     <BR>
     <DT><CODE>---------a</CODE>
-	<DD>The file has the Archive attribute set.  This bit is set when
-	the file becomes dirty.  A file backup operation will clear this bit.
-	<BR>
+    <DD>The file has the Archive attribute set.  This bit is set when
+    the file becomes dirty.  A file backup operation will clear this bit.
+    <BR>
     <DT><CODE>---E------</CODE>
-	<DD>The file is encrypted.  See
-	<A HREF="#encryption-users"><span class="nobr"><CODE>--encryption-users</CODE></span></A>
-	<BR>
+    <DD>The file is encrypted.  See
+    <A HREF="#encryption-users"><span class="nobr"><CODE>--encryption-users</CODE></span></A>
+    <BR>
     <DT><CODE>------T---</CODE>
-	<DD>The file is temporary.  Files opened in the %TEMP% folder
-	may sometimes have this bit set.
-	<BR>
+    <DD>The file is temporary.  Files opened in the %TEMP% folder
+    may sometimes have this bit set.
+    <BR>
     <DT><CODE>---------O</CODE>
-	<DD>The file is offline.  This usually indicates the presence
-	of a Hierarchical Storage Management (HSM) system.  An HSM
-	moves infrequently
-	accessed files to tape or some other offline storage medium.
+    <DD>The file is offline.  This usually indicates the presence
+    of a Hierarchical Storage Management (HSM) system.  An HSM
+    moves infrequently
+    accessed files to tape or some other offline storage medium.
     <DT><CODE>---------V</CODE>
-	<DD>The file is virtual.  On Windows Vista this indicates that the
-	file is being redirected from <span class="nobr"><span>C:\</span>Program Files</span>
-	to a private per-user location
-	(<span>C:\</span>Users\ &lt;username&gt; \AppData\Local\VirtualStore\Program Files).
-	This is for legacy applications
-	that are unaware of User Account Control (UAC).
-	You must use the <code><span class="nobr">--virtual</span></code> option to
-	view virtual files or registry keys.
-	See <A href="#virtual"><b>Vista File and Registry Virtualization</b></A>.
-	<BR>
+    <DD>The file is virtual.  On Windows Vista this indicates that the
+    file is being redirected from <span class="nobr"><span>C:\</span>Program Files</span>
+    to a private per-user location
+    (<span>C:\</span>Users\ &lt;username&gt; \AppData\Local\VirtualStore\Program Files).
+    This is for legacy applications
+    that are unaware of User Account Control (UAC).
+    You must use the <code><span class="nobr">--virtual</span></code> option to
+    view virtual files or registry keys.
+    See <A href="#virtual"><b>Vista File and Registry Virtualization</b></A>.
+    <BR>
   </DL>
   <BR>
 
@@ -926,24 +926,24 @@ The options are grouped into categories and described in the sections below.
   <span class="nobr"><CODE>-n</CODE></span> (numeric) is specified.
   <VAR>style</VAR> if specified may be one of
   <UL>
-	  <LI><CODE>none</CODE> - Do not fetch the owner SID at all.  Instead show
-	  a dummy value (0).
-	  This is the default if <span class="nobr"><CODE>--fast</CODE></span>
-	  and the file system is not a local hard disk.  FAT disks and
-	  CD-ROMs always return 0.
+      <LI><CODE>none</CODE> - Do not fetch the owner SID at all.  Instead show
+      a dummy value (0).
+      This is the default if <span class="nobr"><CODE>--fast</CODE></span>
+      and the file system is not a local hard disk.  FAT disks and
+      CD-ROMs always return 0.
 
-	  <LI><CODE>short</CODE> - Show short user names (16 characters max).  Strip away
-	  the domain part of the name <span class="nobr">(<VAR>domain\user</VAR>)</span> leaving
-	  only <VAR>user</VAR>.  This is the default if the file system
-	  is a local hard disk or if <span class="nobr"><CODE>--slow</CODE></span> is specified.
-	  With <span class="nobr"><CODE>-n</CODE></span> show abbreviated numeric SIDs,
-	  e.g., <span class="nobr"><CODE>S-1-5-...-500</CODE>.</span>
+      <LI><CODE>short</CODE> - Show short user names (16 characters max).  Strip away
+      the domain part of the name <span class="nobr">(<VAR>domain\user</VAR>)</span> leaving
+      only <VAR>user</VAR>.  This is the default if the file system
+      is a local hard disk or if <span class="nobr"><CODE>--slow</CODE></span> is specified.
+      With <span class="nobr"><CODE>-n</CODE></span> show abbreviated numeric SIDs,
+      e.g., <span class="nobr"><CODE>S-1-5-...-500</CODE>.</span>
 
-	  <LI><CODE>long</CODE> - Show long user names (unlimited length).
-	  Include the domain part of the name <span class="nobr">(<VAR>domain\user</VAR>).</span>
-	  With <span class="nobr"><CODE>-n</CODE></span> show long numeric SIDs
-	  e.g.,
-	  <CODE>S-1-5-21-56435836665-432874238743289-9874326432543-500</CODE>.
+      <LI><CODE>long</CODE> - Show long user names (unlimited length).
+      Include the domain part of the name <span class="nobr">(<VAR>domain\user</VAR>).</span>
+      With <span class="nobr"><CODE>-n</CODE></span> show long numeric SIDs
+      e.g.,
+      <CODE>S-1-5-21-56435836665-432874238743289-9874326432543-500</CODE>.
   </UL>
   </DD>
 
@@ -1350,14 +1350,14 @@ are considered &quot;slow&quot;:
 </P>
 
 <UL>
-	<LI>Access Control Lists (ACLs): <span class="nobr"><CODE>--acls</CODE></span>
-	<LI>File user ownership and POSIX group membership:
-	<span class="nobr"><CODE>--sids</CODE></span> and <span class="nobr"><CODE>--gids</CODE></span>
-	<LI>Hidden file streams: <span class="nobr"><CODE>--streams</CODE></span>
-	<LI>Encryption keys on files: <span class="nobr"><CODE>--encryption-users</CODE></span>
-	<LI>Object tracking ID: <span class="nobr"><CODE>--object-id</CODE></span>
-	<LI>I-node index number: <span class="nobr"><CODE>--inode</CODE></span>
-	<LI>Number of hard links
+    <LI>Access Control Lists (ACLs): <span class="nobr"><CODE>--acls</CODE></span>
+    <LI>File user ownership and POSIX group membership:
+    <span class="nobr"><CODE>--sids</CODE></span> and <span class="nobr"><CODE>--gids</CODE></span>
+    <LI>Hidden file streams: <span class="nobr"><CODE>--streams</CODE></span>
+    <LI>Encryption keys on files: <span class="nobr"><CODE>--encryption-users</CODE></span>
+    <LI>Object tracking ID: <span class="nobr"><CODE>--object-id</CODE></span>
+    <LI>I-node index number: <span class="nobr"><CODE>--inode</CODE></span>
+    <LI>Number of hard links
 </UL>
 
 <P>
@@ -1440,10 +1440,10 @@ files beginning with <CODE>.</CODE> (dot) are skipped.
 
   <DT><CODE>--virtual</CODE>
   <DD><P>
-	On Windows Vista or Windows 7 show the virtual view of files
-	and registry keys.  This option has no effect on older operating
-	systems.
-	See <a href="#virtual"><b>Vista File and Registry Virtualization</b></A>.</P>
+    On Windows Vista or Windows 7 show the virtual view of files
+    and registry keys.  This option has no effect on older operating
+    systems.
+    See <a href="#virtual"><b>Vista File and Registry Virtualization</b></A>.</P>
 
   <DT><CODE>--32</CODE>
   <DD><P>
@@ -1543,7 +1543,7 @@ dr-xr-x---  1 TrustedInstaller    0 Nov  2  2006 Windows Sidebar
 
 dr-xr-x---  1 Administrators      0 Aug 16 01:19 License
 -rwx------  1 SYSTEM             19 Oct  3 10:10 PathWWWRoot
-			REG_SZ="<span>C:\</span>Inetpub\wwwroot"
+            REG_SZ="<span>C:\</span>Inetpub\wwwroot"
 -rwx-----V  1 SYSTEM              4 Oct  3 10:10 MyValue
             REG_DWORD=1 (0x00000001)
 </PRE>
@@ -1611,8 +1611,8 @@ default code page (e.g., ISO-8859-1 for the Western Latin character set).
   <DD>Sort by version name and number, lowest first. It behaves like a default
   sort, except that each sequence of decimal digits is treated numerically as an
   index/version number. (See <A
-	  href="#More%20details%20about%20version%20sort"><B>More
-		  details about version sort</B></A>.) <BR>
+      href="#More%20details%20about%20version%20sort"><B>More
+          details about version sort</B></A>.) <BR>
 
   <DT><CODE>-X</CODE>
   <DT><CODE>--sort=extension</CODE>
@@ -1750,14 +1750,14 @@ indices/version numbers in their names:
     Do not append any character indicator; this is the default.
     <LI><CODE>file-type</CODE> -
     Append <CODE>\</CODE> for directories, <CODE>@</CODE> for symbolic
-	links, <CODE>$</CODE> for a hidden stream, and nothing for
+    links, <CODE>$</CODE> for a hidden stream, and nothing for
     regular files. This is the same as the <CODE>-p</CODE> or
     <CODE>--file-type</CODE> option.
     <LI><CODE>classify</CODE> -
     Append <CODE>*</CODE> for executable regular files, otherwise behave as
     for <CODE>file-type</CODE>. This is the same as the <CODE>-F</CODE> or
     <CODE>--classify</CODE> option.
-	</LI>
+    </LI>
   </UL>
 
   <DT><CODE>-k</CODE>
@@ -1944,16 +1944,16 @@ the former is used for non-recent files and the latter for recent
 files. If you want output columns to line up, you may need to insert
 spaces in one of the two formats.
 
-	  <br><dt><code>full-iso</code><dd>List timestamps in full using <acronym>ISO</acronym> 8601 date and time
+      <br><dt><code>full-iso</code><dd>List timestamps in full using <acronym>ISO</acronym> 8601 date and time
 format, e.g., &lsquo;<samp>2002-03-30 23:45:56</samp>&rsquo;.  This style is equivalent to
 <span class="nobr">&lsquo;+%Y-%m-%d %H:%M:%S&rsquo;.</span>  To include the time zone
 append %Z.
 
-		  <br><dt><code>long-iso</code><dd>List <acronym>ISO</acronym> 8601 date and time in minutes, e.g.,
+          <br><dt><code>long-iso</code><dd>List <acronym>ISO</acronym> 8601 date and time in minutes, e.g.,
 &lsquo;<samp>2002-03-30 23:45</samp>&rsquo;.
 This style is equivalent to &lsquo;<samp>+%Y-%m-%d %H:%M<</samp>&rsquo;.
 
-		  <br><dt><code>iso<dd>List <acronym>ISO</acronym> 8601 dates for non-recent timestamps (e.g.,
+          <br><dt><code>iso<dd>List <acronym>ISO</acronym> 8601 dates for non-recent timestamps (e.g.,
 &lsquo;<samp>2002-03-30 </samp>&rsquo;), and <acronym>ISO</acronym> 8601 month, day, hour, and
 minute for recent timestamps (e.g., &lsquo;<samp>03-30 23:45</samp>&rsquo;).  These
 timestamps are uglier than &lsquo;<samp>long-iso</samp>&rsquo; timestamps, but they carry
@@ -2006,10 +2006,10 @@ the default style is <code>locale</code>.</p>
   <DD>Specify whether to use color for distinguishing file types.
   <VAR>when</VAR> may be omitted or be one of
   <UL>
-	  <LI><CODE>none</CODE> - Do not use color at all. This is the default.
-	  <LI><CODE>auto</CODE> - Only use color if standard output is a command console.
-	  <LI><CODE>always</CODE> - Always use color.
-	</LI>
+      <LI><CODE>none</CODE> - Do not use color at all. This is the default.
+      <LI><CODE>auto</CODE> - Only use color if standard output is a command console.
+      <LI><CODE>always</CODE> - Always use color.
+    </LI>
   </UL>
 
   <P>To customize the choice of colors use

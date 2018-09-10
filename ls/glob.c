@@ -166,28 +166,28 @@ glob_pattern_p (pattern, dir)
       {
       case '?':
       case '*':
-	return (1);
+        return (1);
 
-      case '[':		/* Only accept an open brace if there is a close */
-	bopen++;	/* brace to match it.  Bracket expressions must be */
-	continue;	/* complete, according to Posix.2 */
+      case '[':     /* Only accept an open brace if there is a close */
+        bopen++;    /* brace to match it.  Bracket expressions must be */
+        continue;   /* complete, according to Posix.2 */
       case ']':
-	if (bopen)
-	  return (1);
-	continue;
+        if (bopen)
+          return (1);
+    continue;
 
-      case '+':		/* extended matching operators */
+      case '+':     /* extended matching operators */
       case '@':
       case '!':
-	if (*p == '(')	/*) */
-	  return (1);
-	continue;
+        if (*p == '(')  /*) */
+          return (1);
+    continue;
 
       case '\\':
-	if (*p++ == '\0')
-	  //return (0);
-	  --p; // AEK
-	break;
+        if (*p++ == '\0')
+          //return (0);
+          --p; // AEK
+    break;
       }
 
 #ifdef WIN32 // AEK
@@ -239,12 +239,12 @@ dequote_pathname (pathname)
   for (i = j = 0; pathname && pathname[i]; )
     {
       if (pathname[i] == '\\')
-	i++;
+    i++;
 
       pathname[j++] = pathname[i++];
 
       if (!pathname[i - 1])
-	break;
+    break;
     }
   pathname[j] = '\0';
 }
@@ -315,7 +315,7 @@ glob_vector (pat, dir)
   int lose, skip;
   register char **name_vector = NULL;
   register unsigned int i;
-  int flags;		/* Flags passed to fnmatch (). */
+  int flags;        /* Flags passed to fnmatch (). */
 
   lastlink = 0;
   count = lose = skip = 0;
@@ -324,20 +324,20 @@ glob_vector (pat, dir)
   if (pat == 0 || *pat == '\0')
     {
       if (glob_testdir (dir) < 0)
-	return ((char **) &glob_error_return);
+    return ((char **) &glob_error_return);
 
       nextlink = (struct globval *)alloca (sizeof (struct globval));
       nextlink->next = (struct globval *)0;
       nextname = (char *) malloc (1);
       if (nextname == 0)
-	lose = 1;
+    lose = 1;
       else
-	{
-	  lastlink = nextlink;
-	  nextlink->name = nextname;
-	  nextname[0] = '\0';
-	  count = 1;
-	}
+    {
+      lastlink = nextlink;
+      nextlink->name = nextname;
+      nextname[0] = '\0';
+      count = 1;
+    }
 
       skip = 1;
     }
@@ -355,46 +355,46 @@ glob_vector (pat, dir)
 
 #ifdef UNDEFINED // unnecessary test that slows down queries over a network AEK
       if (glob_testdir (dir) < 0)
-	return ((char **) &glob_error_return);
+    return ((char **) &glob_error_return);
 #endif
 
       dirlen = strlen (dir);
       nextname = (char *)malloc (dirlen + strlen (pat) + 2);
       npat = (char *)malloc (strlen (pat) + 1);
       if (nextname == 0 || npat == 0)
-	lose = 1;
+    lose = 1;
       else
-	{
-	  strcpy (npat, pat);
-	  dequote_pathname (npat);
+    {
+      strcpy (npat, pat);
+      dequote_pathname (npat);
 
-	  strcpy (nextname, dir);
+      strcpy (nextname, dir);
 
-	  //
-	  // BUG: "c:" + "foo" -> "c:foo", not "c:/foo" !!!
-	  //
-	  if (dirlen != FILESYSTEM_PREFIX_LEN(dir)) // BUGFIX - AEK
-	    if (nextname[dirlen-1] != '/') { // concat if not already - AEK
-	      nextname[dirlen++] = '/';
-	    }
+      //
+      // BUG: "c:" + "foo" -> "c:foo", not "c:/foo" !!!
+      //
+      if (dirlen != FILESYSTEM_PREFIX_LEN(dir)) // BUGFIX - AEK
+        if (nextname[dirlen-1] != '/') { // concat if not already - AEK
+          nextname[dirlen++] = '/';
+        }
 
-	  strcpy (nextname + dirlen, npat);
+      strcpy (nextname + dirlen, npat);
 
-	  if (GLOB_TESTNAME (nextname) >= 0)
-	    {
-	      free (nextname);
-	      nextlink = (struct globval *)alloca (sizeof (struct globval));
-	      nextlink->next = (struct globval *)0;
-	      lastlink = nextlink;
-	      nextlink->name = npat;
-	      count = 1;
-	    }
-	  else
-	    {
-	      free (nextname);
-	      free (npat);
-	    }
-	}
+      if (GLOB_TESTNAME (nextname) >= 0)
+        {
+          free (nextname);
+          nextlink = (struct globval *)alloca (sizeof (struct globval));
+          nextlink->next = (struct globval *)0;
+          lastlink = nextlink;
+          nextlink->name = npat;
+          count = 1;
+        }
+      else
+        {
+          free (nextname);
+          free (npat);
+        }
+    }
 
       skip = 1;
     }
@@ -402,11 +402,11 @@ glob_vector (pat, dir)
   if (skip == 0)
     {
       /* Open the directory, punting immediately if we cannot.  If opendir
-	 is not robust (i.e., it opens non-directories successfully), test
-	 that DIR is a directory and punt if it's not. */
+     is not robust (i.e., it opens non-directories successfully), test
+     that DIR is a directory and punt if it's not. */
 #if defined (OPENDIR_NOT_ROBUST)
       if (glob_testdir (dir) < 0)
-	return ((char **) &glob_error_return);
+    return ((char **) &glob_error_return);
 #endif
 
 #ifdef WIN32
@@ -415,7 +415,7 @@ glob_vector (pat, dir)
       d = opendir (dir);
 #endif
       if (d == NULL)
-	return ((char **) &glob_error_return);
+    return ((char **) &glob_error_return);
 
       /* Compute the flags that will be passed to fnmatch().  We don't
          need to do this every time through the loop. */
@@ -423,68 +423,68 @@ glob_vector (pat, dir)
 
 #ifdef FNM_CASEFOLD
       if (glob_ignore_case)
-	flags |= FNM_CASEFOLD;
+    flags |= FNM_CASEFOLD;
 #endif
 
 #ifdef SHELL
       if (extended_glob)
-	flags |= FNM_EXTMATCH;
+    flags |= FNM_EXTMATCH;
 #endif
 
       /* Scan the directory, finding all names that match.
-	 For each name that matches, allocate a struct globval
-	 on the stack and store the name in it.
-	 Chain those structs together; lastlink is the front of the chain.  */
+     For each name that matches, allocate a struct globval
+     on the stack and store the name in it.
+     Chain those structs together; lastlink is the front of the chain.  */
       while (1)
-	{
+    {
 #if defined (SHELL)
-	  /* Make globbing interruptible in the shell. */
-	  if (interrupt_state)
-	    {
-	      lose = 1;
-	      break;
-	    }
+      /* Make globbing interruptible in the shell. */
+      if (interrupt_state)
+        {
+          lose = 1;
+          break;
+        }
 #endif /* SHELL */
 
-	  dp = readdir (d);
-	  if (dp == NULL)
-	    break;
+      dp = readdir (d);
+      if (dp == NULL)
+        break;
 
-	  /* If this directory entry is not to be used, try again. */
-	  if (REAL_DIR_ENTRY (dp) == 0)
-	    continue;
+      /* If this directory entry is not to be used, try again. */
+      if (REAL_DIR_ENTRY (dp) == 0)
+        continue;
 
-	  /* If a leading dot need not be explicitly matched, and the pattern
-	     doesn't start with a `.', don't match `.' or `..' */
+      /* If a leading dot need not be explicitly matched, and the pattern
+         doesn't start with a `.', don't match `.' or `..' */
 #define dname dp->d_name
-	  if (noglob_dot_filenames == 0 && pat[0] != '.' &&
-		(pat[0] != '\\' || pat[1] != '.') &&
-		(dname[0] == '.' &&
-		  (dname[1] == '\0' || (dname[1] == '.' && dname[2] == '\0'))))
+      if (noglob_dot_filenames == 0 && pat[0] != '.' &&
+        (pat[0] != '\\' || pat[1] != '.') &&
+        (dname[0] == '.' &&
+          (dname[1] == '\0' || (dname[1] == '.' && dname[2] == '\0'))))
 #undef dname
-	    continue;
+        continue;
 
-	  /* If a dot must be explicity matched, check to see if they do. */
-	  if (noglob_dot_filenames && dp->d_name[0] == '.' && pat[0] != '.' &&
-		(pat[0] != '\\' || pat[1] != '.'))
-	    continue;
+      /* If a dot must be explicity matched, check to see if they do. */
+      if (noglob_dot_filenames && dp->d_name[0] == '.' && pat[0] != '.' &&
+        (pat[0] != '\\' || pat[1] != '.'))
+        continue;
 
-	  if (fnmatch (pat, dp->d_name, flags) != FNM_NOMATCH)
-	    {
-	      nextlink = (struct globval *) alloca (sizeof (struct globval));
-	      nextlink->next = lastlink;
-	      nextname = (char *) malloc (D_NAMLEN (dp) + 1);
-	      if (nextname == NULL)
-		{
-		  lose = 1;
-		  break;
-		}
-	      lastlink = nextlink;
-	      nextlink->name = nextname;
-	      bcopy (dp->d_name, nextname, D_NAMLEN (dp) + 1);
-	      ++count;
-	    }
-	}
+      if (fnmatch (pat, dp->d_name, flags) != FNM_NOMATCH)
+        {
+          nextlink = (struct globval *) alloca (sizeof (struct globval));
+          nextlink->next = lastlink;
+          nextname = (char *) malloc (D_NAMLEN (dp) + 1);
+          if (nextname == NULL)
+        {
+          lose = 1;
+          break;
+        }
+          lastlink = nextlink;
+          nextlink->name = nextname;
+          bcopy (dp->d_name, nextname, D_NAMLEN (dp) + 1);
+          ++count;
+        }
+    }
 
       (void) closedir (d);
     }
@@ -495,18 +495,18 @@ glob_vector (pat, dir)
       lose |= name_vector == NULL;
     }
 
-  /* Have we run out of memory?	 */
+  /* Have we run out of memory?  */
   if (lose)
     {
       /* Here free the strings we have got.  */
       while (lastlink)
-	{
-	  free (lastlink->name);
-	  lastlink = lastlink->next;
-	}
+    {
+      free (lastlink->name);
+      lastlink = lastlink->next;
+    }
 #if defined (SHELL)
       if (interrupt_state)
-	throw_to_top_level ();
+    throw_to_top_level ();
 #endif /* SHELL */
 
       return ((char **)NULL);
@@ -559,9 +559,9 @@ glob_dir_to_array (dir, array)
   for (i = 0; array[i] != NULL; i++)
     {
       result[i] = (char *) malloc (l + (add_slash ? 1 : 0)
-				   + strlen (array[i]) + 1);
+                   + strlen (array[i]) + 1);
       if (result[i] == NULL)
-	return (NULL);
+    return (NULL);
 #if 1
       strcpy (result[i], dir);
       if (add_slash)
@@ -636,70 +636,70 @@ glob_filename (pathname)
       register unsigned int i;
 
       if (directory_name[directory_len - 1] == '/')
-	directory_name[directory_len - 1] = '\0';
+    directory_name[directory_len - 1] = '\0';
 
       directories = glob_filename (directory_name);
 
       if (directories == NULL)
-	goto memory_error;
+    goto memory_error;
       else if (directories == (char **)&glob_error_return)
-	{
-	  free ((char *) result);
-	  return ((char **) &glob_error_return);
-	}
+    {
+      free ((char *) result);
+      return ((char **) &glob_error_return);
+    }
       else if (*directories == NULL)
-	{
-	  free ((char *) directories);
-	  free ((char *) result);
-	  return ((char **) &glob_error_return);
-	}
+    {
+      free ((char *) directories);
+      free ((char *) result);
+      return ((char **) &glob_error_return);
+    }
 
       /* We have successfully globbed the preceding directory name.
-	 For each name in DIRECTORIES, call glob_vector on it and
-	 FILENAME.  Concatenate the results together.  */
+     For each name in DIRECTORIES, call glob_vector on it and
+     FILENAME.  Concatenate the results together.  */
       for (i = 0; directories[i] != NULL; ++i)
-	{
-	  char **temp_results;
+    {
+      char **temp_results;
 
-	  /* Scan directory even on a NULL pathname.  That way, `*h/'
-	     returns only directories ending in `h', instead of all
-	     files ending in `h' with a `/' appended. */
-	  temp_results = glob_vector (filename, directories[i]);
+      /* Scan directory even on a NULL pathname.  That way, `*h/'
+         returns only directories ending in `h', instead of all
+         files ending in `h' with a `/' appended. */
+      temp_results = glob_vector (filename, directories[i]);
 
-	  /* Handle error cases. */
-	  if (temp_results == NULL)
-	    goto memory_error;
-	  else if (temp_results == (char **)&glob_error_return)
-	    /* This filename is probably not a directory.  Ignore it.  */
-	    ;
-	  else
-	    {
-	      char **array;
-	      register unsigned int l;
+      /* Handle error cases. */
+      if (temp_results == NULL)
+        goto memory_error;
+      else if (temp_results == (char **)&glob_error_return)
+        /* This filename is probably not a directory.  Ignore it.  */
+        ;
+      else
+        {
+          char **array;
+          register unsigned int l;
 
-	      array = glob_dir_to_array (directories[i], temp_results);
-	      l = 0;
-	      while (array[l] != NULL)
-		++l;
+          array = glob_dir_to_array (directories[i], temp_results);
+          l = 0;
+          while (array[l] != NULL)
+        ++l;
 
-	      result =
-		(char **)realloc (result, (result_size + l) * sizeof (char *));
+          result =
+        (char **)realloc (result, (result_size + l) * sizeof (char *));
 
-	      if (result == NULL)
-		goto memory_error;
+          if (result == NULL)
+        goto memory_error;
 
-	      for (l = 0; array[l] != NULL; ++l)
-		result[result_size++ - 1] = array[l];
+          for (l = 0; array[l] != NULL; ++l)
+        result[result_size++ - 1] = array[l];
 
-	      result[result_size - 1] = NULL;
+          result[result_size - 1] = NULL;
 
-	      /* Note that the elements of ARRAY are not freed.  */
-	      free ((char *) array);
-	    }
-	}
+          /* Note that the elements of ARRAY are not freed.  */
+          free ((char *) array);
+        }
+    }
       /* Free the directories.  */
       for (i = 0; directories[i]; i++)
-	free (directories[i]);
+    free (directories[i]);
 
       free ((char *) directories);
 
@@ -711,10 +711,10 @@ glob_filename (pathname)
     {
       result = (char **) realloc ((char *) result, 2 * sizeof (char *));
       if (result == NULL)
-	return (NULL);
+    return (NULL);
       result[0] = (char *) malloc (directory_len + 1);
       if (result[0] == NULL)
-	goto memory_error;
+    goto memory_error;
       bcopy (directory_name, result[0], directory_len + 1);
       result[1] = NULL;
       return (result);
@@ -724,22 +724,22 @@ glob_filename (pathname)
       char **temp_results;
 
       /* There are no unquoted globbing characters in DIRECTORY_NAME.
-	 Dequote it before we try to open the directory since there may
-	 be quoted globbing characters which should be treated verbatim. */
+     Dequote it before we try to open the directory since there may
+     be quoted globbing characters which should be treated verbatim. */
       if (directory_len > 0)
-	dequote_pathname (directory_name);
+    dequote_pathname (directory_name);
 
       /* We allocated a small array called RESULT, which we won't be using.
-	 Free that memory now. */
+     Free that memory now. */
       free (result);
 
       /* Just return what glob_vector () returns appended to the
-	 directory name. */
+     directory name. */
       temp_results =
-	glob_vector (filename, (directory_len == 0 ? "." : directory_name));
+    glob_vector (filename, (directory_len == 0 ? "." : directory_name));
 
       if (temp_results == NULL || temp_results == (char **)&glob_error_return)
-	return (temp_results);
+    return (temp_results);
 
       return (glob_dir_to_array (directory_name, temp_results));
     }
@@ -751,7 +751,7 @@ glob_filename (pathname)
     {
       register unsigned int i;
       for (i = 0; result[i] != NULL; ++i)
-	free (result[i]);
+    free (result[i]);
       free ((char *) result);
     }
 #if defined (SHELL)
@@ -773,17 +773,17 @@ main (argc, argv)
     {
       char **value = glob_filename (argv[i]);
       if (value == NULL)
-	puts ("Out of memory.");
+    puts ("Out of memory.");
       else if (value == &glob_error_return)
-	perror (argv[i]);
+    perror (argv[i]);
       else
-	for (i = 0; value[i] != NULL; i++)
-	  puts (value[i]);
+    for (i = 0; value[i] != NULL; i++)
+      puts (value[i]);
     }
 
   exit (0);
 }
-#endif	/* TEST.  */
+#endif  /* TEST.  */
 /*
 vim:tabstop=8:shiftwidth=2:noexpandtab
 */

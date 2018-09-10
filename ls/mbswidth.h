@@ -31,7 +31,7 @@
 
 /* If this bit is set, assume unprintable characters have width 1.
    Otherwise, return -1 upon finding a non-printable character.  */
-#define MBSW_ACCEPT_UNPRINTABLE	2
+#define MBSW_ACCEPT_UNPRINTABLE 2
 
 /* Returns the number of screen columns needed for STRING.  */
 #define mbswidth gnu_mbswidth  /* avoid clash with UnixWare 7.1.1 function */

@@ -74,7 +74,7 @@ char *xstrdup PARAMS ((const char *str));
 # define NEW(Type, Var)  Type *(Var) = XMALLOC (Type, 1)
 
 /* Free VAR only if non NULL. */
-# define XFREE(Var)	\
+# define XFREE(Var) \
    do {                 \
       if (Var)          \
         free (Var);     \

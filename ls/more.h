@@ -13,25 +13,25 @@ extern "C" {
 #endif
 
 struct more {
-	char *ptr;
-	int cnt;
-	char *base;
-	int err;
-	int bufsiz;
-	FILE *file;
-	int istty; // 0=no, >0=yes, -1=dunno yet
-	size_t nflushed; // total bytes flushed
+    char *ptr;
+    int cnt;
+    char *base;
+    int err;
+    int bufsiz;
+    FILE *file;
+    int istty; // 0=no, >0=yes, -1=dunno yet
+    size_t nflushed; // total bytes flushed
 };
 typedef struct more MORE;
 
 #define more_putc(c, m) (--(m)->cnt >= 0 \
-	? (0xff & (*(m)->ptr++ = (char)(c))) : _more_flushbuf((c),(m)))
+    ? (0xff & (*(m)->ptr++ = (char)(c))) : _more_flushbuf((c),(m)))
 
 #define more_putchar(c)  more_putc(c, stdmore)
 
 // Note: puts() appends '\n' while fputs does not.
 #define more_puts(s) \
-	do { more_fputs(s, stdmore); more_putc('\n', stdmore); } while(0)
+    do { more_fputs(s, stdmore); more_putc('\n', stdmore); } while(0)
 
 // Count of total bytes output
 #define MORE_COUNT(m) (((m)->ptr - (m)->base) + (m)->nflushed)

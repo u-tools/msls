@@ -12,15 +12,15 @@ FORM
 
 /*Wrap excessively long pre block*/
 pre {
-	white-space: pre-wrap; /*css3, IE8+*/
-	white-space: -moz-pre-wrap !important; /*Mozilla since 1999*/
-	white-space: -pre-wrap; /*Opera 4-6*/
-	white-space: -o-pre-wrap; /*Opera 7*/
-	word-wrap: break-word; /*I5.5-IE7*/
+    white-space: pre-wrap; /*css3, IE8+*/
+    white-space: -moz-pre-wrap !important; /*Mozilla since 1999*/
+    white-space: -pre-wrap; /*Opera 4-6*/
+    white-space: -o-pre-wrap; /*Opera 7*/
+    word-wrap: break-word; /*I5.5-IE7*/
 }
 pre.nowrap {
-	white-space: pre; /*default for pre*/
-	word-wrap: normal; /*IE5.5-IE7*/
+    white-space: pre; /*default for pre*/
+    word-wrap: normal; /*IE5.5-IE7*/
 }
 
 TABLE
@@ -417,8 +417,8 @@ OL.smaller-text
     LINE-HEIGHT: 12pt
 }
 LI {
-	/*BUG: Never set hasLayout on OL LI. It causes OL to fail to increment the item number in IE6-7!*/
-	/*zoom: 1;*/
+    /*BUG: Never set hasLayout on OL LI. It causes OL to fail to increment the item number in IE6-7!*/
+    /*zoom: 1;*/
 }
 DL
 {
@@ -449,5 +449,5 @@ DIV.copyright
     LINE-HEIGHT: 10pt
 }
 .nobr {
-	white-space: nowrap;
+    white-space: nowrap;
 }

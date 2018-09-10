@@ -35,7 +35,7 @@
 
 # if !defined(PATH_MAX) && defined(_PC_PATH_MAX)
 #  define PATH_MAX (pathconf ("/", _PC_PATH_MAX) < 1 ? 1024 \
-		    : pathconf ("/", _PC_PATH_MAX))
+            : pathconf ("/", _PC_PATH_MAX))
 # endif
 
 /* Don't include sys/param.h if it already has been.  */

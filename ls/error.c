@@ -77,9 +77,9 @@ char *strerror_r ();
    function without parameters instead.  */
 void (*error_print_progname) (
 #if __STDC__ - 0
-			      void
+                  void
 #endif
-			      );
+                  );
 
 /* This variable is incremented each time `error' is called.  */
 unsigned int error_message_count;
@@ -110,7 +110,7 @@ extern char *program_name;
 #  define __strerror_r strerror_r
 # else
 #  if HAVE_STRERROR
-#   ifndef strerror		/* On some systems, strerror is a macro */
+#   ifndef strerror     /* On some systems, strerror is a macro */
 //char *strerror (); // BUG: wrong decl for Win32 - AEK
 #   endif
 #  else
@@ -127,8 +127,8 @@ private_strerror (errnum)
 }
 #   define strerror private_strerror
 #  endif /* HAVE_STRERROR */
-# endif	/* HAVE_STRERROR_R */
-#endif	/* not _LIBC */
+# endif /* HAVE_STRERROR_R */
+#endif  /* not _LIBC */
 
 //
 // Use the more-style paginator - AEK
@@ -202,7 +202,7 @@ error (status, errnum, message, va_alist)
       fprintf (stderr, ": %s", __strerror_r (errnum, errbuf, sizeof errbuf));
 # else
       /* Don't use __strerror_r's return value because on some systems
-	 (at least DEC UNIX 4.0[A-D]) strerror_r returns `int'.  */
+     (at least DEC UNIX 4.0[A-D]) strerror_r returns `int'.  */
       __strerror_r (errnum, errbuf, sizeof errbuf);
       fprintf (stderr, ": %s", errbuf);
 # endif
@@ -223,7 +223,7 @@ int error_one_per_line;
 void
 #if defined VA_START && __STDC__
 error_at_line (int status, int errnum, const char *file_name,
-	       unsigned int line_number, const char *message, ...)
+           unsigned int line_number, const char *message, ...)
 #else
 error_at_line (status, errnum, file_name, line_number, message, va_alist)
      int status;
@@ -244,9 +244,9 @@ error_at_line (status, errnum, file_name, line_number, message, va_alist)
       static unsigned int old_line_number;
 
       if (old_line_number == line_number &&
-	  (file_name == old_file_name || !strcmp (old_file_name, file_name)))
-	/* Simply return and print nothing.  */
-	return;
+      (file_name == old_file_name || !strcmp (old_file_name, file_name)))
+    /* Simply return and print nothing.  */
+    return;
 
       old_file_name = file_name;
       old_line_number = line_number;
@@ -284,7 +284,7 @@ error_at_line (status, errnum, file_name, line_number, message, va_alist)
       fprintf (stderr, ": %s", __strerror_r (errnum, errbuf, sizeof errbuf));
 # else
       /* Don't use __strerror_r's return value because on some systems
-	 (at least DEC UNIX 4.0[A-D]) strerror_r returns `int'.  */
+     (at least DEC UNIX 4.0[A-D]) strerror_r returns `int'.  */
       __strerror_r (errnum, errbuf, sizeof errbuf);
       fprintf (stderr, ": %s", errbuf);
 # endif

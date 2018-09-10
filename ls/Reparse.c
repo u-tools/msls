@@ -57,11 +57,11 @@
 #endif
 
 #ifndef IO_REPARSE_TAG_DFS
-#define IO_REPARSE_TAG_DFS						(0x8000000AL)		// winnt
+#define IO_REPARSE_TAG_DFS                      (0x8000000AL)       // winnt
 #endif
 
 #ifndef IO_REPARSE_TAG_DFSR
-#define IO_REPARSE_TAG_DFSR						(0x80000012L)		// winnt
+#define IO_REPARSE_TAG_DFSR                     (0x80000012L)       // winnt
 #endif
 
 #ifndef IO_REPARSE_TAG_SYMLINK
@@ -124,115 +124,115 @@ typedef struct _REPARSE_DATA_BUFFER {
 char *
 _GetReparseTarget(struct cache_entry *ce, char *szPath)
 {
-	HANDLE hFile;
-	char szBuf[MAXIMUM_REPARSE_DATA_BUFFER_SIZE];
-	PREPARSE_DATA_BUFFER rdb = (PREPARSE_DATA_BUFFER)szBuf;
-	DWORD dwBytesReturned=0;
-	LPWSTR wszPathBuffer = NULL;
-	USHORT wPhysicalNameLength = 0;
-	char *sz;
+    HANDLE hFile;
+    char szBuf[MAXIMUM_REPARSE_DATA_BUFFER_SIZE];
+    PREPARSE_DATA_BUFFER rdb = (PREPARSE_DATA_BUFFER)szBuf;
+    DWORD dwBytesReturned=0;
+    LPWSTR wszPathBuffer = NULL;
+    USHORT wPhysicalNameLength = 0;
+    char *sz;
 
 #ifdef _DEBUG
 more_printf("CreateFile(\"%s\") with FILE_FLAG_OPEN_REPARSE_POINT\n", ce->ce_abspath);
 #endif
 
-	//
-	// DESIGN BUG: GENERIC_READ fails to open "super-hidden" reparse points
-	// on Vista, e.g., C:\ProgramData\Templates
-	//
-	// WORKAROUND: Use SYNCHRONIZE|FILE_READ_ATTRIBUTES|FILE_READ_EA
-	//
-	// UNDOCUMENTED: FILE_FLAG_BACKUP_SEMANTICS is silently ignored
-	// if not an elevated admin user
-	//
-	if ((hFile = CreateFile(ce->ce_abspath,
-			/*GENERIC_READ*/SYNCHRONIZE|FILE_READ_ATTRIBUTES,
-			0, 0, OPEN_EXISTING,
-			FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, 0)) ==
-				INVALID_HANDLE_VALUE)  {
+    //
+    // DESIGN BUG: GENERIC_READ fails to open "super-hidden" reparse points
+    // on Vista, e.g., C:\ProgramData\Templates
+    //
+    // WORKAROUND: Use SYNCHRONIZE|FILE_READ_ATTRIBUTES|FILE_READ_EA
+    //
+    // UNDOCUMENTED: FILE_FLAG_BACKUP_SEMANTICS is silently ignored
+    // if not an elevated admin user
+    //
+    if ((hFile = CreateFile(ce->ce_abspath,
+            /*GENERIC_READ*/SYNCHRONIZE|FILE_READ_ATTRIBUTES,
+            0, 0, OPEN_EXISTING,
+            FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, 0)) ==
+                INVALID_HANDLE_VALUE)  {
 #ifdef _DEBUG
 more_printf("CreateFile failed\n");
 #endif
-		return NULL;
-	}
+        return NULL;
+    }
 
-	memset(szBuf, 0, sizeof(szBuf));
+    memset(szBuf, 0, sizeof(szBuf));
 
-	if (!DeviceIoControl(hFile, FSCTL_GET_REPARSE_POINT, NULL, 0,
-			(LPVOID)rdb, MAXIMUM_REPARSE_DATA_BUFFER_SIZE/*16KB*/,
-			&dwBytesReturned, 0)) {
-		CloseHandle(hFile);
-		return NULL;
-	}
+    if (!DeviceIoControl(hFile, FSCTL_GET_REPARSE_POINT, NULL, 0,
+            (LPVOID)rdb, MAXIMUM_REPARSE_DATA_BUFFER_SIZE/*16KB*/,
+            &dwBytesReturned, 0)) {
+        CloseHandle(hFile);
+        return NULL;
+    }
 
-	CloseHandle(hFile); hFile = NULL;
+    CloseHandle(hFile); hFile = NULL;
 
-	switch (rdb->dwReparseTag) {
-		case IO_REPARSE_TAG_MOUNT_POINT:
-		case IO_REPARSE_TAG_DFS:
-		case IO_REPARSE_TAG_DFSR:
-			wPhysicalNameLength = rdb->MountPointReparseBuffer.wPhysicalNameLength;
-			wszPathBuffer = rdb->MountPointReparseBuffer.wszPathBuffer;
-			break;
+    switch (rdb->dwReparseTag) {
+        case IO_REPARSE_TAG_MOUNT_POINT:
+        case IO_REPARSE_TAG_DFS:
+        case IO_REPARSE_TAG_DFSR:
+            wPhysicalNameLength = rdb->MountPointReparseBuffer.wPhysicalNameLength;
+            wszPathBuffer = rdb->MountPointReparseBuffer.wszPathBuffer;
+            break;
 
-		case IO_REPARSE_TAG_SYMLINK:
-			wPhysicalNameLength = rdb->SymbolicLinkReparseBuffer.wPhysicalNameLength;
-			wszPathBuffer = rdb->SymbolicLinkReparseBuffer.wszPathBuffer;
-			break;
-	}
+        case IO_REPARSE_TAG_SYMLINK:
+            wPhysicalNameLength = rdb->SymbolicLinkReparseBuffer.wPhysicalNameLength;
+            wszPathBuffer = rdb->SymbolicLinkReparseBuffer.wszPathBuffer;
+            break;
+    }
 
-	if (wPhysicalNameLength > (FILENAME_MAX-20)*sizeof(WCHAR)) {
-		wPhysicalNameLength = (FILENAME_MAX-20)*sizeof(WCHAR);
-	}
+    if (wPhysicalNameLength > (FILENAME_MAX-20)*sizeof(WCHAR)) {
+        wPhysicalNameLength = (FILENAME_MAX-20)*sizeof(WCHAR);
+    }
 
-	if (wszPathBuffer != NULL) {
-		// NUL-terminate
-		wszPathBuffer[wPhysicalNameLength/sizeof(WCHAR)] = L'\0';
+    if (wszPathBuffer != NULL) {
+        // NUL-terminate
+        wszPathBuffer[wPhysicalNameLength/sizeof(WCHAR)] = L'\0';
 
-		switch (rdb->dwReparseTag) {
-			case IO_REPARSE_TAG_DFS:
-				wcscat(wszPathBuffer, L" (DFS)");
-				break;
-			case IO_REPARSE_TAG_DFSR:
-				wcscat(wszPathBuffer, L" (DFSR)");
-				break;
-		}
-	} else {
-		//
-		// We only handle mount points, not HSM, SIS, etc
-		//
-		// Undocumented: The tag is also returned in the field
-		// dwReserved0 in WIN32_FIND_DATA from FindFirstFile/FindNextFile.
-		//
-		// This can be used to quickly filter out unwanted reparse points.
-		//
-		wszPathBuffer = L"(Unknown)";
-	}
+        switch (rdb->dwReparseTag) {
+            case IO_REPARSE_TAG_DFS:
+                wcscat(wszPathBuffer, L" (DFS)");
+                break;
+            case IO_REPARSE_TAG_DFSR:
+                wcscat(wszPathBuffer, L" (DFSR)");
+                break;
+        }
+    } else {
+        //
+        // We only handle mount points, not HSM, SIS, etc
+        //
+        // Undocumented: The tag is also returned in the field
+        // dwReserved0 in WIN32_FIND_DATA from FindFirstFile/FindNextFile.
+        //
+        // This can be used to quickly filter out unwanted reparse points.
+        //
+        wszPathBuffer = L"(Unknown)";
+    }
 
-	memset(szPath, 0, FILENAME_MAX); // required!
+    memset(szPath, 0, FILENAME_MAX); // required!
 
-	if (!WideCharToMultiByte(get_codepage(), 0,
-			wszPathBuffer, -1, szPath, FILENAME_MAX, NULL, NULL)) {
-		return NULL;
-	}
+    if (!WideCharToMultiByte(get_codepage(), 0,
+            wszPathBuffer, -1, szPath, FILENAME_MAX, NULL, NULL)) {
+        return NULL;
+    }
 
-	if (strncmp(szPath, "\\??\\", 4) == 0) {
-		//
-		// \??\ is the kernel-mode prefix for DosDevice symlinks.  These
-		// are represented as \\?\ in user-mode.
-		//
-		// Note: Do not confuse with \\.\pipe syntax.
-		//
-		// The syntax is the same as for the \??\object syntax
-		// inside the kernel for creating kernel symbolic links.
-		// Kernel symbolc links expose \device\foo as \\.\baz in user mode.
-		//
-		sz = &szPath[4]; // skip leading \??\...
-	} else {
-		sz = szPath;
-	}
+    if (strncmp(szPath, "\\??\\", 4) == 0) {
+        //
+        // \??\ is the kernel-mode prefix for DosDevice symlinks.  These
+        // are represented as \\?\ in user-mode.
+        //
+        // Note: Do not confuse with \\.\pipe syntax.
+        //
+        // The syntax is the same as for the \??\object syntax
+        // inside the kernel for creating kernel symbolic links.
+        // Kernel symbolc links expose \device\foo as \\.\baz in user mode.
+        //
+        sz = &szPath[4]; // skip leading \??\...
+    } else {
+        sz = szPath;
+    }
 
-	return sz;
+    return sz;
 }
 
 /*

@@ -97,23 +97,23 @@ extern "C" time_t ConvertFileTimeToTimeT(PFILETIME pft)
 {
     LARGE_INTEGER llFileDate, ll1970;
 
-	static BOOL gbInitDst, gbIsDst;
-	static TIME_ZONE_INFORMATION tzi;
+    static BOOL gbInitDst, gbIsDst;
+    static TIME_ZONE_INFORMATION tzi;
 
-	typedef BOOL (WINAPI *PFNSYSTEMTIMETOTZSPECIFICLOCALTIME)(
+    typedef BOOL (WINAPI *PFNSYSTEMTIMETOTZSPECIFICLOCALTIME)(
         IN     LPTIME_ZONE_INFORMATION lpTimeZoneInformation,
         IN     LPSYSTEMTIME lpUniversalTime,
         OUT    LPSYSTEMTIME lpLocalTime
     );
 
-	static PFNSYSTEMTIMETOTZSPECIFICLOCALTIME pfnSystemTimeToTzSpecificLocalTime;
+    static PFNSYSTEMTIMETOTZSPECIFICLOCALTIME pfnSystemTimeToTzSpecificLocalTime;
 
     time_t timFail = (time_t)-1;
 
-	if (!gbInitDst) {
-		gbInitDst = TRUE;
-		gbIsDst = (GetTimeZoneInformation(&tzi) == TIME_ZONE_ID_DAYLIGHT);
-	}
+    if (!gbInitDst) {
+        gbInitDst = TRUE;
+        gbIsDst = (GetTimeZoneInformation(&tzi) == TIME_ZONE_ID_DAYLIGHT);
+    }
 
 
     if (pft->dwLowDateTime == 0 && pft->dwHighDateTime == 0) {
@@ -133,90 +133,90 @@ extern "C" time_t ConvertFileTimeToTimeT(PFILETIME pft)
         return timFail;
     }
 
-	//
+    //
     // Convert from 100ns intervals since Jan 1 1600
-	// to 100ns intervals since Jan 1 1970
-	//
+    // to 100ns intervals since Jan 1 1970
+    //
     llFileDate.QuadPart -= ll1970.QuadPart;
-	//
+    //
     // Convert from 100ns intervals to seconds
-	//
+    //
     llFileDate.QuadPart /= 10000000;
 
-	//
-	// BUG: localtime() wrongly uses the current DST, not the DST of
-	// the timestamp.
-	//
-	// WORKAROUND:
-	// Use SystemTimeToTzSpecificLocalTime to adjust for DST.  Not available
-	// on Win9x.
-	//
-	// Bug is fixed on Vista.
-	//
-	// Note: While SystemTimeToTzSpecificLocalTime is available on NT/W2K,
-	// TzSpecificLocalTimeToSystemTime is only available on XP or later.
-	//
-	if (!IsVista) { // UNDOCUMENTED: localtime is fixed in MSVCRT.DLL in Vista
+    //
+    // BUG: localtime() wrongly uses the current DST, not the DST of
+    // the timestamp.
+    //
+    // WORKAROUND:
+    // Use SystemTimeToTzSpecificLocalTime to adjust for DST.  Not available
+    // on Win9x.
+    //
+    // Bug is fixed on Vista.
+    //
+    // Note: While SystemTimeToTzSpecificLocalTime is available on NT/W2K,
+    // TzSpecificLocalTimeToSystemTime is only available on XP or later.
+    //
+    if (!IsVista) { // UNDOCUMENTED: localtime is fixed in MSVCRT.DLL in Vista
 
-	  if (DynaLoad("KERNEL32.DLL", "SystemTimeToTzSpecificLocalTime",
-			(PPFN)&pfnSystemTimeToTzSpecificLocalTime)) {
-		//
-		// Convert the UTC FILETIME to UTC SYSTEMTIME
-		//
-		SYSTEMTIME stmUTC, stmDate1, stmDate2;
-		FileTimeToSystemTime(pft, &stmUTC);
-		//
-		// See if the file time is in DST by converting it twice,
-		// once using the normal DST rules, and once using a bogus
-		// "no DST" rule.
-		//
-		TIME_ZONE_INFORMATION tzNoDst;
-		memset(&tzNoDst, 0, sizeof(tzNoDst));
-		tzNoDst.Bias = tzi.Bias; // non-DST bias only
+      if (DynaLoad("KERNEL32.DLL", "SystemTimeToTzSpecificLocalTime",
+            (PPFN)&pfnSystemTimeToTzSpecificLocalTime)) {
+        //
+        // Convert the UTC FILETIME to UTC SYSTEMTIME
+        //
+        SYSTEMTIME stmUTC, stmDate1, stmDate2;
+        FileTimeToSystemTime(pft, &stmUTC);
+        //
+        // See if the file time is in DST by converting it twice,
+        // once using the normal DST rules, and once using a bogus
+        // "no DST" rule.
+        //
+        TIME_ZONE_INFORMATION tzNoDst;
+        memset(&tzNoDst, 0, sizeof(tzNoDst));
+        tzNoDst.Bias = tzi.Bias; // non-DST bias only
 
-		(*pfnSystemTimeToTzSpecificLocalTime)(NULL, &stmUTC, &stmDate1);
-		(*pfnSystemTimeToTzSpecificLocalTime)(&tzNoDst, &stmUTC, &stmDate2);
+        (*pfnSystemTimeToTzSpecificLocalTime)(NULL, &stmUTC, &stmDate1);
+        (*pfnSystemTimeToTzSpecificLocalTime)(&tzNoDst, &stmUTC, &stmDate2);
 
-		//
-		// Note: Some countries shift by 1/2 hour, so check both hours and
-		// minutes.
-		//
-		BOOL bFileDst = (stmDate1.wHour != stmDate2.wHour
-			|| stmDate1.wMinute != stmDate2.wMinute);
+        //
+        // Note: Some countries shift by 1/2 hour, so check both hours and
+        // minutes.
+        //
+        BOOL bFileDst = (stmDate1.wHour != stmDate2.wHour
+            || stmDate1.wMinute != stmDate2.wMinute);
 
-		//
-		// BUG: This is wrong if the country uses a 1/2 hour bias,
-		// e.g., Afghanistan.
-		//
-		if (!bFileDst && gbIsDst) {
-			//
-			// The file date is not in DST, and the current time is in DST.
-			//
-			// stftime wrongly uses DST: Add 1 hour to compensate
-			//
-			llFileDate.QuadPart += 3600;
-		} else if (bFileDst && !gbIsDst) {
-			//
-			// The file date is in DST, and the current time is not in DST.
-			//
-			// localtime wrongly uses non-DST: Subtract 1 hour to compensate
-			//
-			llFileDate.QuadPart -= 3600;
-		}
-	  }
-	}
+        //
+        // BUG: This is wrong if the country uses a 1/2 hour bias,
+        // e.g., Afghanistan.
+        //
+        if (!bFileDst && gbIsDst) {
+            //
+            // The file date is not in DST, and the current time is in DST.
+            //
+            // stftime wrongly uses DST: Add 1 hour to compensate
+            //
+            llFileDate.QuadPart += 3600;
+        } else if (bFileDst && !gbIsDst) {
+            //
+            // The file date is in DST, and the current time is not in DST.
+            //
+            // localtime wrongly uses non-DST: Subtract 1 hour to compensate
+            //
+            llFileDate.QuadPart -= 3600;
+        }
+      }
+    }
 
-	//
-	// BUG: In the year 2038 we need to use __time64_t instead of time_t.
-	//
-	// There is no MSVCRT support for __time64_t in legacy operating
-	// systems.  Coding it ourselves is too hard, so we punt.
-	//
-	// Hopefully by 2038 nobody will be running Win9x/NT/W2K, and we
-	// can use the native __time64_t.
-	//
-	// TODO: Return (__time64_t)llFileDate.QuadPart;
-	//
+    //
+    // BUG: In the year 2038 we need to use __time64_t instead of time_t.
+    //
+    // There is no MSVCRT support for __time64_t in legacy operating
+    // systems.  Coding it ourselves is too hard, so we punt.
+    //
+    // Hopefully by 2038 nobody will be running Win9x/NT/W2K, and we
+    // can use the native __time64_t.
+    //
+    // TODO: Return (__time64_t)llFileDate.QuadPart;
+    //
     return (time_t)llFileDate.QuadPart;
 }
 

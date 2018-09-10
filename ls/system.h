@@ -74,7 +74,7 @@
 # include <sys/sysmacros.h>
 # define HAVE_MAJOR
 #endif
-#ifdef major			/* Might be defined in sys/types.h.  */
+#ifdef major            /* Might be defined in sys/types.h.  */
 # define HAVE_MAJOR
 #endif
 
@@ -173,14 +173,14 @@ extern int errno;
 #  define fileno(_fp) _fileno (_fp)
 # endif /* not DJGPP */
 # define SET_BINARY(_f) do {if (!isatty(_f)) setmode (_f, O_BINARY);} while (0)
-# define SET_BINARY2(_f1, _f2)		\
-  do {					\
-    if (!isatty (_f1))			\
-      {					\
-        setmode (_f1, O_BINARY);	\
-	if (!isatty (_f2))		\
-	  setmode (_f2, O_BINARY);	\
-      }					\
+# define SET_BINARY2(_f1, _f2)      \
+  do {                              \
+    if (!isatty (_f1))              \
+      {                             \
+        setmode (_f1, O_BINARY);    \
+    if (!isatty (_f2))              \
+      setmode (_f2, O_BINARY);      \
+      }                             \
   } while(0)
 #else
 # define SET_BINARY(f) (void)0
@@ -245,7 +245,7 @@ extern int errno;
 #else /* HAVE_STRUCT_STAT_ST_BLOCKS */
 /* Some systems, like Sequents, return st_blksize of 0 on pipes. */
 # define ST_BLKSIZE(statbuf) ((statbuf).st_blksize > 0 \
-			       ? (statbuf).st_blksize : DEV_BSIZE)
+                   ? (statbuf).st_blksize : DEV_BSIZE)
 # if defined(hpux) || defined(__hpux__) || defined(__hpux)
 /* HP-UX counts st_blocks in 1024-byte units.
    This loses when mixing HP-UX and BSD filesystems with NFS.  */

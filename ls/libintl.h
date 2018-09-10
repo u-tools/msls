@@ -22,9 +22,9 @@
 
 #if !defined _LIBINTL_H || !defined _LIBGETTEXT_H
 #ifndef _LIBINTL_H
-# define _LIBINTL_H	1
+# define _LIBINTL_H 1
 #endif
-#define _LIBGETTEXT_H	1
+#define _LIBGETTEXT_H   1
 
 /* We define an additional symbol to signal that we use the GNU
    implementation of gettext.  */
@@ -98,14 +98,14 @@ extern char *gettext__ PARAMS ((const char *__msgid));
    LC_MESSAGES locale.  */
 extern char *dgettext PARAMS ((const char *__domainname, const char *__msgid));
 extern char *dgettext__ PARAMS ((const char *__domainname,
-				 const char *__msgid));
+                 const char *__msgid));
 
 /* Look up MSGID in the DOMAINNAME message catalog for the current CATEGORY
    locale.  */
 extern char *dcgettext PARAMS ((const char *__domainname, const char *__msgid,
-				int __category));
+                int __category));
 extern char *dcgettext__ PARAMS ((const char *__domainname,
-				  const char *__msgid, int __category));
+                  const char *__msgid, int __category));
 
 
 /* Set the current default message catalog to DOMAINNAME.
@@ -117,9 +117,9 @@ extern char *textdomain__ PARAMS ((const char *__domainname));
 /* Specify that the DOMAINNAME message catalog will be found
    in DIRNAME rather than in the system locale data base.  */
 extern char *bindtextdomain PARAMS ((const char *__domainname,
-				  const char *__dirname));
+                  const char *__dirname));
 extern char *bindtextdomain__ PARAMS ((const char *__domainname,
-				    const char *__dirname));
+                    const char *__dirname));
 
 #if ENABLE_NLS
 
@@ -128,10 +128,10 @@ extern char *bindtextdomain__ PARAMS ((const char *__domainname,
    has dcgettext.  */
 # if !HAVE_CATGETS && (!HAVE_GETTEXT || HAVE_DCGETTEXT)
 
-#  define gettext(Msgid)						      \
+#  define gettext(Msgid)                                                    \
      dgettext (NULL, Msgid)
 
-#  define dgettext(Domainname, Msgid)					      \
+#  define dgettext(Domainname, Msgid)                                       \
      dcgettext (Domainname, Msgid, LC_MESSAGES)
 
 #  if defined __GNUC__ && __GNUC__ == 2 && __GNUC_MINOR__ >= 7
@@ -140,25 +140,25 @@ extern char *bindtextdomain__ PARAMS ((const char *__domainname,
    translations.  */
 extern int _nl_msg_cat_cntr;
 
-#   define dcgettext(Domainname, Msgid, Category)			      \
-  (__extension__							      \
-   ({									      \
-     char *__result;							      \
-     if (__builtin_constant_p (Msgid))					      \
-       {								      \
-	 static char *__translation__;					      \
-	 static int __catalog_counter__;				      \
-	 if (! __translation__ || __catalog_counter__ != _nl_msg_cat_cntr)    \
-	   {								      \
-	     __translation__ =						      \
-	       dcgettext__ (Domainname, Msgid, Category);		      \
-	     __catalog_counter__ = _nl_msg_cat_cntr;			      \
-	   }								      \
-	 __result = __translation__;					      \
-       }								      \
-     else								      \
-       __result = dcgettext__ (Domainname, Msgid, Category);		      \
-     __result;								      \
+#   define dcgettext(Domainname, Msgid, Category)                           \
+  (__extension__                                                            \
+   ({                                                                       \
+     char *__result;                                                        \
+     if (__builtin_constant_p (Msgid))                                      \
+       {                                                                    \
+     static char *__translation__;                                          \
+     static int __catalog_counter__;                                        \
+     if (! __translation__ || __catalog_counter__ != _nl_msg_cat_cntr)      \
+       {                                                                    \
+         __translation__ =                                                  \
+           dcgettext__ (Domainname, Msgid, Category);                       \
+         __catalog_counter__ = _nl_msg_cat_cntr;                            \
+       }                                                                    \
+     __result = __translation__;                                            \
+       }                                                                    \
+     else                                                                   \
+       __result = dcgettext__ (Domainname, Msgid, Category);                \
+     __result;                                                              \
     }))
 #  endif
 # endif

@@ -50,8 +50,8 @@ char* version_etc_copyright =
    COMMAND_NAME (PACKAGE) VERSION.  */
 void
 version_etc (FILE *stream,
-	     const char *command_name, const char *package,
-	     const char *version, const char *authors)
+         const char *command_name, const char *package,
+         const char *version, const char *authors)
 {
   if (command_name)
     fprintf (stream, "%s (%s) %s\n", command_name, package, version);
@@ -66,5 +66,5 @@ version_etc (FILE *stream,
   fputs (_("\
 This is free software; see the source for copying conditions.  There is NO\n\
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
-	 stream);
+     stream);
 }

@@ -15,8 +15,8 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.  */
 
-#ifndef	_GLOB_H_
-#define	_GLOB_H_
+#ifndef _GLOB_H_
+#define _GLOB_H_
 
 #ifndef _MSC_VER
 // RIVY ~ AVOID for MSVC; stdc.h doens't understand MSVC; it redefines "const" and breaks function prototyping for MSVC

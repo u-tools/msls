@@ -54,12 +54,12 @@ enum Shell_syntax
 };
 
 #define APPEND_CHAR(C) obstack_1grow (&lsc_obstack, C)
-#define APPEND_TWO_CHAR_STRING(S)					\
-  do									\
-    {									\
-      APPEND_CHAR (S[0]);						\
-      APPEND_CHAR (S[1]);						\
-    }									\
+#define APPEND_TWO_CHAR_STRING(S)   \
+  do                                \
+    {                               \
+      APPEND_CHAR (S[0]);           \
+      APPEND_CHAR (S[1]);           \
+    }                               \
   while (0)
 
 /* Accumulate in this obstack the value for the LS_COLORS environment
@@ -234,22 +234,22 @@ append_quoted (const char *str)
   while (*str != '\0')
     {
       switch (*str)
-	{
-	case '\\':
-	case '^':
-	  need_backslash = !need_backslash;
-	  break;
+    {
+    case '\\':
+    case '^':
+      need_backslash = !need_backslash;
+      break;
 
-	case ':':
-	case '=':
-	  if (need_backslash)
-	    APPEND_CHAR ('\\');
-	  /* Fall through */
+    case ':':
+    case '=':
+      if (need_backslash)
+        APPEND_CHAR ('\\');
+      /* Fall through */
 
-	default:
-	  need_backslash = 1;
-	  break;
-	}
+    default:
+      need_backslash = 1;
+      break;
+    }
 
       APPEND_CHAR (*str);
       ++str;
@@ -296,111 +296,111 @@ dc_parse_stream (FILE *fp, const char *filename)
       ++line_number;
 
       if (fp)
-	{
-	  line_length = getline (&line, &line_chars_allocated, fp);
-	  if (line_length <= 0)
-	    {
-	      if (line)
-		free (line);
-	      break;
-	    }
-	}
+    {
+      line_length = getline (&line, &line_chars_allocated, fp);
+      if (line_length <= 0)
+        {
+          if (line)
+        free (line);
+          break;
+        }
+    }
       else
-	{
-	  line = (char *) (G_line[line_number - 1]);
-	  //line_length = G_line_length[line_number - 1]; // AEK
-	  if (line_number > G_N_LINES)
-	    break;
-	}
+    {
+      line = (char *) (G_line[line_number - 1]);
+      //line_length = G_line_length[line_number - 1]; // AEK
+      if (line_number > G_N_LINES)
+        break;
+    }
 
       parse_line ((unsigned char *) line, &keywd, &arg);
 
       if (keywd == NULL)
-	continue;
+    continue;
 
       if (arg == NULL)
-	{
-	  error (0, 0, _("%s:%lu: invalid line;  missing second token"),
-		 filename, (long unsigned) line_number);
-	  err = 1;
-	  free (keywd);
-	  continue;
-	}
+    {
+      error (0, 0, _("%s:%lu: invalid line;  missing second token"),
+         filename, (long unsigned) line_number);
+      err = 1;
+      free (keywd);
+      continue;
+    }
 
       unrecognized = 0;
       if (strcasecmp (keywd, "TERM") == 0)
-	{
-	  if (STREQ (arg, term))
-	    state = ST_TERMSURE;
-	  else if (state != ST_TERMSURE)
-	    state = ST_TERMNO;
-	}
+    {
+      if (STREQ (arg, term))
+        state = ST_TERMSURE;
+      else if (state != ST_TERMSURE)
+        state = ST_TERMNO;
+    }
       else
-	{
-	  if (state == ST_TERMSURE)
-	    state = ST_TERMYES; /* Another TERM can cancel */
+    {
+      if (state == ST_TERMSURE)
+        state = ST_TERMYES; /* Another TERM can cancel */
 
-	  if (state != ST_TERMNO)
-	    {
-	      if (keywd[0] == '.')
-		{
-		  APPEND_CHAR ('*');
-		  append_quoted (keywd);
-		  APPEND_CHAR ('=');
-		  append_quoted (arg);
-		  APPEND_CHAR (':');
-		}
-	      else if (keywd[0] == '*')
-		{
-		  append_quoted (keywd);
-		  APPEND_CHAR ('=');
-		  append_quoted (arg);
-		  APPEND_CHAR (':');
-		}
-	      else if (strcasecmp (keywd, "OPTIONS") == 0
-		       || strcasecmp (keywd, "COLOR") == 0
-		       || strcasecmp (keywd, "EIGHTBIT") == 0)
-		{
-		  /* Ignore.  */
-		}
-	      else
-		{
-		  int i;
+      if (state != ST_TERMNO)
+        {
+          if (keywd[0] == '.')
+        {
+          APPEND_CHAR ('*');
+          append_quoted (keywd);
+          APPEND_CHAR ('=');
+          append_quoted (arg);
+          APPEND_CHAR (':');
+        }
+          else if (keywd[0] == '*')
+        {
+          append_quoted (keywd);
+          APPEND_CHAR ('=');
+          append_quoted (arg);
+          APPEND_CHAR (':');
+        }
+          else if (strcasecmp (keywd, "OPTIONS") == 0
+               || strcasecmp (keywd, "COLOR") == 0
+               || strcasecmp (keywd, "EIGHTBIT") == 0)
+        {
+          /* Ignore.  */
+        }
+          else
+        {
+          int i;
 
-		  for (i = 0; slack_codes[i] != NULL; ++i)
-		    if (strcasecmp (keywd, slack_codes[i]) == 0)
-		      break;
+          for (i = 0; slack_codes[i] != NULL; ++i)
+            if (strcasecmp (keywd, slack_codes[i]) == 0)
+              break;
 
-		  if (slack_codes[i] != NULL)
-		    {
-		      APPEND_TWO_CHAR_STRING (ls_codes[i]);
-		      APPEND_CHAR ('=');
-		      append_quoted (arg);
-		      APPEND_CHAR (':');
-		    }
-		  else
-		    {
-		      unrecognized = 1;
-		    }
-		}
-	    }
-	  else
-	    {
-	      unrecognized = 1;
-	    }
-	}
+          if (slack_codes[i] != NULL)
+            {
+              APPEND_TWO_CHAR_STRING (ls_codes[i]);
+              APPEND_CHAR ('=');
+              append_quoted (arg);
+              APPEND_CHAR (':');
+            }
+          else
+            {
+              unrecognized = 1;
+            }
+        }
+        }
+      else
+        {
+          unrecognized = 1;
+        }
+    }
 
       if (unrecognized && (state == ST_TERMSURE || state == ST_TERMYES))
-	{
-	  error (0, 0, _("%s:%lu: unrecognized keyword %s"),
-		 (filename ? quote (filename) : _("<internal>")),
-		 (long unsigned) line_number, keywd);
-	  err = 1;
-	}
+    {
+      error (0, 0, _("%s:%lu: unrecognized keyword %s"),
+         (filename ? quote (filename) : _("<internal>")),
+         (long unsigned) line_number, keywd);
+      err = 1;
+    }
 
       free (keywd);
       if (arg)
-	free (arg);
+    free (arg);
     }
 
   return err;
@@ -420,15 +420,15 @@ dc_parse_file (const char *filename)
   else
     {
       /* OPENOPTS is a macro.  It varies with the system.
-	 Some systems distinguish between internal and
-	 external text representations.  */
+     Some systems distinguish between internal and
+     external text representations.  */
 
       fp = fopen (filename, "r");
       if (fp == NULL)
-	{
-	  error (0, errno, "%s", quote (filename));
-	  return 1;
-	}
+    {
+      error (0, errno, "%s", quote (filename));
+      return 1;
+    }
     }
 
   err = dc_parse_stream (fp, filename);
@@ -464,28 +464,28 @@ main (int argc, char **argv)
   while ((optc = getopt_long (argc, argv, "bcdp", long_options, NULL)) != -1)
     switch (optc)
       {
-      case 'b':	/* Bourne shell syntax.  */
-	syntax = SHELL_SYNTAX_BOURNE;
-	break;
+      case 'b': /* Bourne shell syntax.  */
+    syntax = SHELL_SYNTAX_BOURNE;
+    break;
 
-      case 'c':	/* C shell syntax.  */
-	syntax = SHELL_SYNTAX_C;
-	break;
+      case 'c': /* C shell syntax.  */
+    syntax = SHELL_SYNTAX_C;
+    break;
 
       case 'd': /* DOS shell syntax.  */
-	syntax = SHELL_SYNTAX_DOS;
-	break;
+    syntax = SHELL_SYNTAX_DOS;
+    break;
 
       case 'p':
-	print_database = 1;
-	break;
+    print_database = 1;
+    break;
 
       case_GETOPT_HELP_CHAR;
 
       case_GETOPT_VERSION_CHAR (PROGRAM_NAME, AUTHORS);
 
       default:
-	usage (1);
+    usage (1);
       }
 
   argc -= optind;
@@ -496,7 +496,7 @@ main (int argc, char **argv)
   if (print_database && syntax != SHELL_SYNTAX_UNKNOWN)
     {
       error (0, 0,
-	     _("the options to output dircolors' internal database and\n\
+         _("the options to output dircolors' internal database and\n\
 to select a shell syntax are mutually exclusive"));
       usage (1);
     }
@@ -504,7 +504,7 @@ to select a shell syntax are mutually exclusive"));
   if (print_database && argc > 0)
     {
       error (0, 0,
-	     _("no FILE arguments may be used with the option to output\n\
+         _("no FILE arguments may be used with the option to output\n\
 dircolors' internal database"));
       usage (1);
     }
@@ -519,57 +519,57 @@ dircolors' internal database"));
     {
       int i;
       for (i = 0; i < G_N_LINES; i++)
-	{
-	  //fwrite (G_line[i], 1, G_line_length[i], stdout);
-	  fwrite (G_line[i], 1, strlen(G_line[i]), stdout); // AEK
-	  fputc ('\n', stdout);
-	}
+    {
+      //fwrite (G_line[i], 1, G_line_length[i], stdout);
+      fwrite (G_line[i], 1, strlen(G_line[i]), stdout); // AEK
+      fputc ('\n', stdout);
+    }
     }
   else
     {
       /* If shell syntax was not explicitly specified, try to guess it. */
       if (syntax == SHELL_SYNTAX_UNKNOWN)
-	{
-	  syntax = guess_shell_syntax ();
-	  if (syntax == SHELL_SYNTAX_UNKNOWN)
-	    {
-	      error (EXIT_FAILURE, 0,
-	 _("no SHELL environment variable, and no shell type option given"));
-	    }
-	}
+    {
+      syntax = guess_shell_syntax ();
+      if (syntax == SHELL_SYNTAX_UNKNOWN)
+        {
+          error (EXIT_FAILURE, 0,
+     _("no SHELL environment variable, and no shell type option given"));
+        }
+    }
 
       obstack_init (&lsc_obstack);
       if (argc == 0)
-	err = dc_parse_stream (NULL, NULL);
+    err = dc_parse_stream (NULL, NULL);
       else
-	err = dc_parse_file (argv[0]);
+    err = dc_parse_file (argv[0]);
 
       if (!err)
-	{
-	  size_t len = obstack_object_size (&lsc_obstack);
-	  char *s = obstack_finish (&lsc_obstack);
-	  const char *prefix="";
-	  const char *suffix="";
+    {
+      size_t len = obstack_object_size (&lsc_obstack);
+      char *s = obstack_finish (&lsc_obstack);
+      const char *prefix="";
+      const char *suffix="";
 
-	  if (syntax == SHELL_SYNTAX_BOURNE)
-	    {
-	      prefix = LS_PREFIX "_COLORS='"; // AEK
-	      suffix = "';\nexport " LS_PREFIX "_COLORS\n"; // AEK
-	    }
-	  else if (syntax == SHELL_SYNTAX_C) // AEK
-	    {
-	      prefix = "setenv " LS_PREFIX "_COLORS '"; // AEK
-	      suffix = "'\n";
-	    }
-	  else if (syntax == SHELL_SYNTAX_DOS) // AEK
-	    {
-	      prefix = "@echo off\nrem\nrem Batch script for setting file colors for ls.exe\nrem\nset LS_COLORS=";
-	      suffix = "\n";
-	    }
-	  fputs (prefix, stdout);
-	  fwrite (s, 1, len, stdout);
-	  fputs (suffix, stdout);
-	}
+      if (syntax == SHELL_SYNTAX_BOURNE)
+        {
+          prefix = LS_PREFIX "_COLORS='"; // AEK
+          suffix = "';\nexport " LS_PREFIX "_COLORS\n"; // AEK
+        }
+      else if (syntax == SHELL_SYNTAX_C) // AEK
+        {
+          prefix = "setenv " LS_PREFIX "_COLORS '"; // AEK
+          suffix = "'\n";
+        }
+      else if (syntax == SHELL_SYNTAX_DOS) // AEK
+        {
+          prefix = "@echo off\nrem\nrem Batch script for setting file colors for ls.exe\nrem\nset LS_COLORS=";
+          suffix = "\n";
+        }
+      fputs (prefix, stdout);
+      fwrite (s, 1, len, stdout);
+      fputs (suffix, stdout);
+    }
     }
 
 

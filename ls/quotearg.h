@@ -20,13 +20,13 @@
 /* Basic quoting styles.  */
 enum quoting_style
   {
-    literal_quoting_style,	/* --quoting-style=literal */
-    shell_quoting_style,	/* --quoting-style=shell */
-    shell_always_quoting_style,	/* --quoting-style=shell-always */
-    c_quoting_style,		/* --quoting-style=c */
-    escape_quoting_style,	/* --quoting-style=escape */
-    locale_quoting_style,	/* --quoting-style=locale */
-    clocale_quoting_style	/* --quoting-style=clocale */
+    literal_quoting_style,  /* --quoting-style=literal */
+    shell_quoting_style,    /* --quoting-style=shell */
+    shell_always_quoting_style, /* --quoting-style=shell-always */
+    c_quoting_style,        /* --quoting-style=c */
+    escape_quoting_style,   /* --quoting-style=escape */
+    locale_quoting_style,   /* --quoting-style=locale */
+    clocale_quoting_style   /* --quoting-style=clocale */
   };
 
 /* For now, --quoting-style=literal is the default, but this may change.  */
@@ -63,7 +63,7 @@ enum quoting_style get_quoting_style PARAMS ((struct quoting_options *o));
 /* In O (or in the default if O is null),
    set the value of the quoting style to S.  */
 void set_quoting_style PARAMS ((struct quoting_options *o,
-				enum quoting_style s));
+                enum quoting_style s));
 
 /* In O (or in the default if O is null),
    set the value of the quoting options for character C to I.
@@ -81,8 +81,8 @@ int set_char_quoting PARAMS ((struct quoting_options *o, char c, int i));
    value that would have been returned had BUFFERSIZE been large enough.
    If ARGSIZE is -1, use the string length of the argument for ARGSIZE.  */
 size_t quotearg_buffer PARAMS ((char *buffer, size_t buffersize,
-				char const *arg, size_t argsize,
-				struct quoting_options const *o));
+                char const *arg, size_t argsize,
+                struct quoting_options const *o));
 
 /* Use storage slot N to return a quoted version of the string ARG.
    Use the default quoting options.
@@ -98,7 +98,7 @@ char *quotearg PARAMS ((char const *arg));
    This is like quotearg_n (N, ARG), except that it uses S with no other
    options to specify the quoting method.  */
 char *quotearg_n_style PARAMS ((unsigned int n, enum quoting_style s,
-				char const *arg));
+                char const *arg));
 
 /* Equivalent to quotearg_n_style (0, S, ARG).  */
 char *quotearg_style PARAMS ((enum quoting_style s, char const *arg));
