@@ -1,5 +1,4 @@
-//#include "resource.h"
-#include "winres.h"
+#include "windows.h"
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
