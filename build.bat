@@ -1,5 +1,5 @@
-rem @echo off
-setlocal enableextensions
+@setlocal enableextensions
+@echo off
 
 rem
 rem Build script for msls
@@ -58,4 +58,3 @@ if EXIST "%BUILD_DIR%" (
             rmdir /q "%BUILD_DIR%" && if DEFINED BUILD_DIR_present ( echo "%BUILD_DIR%" removed )
         ))
 )
-endlocal

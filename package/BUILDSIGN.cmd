@@ -1,5 +1,5 @@
+@setlocal enableextensions
 @echo off
-setlocal enableextensions
 set PACKAGE=msls
 rem
 REM
@@ -7,7 +7,7 @@ REM BUILDSIGN.CMD - Build and sign msls for public release
 REM Written by Alan Klietz
 REM
 REM This script is for building and signing the software
-REM package for public download at https://u-tools.com/msls. 
+REM package for public download at https://u-tools.com/msls.
 REM It is not likely to be helpful to you.
 REM
 choice /C DR /N /M "[D]ebug or [R]elease? "
