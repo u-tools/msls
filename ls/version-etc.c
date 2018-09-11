@@ -22,6 +22,12 @@
 #endif
 
 #include <stdio.h>
+// BUG: (for some MSVC 1900 versions) putc() is defined incorrectly when _CRT_DISABLE_PERFCRIT_LOCKS is defined
+#if defined (_CRT_DISABLE_PERFCRIT_LOCKS) && defined(_MSC_VER) && (_MSC_VER >= 1900) && (_MSC_VER < 2000)
+#undef putc
+#define putc(_Ch, _Stream) _fputc_nolock(_Ch, _Stream)
+#endif
+
 #include "version-etc.h"
 
 #if ENABLE_NLS
