@@ -1,4 +1,6 @@
 ## emacs -*- coding: utf8-unix; mode: makefile; -*-
+## makefile:spell-checker:words CC CFLAGS COPTS CPP CPPFLAGS IFDEF IFNDEF LD LDFLAGS LDOPTS MAKEDIR MAKEFLAGS NDEBUG OBJS RC RCFLAGS RCOPTS realclean REZS SRCS veryclean
+## spell-checker:words dircolors Klietz MBCS advapi netapi delayimp delayload nobind rpcrt WinNT
 #
 # dircolors - GNU dircolors for Microsoft Windows
 # Ported to Microsoft Windows by Alan Klietz
@@ -9,8 +11,11 @@
 # Distributed under GNU General Public License version 2.
 #
 
+## NOTE!: directories and paths (eg, $(INT_DIR), $(ME_FILENAME) and $(FILE_NMAKE_CORE)) are expected to be relative to the current working directory (CWD)
+##    ... so, for correct operation, the make process *must* be started with CWD == directory of this makefile
+##    ... eg, use `cd MAKEFILE_DIR && nmake /f Makefile.nmake` )
+
 NAME=dircolors
-TYPE=exe
 
 DEFS=/D HAVE_CONFIG_H /D _CONSOLE /D WIN32 /D _WIN32_WINNT=0x0500 \
 	 /D STRICT /D _MBCS /D _CRT_SECURE_NO_WARNINGS
@@ -19,21 +24,9 @@ INCLUDES=/I. /I..\ls\.
 
 LIBS=kernel32.lib advapi32.lib shell32.lib
 
-OBJS= \
-	 "$(INTDIR)\basename.obj" \
-	 "$(INTDIR)\closeout.obj" \
-	 "$(INTDIR)\error.obj" \
-	 "$(INTDIR)\getline.obj" \
-	 "$(INTDIR)\getopt.obj" "$(INTDIR)\getopt1.obj" \
-	 "$(INTDIR)\getstr.obj" \
-	 "$(INTDIR)\obstack.obj" \
-	 "$(INTDIR)\quote.obj" \
-	 "$(INTDIR)\quotearg.obj" \
-	 "$(INTDIR)\strndup.obj" \
-	 "$(INTDIR)\strnlen.obj" \
-	 "$(INTDIR)\version-etc.obj" \
-	 "$(INTDIR)\xmalloc.obj" \
-	 "$(INTDIR)\xmbrtowc.obj" \
+SRCS=*.c *.cpp
+REZS=*.rc
+TESTS=..\tests\*.BAT
 
 ####
 

@@ -1,186 +1,201 @@
 # Makefile.nmake.core
 # Written by Roy Ivy III (https://github.com/rivy)
 ## emacs -*- mode: perl -*- ## modeline
+## makefile:spell-checker:words CC CFLAGS COPTS CPP CPPFLAGS ENDIF IFDEF IFNDEF LD LDFLAGS LDOPTS MAKEDIR MAKEFLAGS NDEBUG OBJS RC RCFLAGS RCOPTS REZS SRCS UNDEF realclean veryclean
+## spell-checker:words MSVC nologo mkdir rmdir MAINT findstr delims nowin
 
 ####
 
-#CPP=cl     # predefined by NMAKE
-#RC=rc      # predefined by NMAKE
+#CC=cl      # predefined by `nmake`
+#CPP=cl     # predefined by `nmake`
+#RC=rc      # predefined by `nmake`
 LD=link
 
 !IFNDEF MAKE
 MAKE=nmake
 !ENDIF
 
-!IF "$(TYPE)" == ""
-TYPE=exe
-!ENDIF
+FIND=$(SYSTEMROOT)\System32\find
+FINDSTR=$(SYSTEMROOT)\System32\findstr
+MORE=$(SYSTEMROOT)\System32\more
+SORT=$(SYSTEMROOT)\System32\sort
 
 ####
 
 !IF "$(BUILD_DIR)" == ""
+!UNDEF BUILD_DIR ## might otherwise be read-only if defined on command line
 BUILD_DIR=.\^#build
+!ENDIF
+
+!IF "$(BUILD_HELP_ALIAS)" == ""
+# used to generate help usage information
+!UNDEF BUILD_HELP_ALIAS ## might otherwise be read-only if defined on command line
+BUILD_HELP_ALIAS=$(MAKE) /F $(ME_FILENAME)
+!ENDIF
+
+!IF "$(BUILD_RANDOM)" == ""
+# use of the optional $(BUILD_RANDOM), set prior to calling `nmake`, can minimize risk of collisions when multiprocessing
+!UNDEF BUILD_RANDOM ## might otherwise be read-only if defined on command line
+BUILD_RANDOM=0
 !ENDIF
 
 !IF "$(BUILD_STATIC)" == ""
 # default to static builds
+!UNDEF BUILD_STATIC ## might otherwise be read-only if defined on command line
 BUILD_STATIC=1
 !ENDIF
 
-####
-
-!IF "$(BUILD_HELP_ALIAS)" == ""
-BUILD_HELP_ALIAS=$(MAKE) /F $(ME_FILENAME)
+!IF "$(CFG)" == ""
+!UNDEF CFG  ## might otherwise be read-only if defined on command line
+CFG=release
 !ENDIF
 
-####
+!IF "$(TYPE)" == ""
+!UNDEF TYPE ## might otherwise be read-only if defined on command line
+TYPE=.exe
+!ENDIF
 
-# use of the optional $(BUILD_RANDOM), set prior to calling NMAKE, can minimize risk of collisions when multiprocessing
+#### generate dynamic variables
+
+# NOTE: $(BUILD_DIR) may contain special `nmake` characters (eg, '#'), making later use (eg, "!INCLUDE $(BUILD_DIR)\$(FILE)") impossible
+#   ... $(TEMP_DIR), by using $(TEMP), should be safer to use (eg, for $(ME_setup_vars) and $(ME_setup_rules))
 TEMP_DIR=$(TEMP)\$(NAME).$(ME_FILENAME).$(BUILD_RANDOM)
 
-####
-
 # test compiler availability
-HAVE_CPP=true
+HAVE_CC=true
 !IF ([ \
-    $(CPP) >NUL 2>NUL \
-    ] != 0)
-# !ERROR missing required compiler (`$(CPP)`)
-HAVE_CPP=
+	$(CC) >NUL 2>NUL \
+	] != 0)
+HAVE_CC=
+CC_VERSION=0
 !ENDIF
 
-####
-
-!IF "$(HAVE_CPP)" == ""
-_CC_VERSION=0
-!ELSE
-# NOTE: $(BUILD_DIR) may contain special NMAKE characters (eg, '#'), making "!INCLUDE $(ME_setup)" unusable
-#   ... $(TEMP_DIR), by using $(TEMP), should be safer to use
-
-ME_setup=$(TEMP_DIR)\$(NAME).$(ME_FILENAME).vars
-#!MESSAGE using TEMP file "$(ME_setup)"
-
+# create temporary files for later dynamic inclusion
+ME_setup_vars=$(TEMP_DIR)\$(ME_FILENAME).vars
+ME_setup_rules=$(TEMP_DIR)\$(ME_FILENAME).rules
 !IF ([ \
-    @if not exist "$(TEMP_DIR)" @( mkdir "$(TEMP_DIR)" ) else @( echo>NUL ) && @( set /p OUTPUT=<NUL >"$(ME_setup)" & echo>NUL )\
-    ] == 0)
+	@if not exist "$(TEMP_DIR)" @( mkdir "$(TEMP_DIR)" ) else @( echo>NUL ) && @( \
+		echo|set /p OUTPUT="" >"$(ME_setup_vars)" \
+	 && echo|set /p OUTPUT="" >"$(ME_setup_rules)" \
+		)\
+	] == 0)
 !ELSE
-!ERROR unable to generate temporary file "$(ME_setup)"
+!ERROR unable to generate temporary files ("$(ME_setup_vars)", "$(ME_setup_rules)")
 !ENDIF
 
 # # determine `cwd`
 # ERR_CALC_CWD=error finding CWD
 # !IF ([ \
-#   @echo _CWD=%CD% >> "$(ME_setup)" \
+#   @echo _CWD=%CD% >> "$(ME_setup_vars)" \
 #   ] == 0)
 # !ELSE
 # !ERROR $(ERR_CALC_CWD)
 # !ENDIF
+CWD=$(MAKEDIR)
 
 # determine `cl` version
 # * needed to determine if using VC6 or a more modern VC version
 # [ref] http://stackoverflow.com/questions/26878278/microsoft-nmake-is-it-possible-to-define-macros-from-shell-command-output/27646085#27646085
 # [ref] http://stackoverflow.com/questions/2806325/nmake-exe-is-there-a-way-to-exclude-a-file-from-a-set-of-files-specified-in-a-m/2806609#2806609
 # MAINT:* [2016-02] current algorithm works for `cl` v12 (as "1200"; aka VS6/VC6/1998) through v19 (as "1900", aka VS14/VC14/2015); dependent on output of `cl`, which *has* changed between versions
-ERR_CALC_COMPILER_VERSION=error calculating compiler version
+ERR_CALC_COMPILER_VERSION=ERR!: unable to parse compiler version
 !IF ([ \
-    @for /f "tokens=6-10 delims=. " %g in ('$(CPP) 2^>^&1 ^| "%SystemRoot%\\System32\\findstr.EXE" /I /C:"Version"') do \
-        @(if /I "%g"=="Version" ( \
-            echo _CC_VERSION=%h%i >> "$(ME_setup)" \
-        ) else if /I "%h"=="Version" ( \
-            echo _CC_VERSION=%i%j >> "$(ME_setup)" \
-        ) else echo _CC_VERSION=1999 >> "$(ME_setup)" \
-        ) \
-    ] == 0)
+	@( for /f "tokens=6-10 delims=. " %g in ('$(CC) 2^>^&1 ^| "$(FINDSTR)" /I /C:"Version"') do \
+		@(  if /I "%g"=="Version" ( \
+				@echo CC_VERSION=%h%i >> "$(ME_setup_vars)" \
+			) else if /I "%h"=="Version" ( \
+				@echo CC_VERSION=%i%j >> "$(ME_setup_vars)" \
+			) else @echo CC_VERSION=0 >> "$(ME_setup_vars)" \
+		 ) \
+	 ) ||  @echo CC_VERSION=0 >> "$(ME_setup_vars)" \
+	] == 0)
 !ELSE
 !ERROR $(ERR_CALC_COMPILER_VERSION)
 !ENDIF
 
-!INCLUDE $(ME_setup)
-
-# cleanup
+# determine source, intermediate, and test file paths; also, generate per file make rules
+# * make construction recipes
+CC_RECIPE=$$^(CC^) $$^(CFLAGS^)     # .c files
+CPP_RECIPE=$$^(CPP^) $$^(CFLAGS^)   # .cpp/.cxx/.c++/.cc files
+RC_RECIPE=$$^(RC^) $$^(RCFLAGS^)    # .rc resource files
+# * resultant directories and files
+# ** NOTE: REZ == resource source file; RES == intermediate compiled resource object file
+SRC_dirs=
+SRC_files=
+OBJ_files=
+REZ_dirs=
+REZ_files=
+RES_files=
+TEST_files=
+ERR_FIND_FILES=ERR!: error calculating project source, intermediaries, and test files
 !IF ([ \
-    @if exist "$(ME_setup)" @( erase /q "$(ME_setup)" )\
-    ] == 0)
+	@echo OUT_DIR=$$(BUILD_DIR)\$$(CFG).(cl@$$(CC_VERSION)) >> "$(ME_setup_vars)" && \
+	@echo INT_DIR=$$(OUT_DIR)\obj >> "$(ME_setup_vars)" \
+	] == 0)
 !ELSE
-!ERROR unable to erase temporary file "$(ME_setup)"
+!ERROR $(ERR_FIND_FILES)
 !ENDIF
 !IF ([ \
-    @for /f %g in ('dir /a/b "$(TEMP_DIR)" 2^>NUL ^| "%SystemRoot%\\System32\\find.EXE" /C /V ""') do \
-        @(if /I "%g"=="0" ( \
-            rmdir /q "$(TEMP_DIR)" \
-        )) \
-    ] == 0)
+	@for %g in ($(SRCS)) do @( \
+		@echo SRC_dirs=$$^(SRC_dirs^) "%~dpg" >> "$(ME_setup_vars)" \
+	 && @echo SRC_files=$$^(SRC_files^) "%~g" >> "$(ME_setup_vars)" \
+	 && @echo OBJ_files=$$^(OBJ_files^) "$$(INT_DIR)\%~ng.obj" >> "$(ME_setup_vars)" \
+	 && @( if /I "%~xg" == ".c"   @echo $$^(INT_DIR^)\%~ng.obj: "%~g" ; $(CC_RECIPE) "%~g"  >> "$(ME_setup_rules)" ) \
+	 && @( if /I "%~xg" == ".cpp" @echo $$^(INT_DIR^)\%~ng.obj: "%~g" ; $(CPP_RECIPE) "%~g" >> "$(ME_setup_rules)" ) \
+	 && @( if /I "%~xg" == ".cxx" @echo $$^(INT_DIR^)\%~ng.obj: "%~g" ; $(CPP_RECIPE) "%~g" >> "$(ME_setup_rules)" ) \
+	 && @( if /I "%~xg" == ".c++" @echo $$^(INT_DIR^)\%~ng.obj: "%~g" ; $(CPP_RECIPE) "%~g" >> "$(ME_setup_rules)" ) \
+	 && @( if /I "%~xg" == ".cc"  @echo $$^(INT_DIR^)\%~ng.obj: "%~g" ; $(CPP_RECIPE) "%~g" >> "$(ME_setup_rules)" ) \
+		) \
+	] == 0)
 !ELSE
-!MESSAGE unable to erase temporary directory "$(TEMP_DIR)"
+!ERROR $(ERR_FIND_FILES)
+!ENDIF
+!IF ([ \
+	@for %g in ($(REZS)) do @( \
+		@echo REZ_dirs=$$^(REZ_dirs^) "%~dpg" >> "$(ME_setup_vars)" \
+	 && @echo REZ_files=$$^(REZ_files^) "%~g" >> "$(ME_setup_vars)" \
+	 && @echo RES_files=$$^(RES_files^) "$$(INT_DIR)\%~ng.res" >> "$(ME_setup_vars)" \
+	 && @echo $$^(INT_DIR^)\%~ng.res: "%~g" ; $(RC_RECIPE) "%~g" >> "$(ME_setup_rules)" \
+		) \
+	] == 0)
+!ELSE
+!ERROR $(ERR_FIND_FILES)
+!ENDIF
+!IF ([ \
+	@for %g in ($(TESTS)) do @echo TEST_files=$$^(TEST_files^) "%~g" >> "$(ME_setup_vars)" \
+	] == 0)
+!ELSE
+!ERROR $(ERR_FIND_FILES)
 !ENDIF
 
-!IF "$(_CC_VERSION)" == "" || $(_CC_VERSION) == 0
-!ERROR $(ERR_CALC_COMPILER_VERSION)
-!ENDIF
-!ENDIF
+!INCLUDE $(ME_setup_vars)   # include auto-generated variables
 
-# !MESSAGE CC_VERSION=$(_CC_VERSION)
-# !MESSAGE MAKEDIR=$(MAKEDIR)
-# !MESSAGE MAKEFLAGS=/$(MAKEFLAGS)
-# !MESSAGE BUILD_DIR=$(BUILD_DIR)
+PROJECT_DIR=$(CWD)
+PROJECT_TARGET=$(OUT_DIR)\$(NAME)$(TYPE)
 
 ####
 
-!IF $(_CC_VERSION) >= 1300
+!IF $(CC_VERSION) >= 1300
 BUILD_USING_VC6=0
 !ELSE
 BUILD_USING_VC6=1
 !ENDIF
 
-!IF "$(CFG)" == ""
-CFG=release
-!ENDIF
-
-!IF "$(CFG)" != "release" && "$(CFG)" != "debug"
-!MESSAGE
-!MESSAGE Invalid configuration "$(CFG)" specified.
-!MESSAGE You may specify a configuration when running NMAKE on this makefile
-!MESSAGE by defining the macro CFG on the command line.  For example:
-!MESSAGE
-!MESSAGE nmake CFG="debug"
-!MESSAGE
-!MESSAGE Possible choices for configuration are:
-!MESSAGE
-!MESSAGE "release"
-!MESSAGE "debug"
-!MESSAGE
-!ERROR An invalid configuration is specified.
-!ENDIF
-
-####
-
-OUTDIR=$(BUILD_DIR)\$(CFG).(cl@$(_CC_VERSION))
-INTDIR=$(OUTDIR)\obj
-
-# !MESSAGE OUTDIR=$(OUTDIR)
-# !MESSAGE INTDIR=$(INTDIR)
-
-####
-
 COPTS_basic=/nologo /W4 /Gm-
 
-!IF $(_CC_VERSION) < 1500
+!IF $(CC_VERSION) < 1500
 RCOPTS_vc=
 !ELSE
 RCOPTS_vc=/nologo
 !ENDIF
 
-!IF $(_CC_VERSION) < 1600
-#
-# Visual Studio 2008 or earlier supports creating apps that run on
-# Windows 95/98/ME, Windows NT, and Windows Server 2000.
-#
+!IF $(CC_VERSION) < 1600
+# Visual Studio 2008 (aka, MSVC 9, `cl` version "15xx") (or earlier) supports creating
+# apps that run on Windows 95/98/ME, Windows NT, and Windows Server 2000.
 SUBSYSTEM_VERSION=4.00   # Minimum supported subsystem is Win9x/NT (4.00)
 !ELSE
-#
-# Visual Studio 2010 (or later) does *not* support creating apps that run on
-# Windows 9x, NT, or Windows Server 2000.
-#
+# Visual Studio 2010 (aka, MSVC 10, `cl` version "16xx") (or later) does *not* support
+# creating apps that run on Windows 9x, NT, or Windows Server 2000.
 SUBSYSTEM_VERSION=5.01   # Minimum supported subsystem is Windows XP (5.01)
 !ENDIF
 
@@ -190,7 +205,7 @@ LDOPTS_vc=/opt:nowin98 /ignore:4254
 LDOPTS_vc=/version:4.00
 !ENDIF
 
-#### # CFG=debug
+## settings for `CFG=debug`
 
 !IF "$(CFG)" == "debug"
 
@@ -210,11 +225,11 @@ COPTS_vc_CFG=/MP /RTC1
 
 RCOPTS_basic_CFG=/d _DEBUG
 
-LDOPTS_basic_CFG=/debug /pdb:"$(OUTDIR)\$(NAME).pdb"
+LDOPTS_basic_CFG=/debug /pdb:"$(OUT_DIR)\$(NAME).pdb"
 
 !ENDIF
 
-#### # CFG=release
+## settings for `CFG=release`
 
 !IF "$(CFG)" == "release"
 
@@ -241,81 +256,164 @@ LDOPTS_basic_CFG=/opt:ref,icf
 ####
 
 CFLAGS=$(COPTS_basic) $(COPTS_basic_CFG) $(COPTS_static_CFG) $(COPTS_vc_CFG) \
-       $(DEFS) $(INCLUDES) \
-       /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /c
+	   $(DEFS) $(INCLUDES) \
+	   /Fo"$(INT_DIR)"\ /Fd"$(INT_DIR)"\ /c
 
-RCFLAGS=/l 0x409 $(RCOPTS_basic_CFG) $(RCOPTS_vc) /fo"$(INTDIR)\$(NAME).res"
+RCFLAGS=/l 0x409 $(RCOPTS_basic_CFG) $(RCOPTS_vc) /fo"$(INT_DIR)\$(NAME).res"
 
 LDFLAGS=$(LIBS) /nologo /incremental:no /base:"0x20000000" \
-        /machine:I386 /subsystem:console,$(SUBSYSTEM_VERSION) /out:"$(OUTDIR)\$(NAME).$(TYPE)" /release \
-        $(LDOPTS_basic_CFG) $(LDOPTS_vc) /map:"$(OUTDIR)\$(NAME).map"
+		/machine:I386 /subsystem:console,$(SUBSYSTEM_VERSION) /out:"$(OUT_DIR)\$(NAME)$(TYPE)" /release \
+		$(LDOPTS_basic_CFG) $(LDOPTS_vc) /map:"$(OUT_DIR)\$(NAME).map"
 
-!IF ([@dir "$(NAME).rc" >NUL 2>NUL] == 0)
-OBJS_exe="$(INTDIR)\$(NAME).obj" "$(INTDIR)\$(NAME).res"
-!ELSE
-OBJS_exe="$(INTDIR)\$(NAME).obj"
+####
+
+# default target
+# * `nmake`, when no target is specified, defaults to making the first valid target specifier
+$(PROJECT_TARGET): $(INT_DIR) $(OUT_DIR) $(SRC_files) $(OBJ_files) $(RES_files)
+	$(LD) $(LDFLAGS) $(OBJ_files) $(RES_files)
+
+####
+
+!INCLUDE $(ME_setup_rules)  # auto-generated make rules/recipes; should be included after the "default target" to allow for a "default target"
+
+####
+
+# debugging info display
+
+!IF ("$(BUILD_DEBUG)" != "" && "$(BUILD_DEBUG)" != "0") || ("$(MAKE_DEBUG)" != "" && "$(MAKE_DEBUG)" != "0")
+!MESSAGE NAME=$(NAME)
+!MESSAGE TYPE=$(TYPE)
+!MESSAGE CFG=$(CFG)
+!MESSAGE CWD=$(CWD)
+!MESSAGE PROJECT_DIR=$(PROJECT_DIR)
+!MESSAGE PROJECT_TARGET=$(PROJECT_TARGET)
+!MESSAGE BUILD_DEBUG=$(BUILD_DEBUG)
+!MESSAGE BUILD_DIR=$(BUILD_DIR)
+!MESSAGE BUILD_HELP_ALIAS=$(BUILD_HELP_ALIAS)
+!MESSAGE BUILD_STATIC=$(BUILD_STATIC)
+!MESSAGE CC=$(CC)
+!MESSAGE CC_VERSION=$(CC_VERSION)
+!MESSAGE CFLAGS=$(CFLAGS)
+!MESSAGE CPP=$(CPP)
+!MESSAGE FILE_NMAKE_CORE=$(FILE_NMAKE_CORE)
+!MESSAGE FIND=$(FIND)
+!MESSAGE FINDSTR=$(FINDSTR)
+!MESSAGE HAVE_CC=$(HAVE_CC)
+!MESSAGE INT_DIR=$(INT_DIR)
+!MESSAGE LD=$(LD)
+!MESSAGE LD=$(LDFLAGS)
+!MESSAGE MAKE=$(MAKE)
+!MESSAGE MAKE_DEBUG=$(MAKE_DEBUG)
+!MESSAGE MAKEDIR=$(MAKEDIR)
+!MESSAGE MAKEFLAGS=/$(MAKEFLAGS)
+!MESSAGE MORE=$(MORE)
+!MESSAGE ME_FILENAME=$(ME_FILENAME)
+!MESSAGE OUT_DIR=$(OUT_DIR)
+!MESSAGE RC=$(RC)
+!MESSAGE RCFLAGS=$(RCFLAGS)
+!MESSAGE SORT=$(SORT)
+!MESSAGE TEST_VERBOSE=$(TEST_VERBOSE)
+!MESSAGE TEMP_DIR=$(TEMP_DIR)
 !ENDIF
 
-####
+# cleanup temporary file(s)
 
-# NMAKE, when no target is specified, defaults to making the first valid target specifier
-default_target: release    ## [default TARGET]
+!IF (DEFINED( BUILD_DEBUG ) && "$(BUILD_DEBUG)" != "0") || (DEFINED(MAKE_DEBUG) && "$(MAKE_DEBUG)" != "0")
+!MESSAGE debug: setup files ("$(ME_setup_vars)", "$(ME_setup_rules)") saved for reference
+!ELSE
+!IF ([ \
+	@if exist "$(ME_setup_vars)" @( erase /q "$(ME_setup_vars)" ) && \
+	@if exist "$(ME_setup_rules)" @( erase /q "$(ME_setup_rules)" ) \
+	] == 0)
+!ELSE
+!ERROR unable to erase temporary file "$(ME_setup_vars)"
+!ENDIF
+!IF ([ \
+	@for /f %g in ('dir /a/b "$(TEMP_DIR)" 2^>NUL ^| "$(FIND)" /C /V ""') do \
+		@(if /I "%g"=="0" ( \
+			rmdir /s/q "$(TEMP_DIR)" \
+		)) \
+	] == 0)
+!ELSE
+!MESSAGE unable to erase temporary directory "$(TEMP_DIR)"
+!ENDIF
+!ENDIF
 
-####
+#### errors
 
-release:
-	@$(MAKE) /nologo /$(MAKEFLAGS) CFG="release" /f $(ME_FILENAME) "$(NAME)"
+!IF "$(CFG)" != "release" && "$(CFG)" != "debug"
+!ERROR An invalid configuration ("$(CFG)") was specified. Use "debug", "release", or "" (which will default to "release").
+!ENDIF
 
-debug:
-	@$(MAKE) /nologo /$(MAKEFLAGS) CFG="debug" /f $(ME_FILENAME) "$(NAME)"
+!IF "$(HAVE_CC)" == ""
+!ERROR missing required compiler (`$(CC)`)
+!ENDIF
 
-all: debug release
+#### warnings
+
+!IF "$(CC_VERSION)" == "0"
+!MESSAGE WARN: unable to parse `$(CC)` version (may require parsing logic update [see MAINT]).
+!ENDIF
+
+#### targets
+
+release:  ## Build "CFG=release" project configuration
+	@$(MAKE) /nologo /$(MAKEFLAGS) CFG="release" /f "$(ME_FILENAME)"
+
+debug:  ## Build "CFG=debug" project configuration
+	@$(MAKE) /nologo /$(MAKEFLAGS) CFG="debug" /f "$(ME_FILENAME)"
 
 ##
 
-clean:
-	@if exist "$(INTDIR)" ( rmdir /s/q "$(INTDIR)" && echo "$(INTDIR)" removed )
-	@if exist "$(OUTDIR)" ( rmdir /s/q "$(OUTDIR)" && echo "$(OUTDIR)" removed )
+test: "$(CFG)"  ## Test project
+	@echo # testing: "$(CFG)"; "$(TARGET)"
+	@echo."test failure" >NUL & @( \
+	    set "CFG=$(CFG)" & set "OUT_DIR=$(OUT_DIR)" & set "PROJECT_DIR=$(PROJECT_DIR)" & set "PROJECT_TARGET=$(PROJECT_TARGET)" \
+	  & set "TEST_VERBOSE=$(TEST_VERBOSE)" \
+	  & set "N_FAILs=" & set N_TESTs=0 \
+	  & @( for %g in ($(TEST_files)) do \
+			@( set /a N_TESTs=N_TESTS+1 >NUL \
+			& ( echo|set /P OUTPUT="# invoking '%~g' " ) \
+			& @( if DEFINED TEST_VERBOSE ( echo. & call "%~g" && echo # '%g' .. passed || (set /a N_FAILs=N_FAILs+1 >NUL & echo # '%g' .. FAILED )  )  )\
+			& @( if NOT DEFINED TEST_VERBOSE call "%~g" >NUL && echo .. passed || (set /a N_FAILs=N_FAILs+1 >NUL & echo .. FAILED) ) \
+			)) \
+	  & @( if DEFINED N_FAILs call echo FAILED [^%N_FAILs^% of ^%N_TESTs^% test^(s^) failed] ) \
+	  & @( if NOT DEFINED N_FAILs call echo PASSED [^%N_TESTs^% test^(s^) passed] ) \
+	  & call exit %N_FAILs% \
+	)
 
-realclean: clean
+##
+
+all: debug release  ## Build all project configurations
+
+build: $(PROJECT_TARGET) ## Build project
+
+clean:  ## Remove build artifacts (including intermediate files)
+	@if exist "$(INT_DIR)" ( rmdir /s/q "$(INT_DIR)" && echo "$(INT_DIR)" removed )
+	@if exist "$(OUT_DIR)" ( rmdir /s/q "$(OUT_DIR)" && echo "$(OUT_DIR)" removed )
+
+rebuild: clean build  ## Clean and rebuild project
+
+realclean: clean  ## Remove *all* build artifacts (including all configurations and the build directory)
 	@if exist "$(BUILD_DIR)" ( rmdir /s/q "$(BUILD_DIR)" && echo "$(BUILD_DIR)" removed )
 
 help:
 	@echo: & @echo usage: `$(BUILD_HELP_ALIAS) [TARGET [TARGET]...]`
-	@echo builds `$(NAME).$(TYPE)` to "$(MAKEDIR)\$(OUTDIR)"
+	@echo builds `$(NAME)$(TYPE)` to "$(MAKEDIR)\$(OUT_DIR)"
 	@echo: & @echo [valid TARGETs] & @echo:
-	@"%SystemRoot%\System32\findstr.EXE" "^[a-zA-Z]*:" "$(FILE_NMAKE_CORE)" | sort
+	@"$(FINDSTR)" "^[a-zA-Z-]*:" "$(FILE_NMAKE_CORE)" | "$(SORT)" | for /f "tokens=1-2,* delims=:#" %g in ('$(MORE)') do @(@set "t=%g                " & @call echo ^%t:~0,15^% %i)
 
 ##
 
-build: default_target
-rebuild: clean build
+$(INT_DIR): $(BUILD_DIR)
+	@if not exist "$(INT_DIR)" mkdir "$(INT_DIR)"
 
-##
+$(OUT_DIR): $(BUILD_DIR)
+	@if not exist "$(OUT_DIR)" mkdir "$(OUT_DIR)"
 
-/init:
-	@if "$(HAVE_CPP)" == "" ( echo ERR!: missing required compiler ^(`$(CPP)`^) & exit 1 )
+$(BUILD_DIR):
 	@if not exist "$(BUILD_DIR)" mkdir "$(BUILD_DIR)"
-	@if not exist "$(INTDIR)" mkdir "$(INTDIR)"
-	@if not exist "$(OUTDIR)" mkdir "$(OUTDIR)"
-
-"$(NAME)" "$(NAME).$(TYPE)": /init
-	@$(MAKE) /nologo /$(MAKEFLAGS) CFG="$(CFG)" /f $(ME_FILENAME) "$(OUTDIR)\$(NAME).$(TYPE)"
 
 ##
 
-"$(OUTDIR)\$(NAME).$(TYPE)": $(OBJS) $(OBJS_exe)
-	$(LD) $(LDFLAGS) $(OBJS) $(OBJS_exe)
-
-"$(INTDIR)\$(NAME).res": $(NAME).rc
-	$(RC) $(RCFLAGS) $(NAME).rc
-
-.c{$(INTDIR)}.obj:
-	$(CPP) $(CFLAGS) $<
-
-.cpp{$(INTDIR)}.obj:
-	$(CPP) $(CFLAGS) $<
-
-##
-
-## .PHONY: default_target release debug all clean help build rebuild realclean /init "$(NAME)" "$(NAME).$(TYPE)"
+## .PHONY: default_target release debug all clean help build rebuild realclean /init "$(NAME)" "$(NAME)$(TYPE)"
