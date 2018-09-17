@@ -173,6 +173,9 @@ ERR_FIND_FILES=ERR!: error calculating project source, intermediaries, and test 
 PROJECT_DIR=$(CWD)
 PROJECT_TARGET=$(OUT_DIR)\$(NAME)$(TYPE)
 
+OBJ_files_rsp=$(OUT_DIR)\$(NAME).obj_files.rsp  # OBJ file list for use as a response file
+RES_files_rsp=$(OUT_DIR)\$(NAME).res_files.rsp  # RES (compiled resource) file list for use as a response file
+
 ####
 
 !IF $(CC_VERSION) >= 1300
@@ -269,8 +272,8 @@ LDFLAGS=$(LIBS) /nologo /incremental:no /base:"0x20000000" \
 
 # default target
 # * `nmake`, when no target is specified, defaults to making the first valid target specifier
-$(PROJECT_TARGET): $(INT_DIR) $(OUT_DIR) $(SRC_files) $(OBJ_files) $(RES_files)
-	$(LD) $(LDFLAGS) $(OBJ_files) $(RES_files)
+"$(PROJECT_TARGET)": "$(INT_DIR)" "$(OUT_DIR)" $(SRC_files) "$(OBJ_files_rsp)" "$(RES_files_rsp)"
+	$(LD) $(LDFLAGS) @"$(OBJ_files_rsp)" @"$(RES_files_rsp)"
 
 ####
 
@@ -405,14 +408,28 @@ help:
 
 ##
 
-$(INT_DIR): $(BUILD_DIR)
+"$(BUILD_DIR)":
+	@if not exist "$(BUILD_DIR)" mkdir "$(BUILD_DIR)"
+
+"$(INT_DIR)": "$(BUILD_DIR)"
 	@if not exist "$(INT_DIR)" mkdir "$(INT_DIR)"
 
-$(OUT_DIR): $(BUILD_DIR)
+"$(OUT_DIR)": "$(BUILD_DIR)"
 	@if not exist "$(OUT_DIR)" mkdir "$(OUT_DIR)"
 
-$(BUILD_DIR):
-	@if not exist "$(BUILD_DIR)" mkdir "$(BUILD_DIR)"
+##
+
+"$(OBJ_files_rsp)": $(OBJ_files)
+	@copy  <<  "$(OBJ_files_rsp)" >NUL
+$(OBJ_files)
+<<
+	@echo Created object file list (response file; "$(OBJ_files_rsp)")
+
+"$(RES_files_rsp)": $(RES_files)
+	@copy  <<  "$(RES_files_rsp)" >NUL
+$(RES_files)
+<<
+	@echo Created compiled resource file list (response file; "$(RES_files_rsp)")
 
 ##
 
