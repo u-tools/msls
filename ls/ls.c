@@ -4321,13 +4321,13 @@ _MapColor(DWORD wColor, unsigned long u)
     case 30: /* black */
       return (wColor & 0xFFF0);
     case 31: /* red */
-      return (wColor & 0XFFF0) | FOREGROUND_RED | FOREGROUND_INTENSITY;
+      return (wColor & 0XFFF0) | FOREGROUND_RED;
     case 32: /* green */
-      return (wColor & 0XFFF0) | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+      return (wColor & 0XFFF0) | FOREGROUND_GREEN;
     case 33: /* yellow */
-      return (wColor & 0XFFF0) | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY;
+      return (wColor & 0XFFF0) | FOREGROUND_GREEN | FOREGROUND_RED;
     case 34: /* blue */
-      return (wColor & 0XFFF0) | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+      return (wColor & 0XFFF0) | FOREGROUND_BLUE;
     case 35: /* magenta */
       return (wColor & 0XFFF0) | FOREGROUND_BLUE | FOREGROUND_RED;
     case 36: /* cyan */
@@ -4350,8 +4350,40 @@ _MapColor(DWORD wColor, unsigned long u)
       return (wColor & 0XFF0F) | BACKGROUND_BLUE | BACKGROUND_GREEN;
     case 47: /* white */
       return (wColor & 0XFF0F) | BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
-  }
-  return wColor;
+    case 90: /* black */
+      return (wColor & 0xFFF0) | FOREGROUND_INTENSITY;
+    case 91: /* red */
+      return (wColor & 0XFFF0) | FOREGROUND_RED | FOREGROUND_INTENSITY;
+    case 92: /* green */
+      return (wColor & 0XFFF0) | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+    case 93: /* yellow */
+      return (wColor & 0XFFF0) | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY;
+    case 94: /* blue */
+      return (wColor & 0XFFF0) | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+    case 95: /* magenta */
+      return (wColor & 0XFFF0) | FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY;
+    case 96: /* cyan */
+      return (wColor & 0XFFF0) | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+    case 97: /* white */
+      return (wColor & 0XFFF0) | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY;
+    case 100: /* black */
+      return (wColor & 0xFF0F) | BACKGROUND_INTENSITY;
+    case 101: /* red */
+      return (wColor & 0XFF0F) | BACKGROUND_RED | BACKGROUND_INTENSITY;
+    case 102: /* green */
+      return (wColor & 0XFF0F) | BACKGROUND_GREEN | BACKGROUND_INTENSITY;
+    case 103: /* yellow */
+      return (wColor & 0XFF0F) | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY;
+    case 104: /* blue */
+      return (wColor & 0XFF0F) | BACKGROUND_BLUE | BACKGROUND_INTENSITY;
+    case 105: /* magenta */
+      return (wColor & 0XFF0F) | BACKGROUND_BLUE | BACKGROUND_RED | BACKGROUND_INTENSITY;
+    case 106: /* cyan */
+      return (wColor & 0XFF0F) | BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_INTENSITY;
+    case 107: /* white */
+      return (wColor & 0XFF0F) | BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY;
+    }
+    return wColor;
 }
 
 #define BAD_ESCAPE (unsigned int)(-1)
