@@ -17,7 +17,7 @@ cd "%~dp0"
 set __dp0=%~dp0
 
 set CC=cl
-set _FIND=%SystemRoot%\System32\find.EXE
+set _FIND=%SystemRoot%\System32\find
 
 set "build_dir_default=#build"
 
@@ -30,7 +30,7 @@ if EXIST "%BUILD_DIR%" ( set "BUILD_DIR_present=true" )
 setlocal
 set "ERRORLEVEL="
 :: build each project with a clean environment (targeted at BUILD_DIR) and from within that project directory
-if /I "%CC%"=="cl" if NOT DEFINED VCVARS_ARE_SET if EXIST "%__dp0%dbin\VCvars.BAT" ( call "%__dp0%dbin\VCvars.BAT" ) else ( call VCVars 2>NUL )
+if /I "%CC%"=="cl" if NOT DEFINED VCVARS_ARE_SET ( echo Missing `%CC%`: attempting VCvars setup & if EXIST "%__dp0%dbin\VCvars.BAT" ( call "%__dp0%dbin\VCvars.BAT" ) else ( call VCVars 2>NUL ) )
 call %CC% >NUL 2>NUL && (
     for /D %%d in (%projects%) DO @(
         if /i NOT "%%d" == "%build_dir_default%" ( if /i NOT "%%d" == "%BUILD_DIR%" (
