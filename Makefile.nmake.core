@@ -284,7 +284,7 @@ help:
 	@echo: & @echo usage: `$(BUILD_HELP_ALIAS) [TARGET [TARGET]...]`
 	@echo builds `$(NAME).$(TYPE)` to "$(MAKEDIR)\$(OUTDIR)"
 	@echo: & @echo [valid TARGETs] & @echo:
-	@"%SystemRoot%\System32\findstr.EXE" "^[a-zA-Z]*:" "$(ME_FILENAME).core" | sort
+	@"%SystemRoot%\System32\findstr.EXE" "^[a-zA-Z]*:" "$(FILE_NMAKE_CORE)" | sort
 
 ##
 
