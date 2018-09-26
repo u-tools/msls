@@ -76,9 +76,12 @@ static const char *const slack_codes[] =
   "SYMLINK", "ORPHAN", "MISSING", "FIFO", "PIPE", "SOCK", "BLK", "BLOCK",
   "CHR", "CHAR", "DOOR", "EXEC", "LEFT", "LEFTCODE", "RIGHT", "RIGHTCODE",
   "END", "ENDCODE",
-  "RECENT", // AEK
-  "COMPRESSED", // AEK
-  "STREAMS", // AEK
+  "RECENT",
+  "COMPRESSED",
+  "STREAMS",
+  // additional *nix compatible keywords
+  "RESET", "MULTIHARDLINK", "SETUID", "SETGID", "CAPABILITY",
+  "STICKY_OTHER_WRITABLE", "OTHER_WRITABLE", "STICKY",
   NULL
 };
 
@@ -86,9 +89,11 @@ static const char *const ls_codes[] =
 {
   "no", "no", "fi", "di", "ln", "ln", "ln", "or", "mi", "pi", "pi",
   "so", "bd", "bd", "cd", "cd", "do", "ex", "lc", "lc", "rc", "rc", "ec", "ec",
-  "re", // AEK
-  "co", // AEK
-  "st", // AEK
+  "re",
+  "co",
+  "xs",
+  "rs", "mh", "su", "sg", "ca",
+  "tw", "ow", "st",
 };
 
 static struct option const long_options[] =
