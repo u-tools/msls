@@ -61,5 +61,6 @@ OBJS= \
 ####
 
 ME_FILENAME=Makefile.nmake
+FILE_NMAKE_CORE=..\$(ME_FILENAME).core
 
-!INCLUDE ..\$(ME_FILENAME).core
+!INCLUDE "$(FILE_NMAKE_CORE)"

@@ -60,7 +60,7 @@ STRXCASECMP_FUNCTION (const char *s1, const char *s2 STRXCASECMP_DECLARE_N)
       c2 = TOLOWER (*p2);
 
       if (LENGTH_LIMIT_EXPR (--n == 0) || c1 == '\0')
-	break;
+    break;
 
       ++p1;
       ++p2;

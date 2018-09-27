@@ -46,60 +46,60 @@ extern "C" {
 // Dir cache
 //
 struct cache_dir {
-	struct cache_dir *cd_next;
-	struct cache_entry *cd_entry_first;
-	struct cache_entry *cd_entry_last;
-	char *cd_dirname;
-	char *cd_pat;
+    struct cache_dir *cd_next;
+    struct cache_entry *cd_entry_first;
+    struct cache_entry *cd_entry_last;
+    char *cd_dirname;
+    char *cd_pat;
 };
 
 //
 // Entry cache
 //
 struct cache_entry {
-	struct cache_entry *ce_next;
-	char *ce_filename;
-	uintmax_t ce_size;
-	uintmax_t ce_ino; // dirent->d_ino  inode #
-	///////////////////////////////////////////////////
-	//
-	// FindFirstFile/FindNextFile WIN32_FIND_DATA
-	//
-	DWORD dwFileAttributes;
-	//FILETIME ftCreationTime;
-	//FILETIME ftLastAccessTime;
-	//FILETIME ftLastWriteTime;
-	time_t ce_atime;
-	time_t ce_mtime;
-	time_t ce_ctime;
-	DWORD dwReserved0; // reparse tag from FindFileFirst - not in findfirst
-	DWORD dwReserved1; // ??? from FindFileFirst - not in findfirst
+    struct cache_entry *ce_next;
+    char *ce_filename;
+    uintmax_t ce_size;
+    uintmax_t ce_ino; // dirent->d_ino  inode #
+    ///////////////////////////////////////////////////
+    //
+    // FindFirstFile/FindNextFile WIN32_FIND_DATA
+    //
+    DWORD dwFileAttributes;
+    //FILETIME ftCreationTime;
+    //FILETIME ftLastAccessTime;
+    //FILETIME ftLastWriteTime;
+    time_t ce_atime;
+    time_t ce_mtime;
+    time_t ce_ctime;
+    DWORD dwReserved0; // reparse tag from FindFileFirst - not in findfirst
+    DWORD dwReserved1; // ??? from FindFileFirst - not in findfirst
 
-	// Requires real Win32 FindFirst
-	CHAR cAlternateFileName[14]; // not in findfirst
+    // Requires real Win32 FindFirst
+    CHAR cAlternateFileName[14]; // not in findfirst
 
-	BOOL ce_bGotFullInfo; // did GetFileInformationByHandle()
-	BOOL ce_bIsSymlink; // Reparse point or .LNK file
+    BOOL ce_bGotFullInfo; // did GetFileInformationByHandle()
+    BOOL ce_bIsSymlink; // Reparse point or .LNK file
 
-	// These require extra query with GetFileInformationByHandle
-	DWORD dwVolumeSerialNumber;
-	DWORD nNumberOfLinks;
-	//DWORD nFileIndexHigh; // map to ce_ino
-	//DWORD nFileIndexLow;
+    // These require extra query with GetFileInformationByHandle
+    DWORD dwVolumeSerialNumber;
+    DWORD nNumberOfLinks;
+    //DWORD nFileIndexHigh; // map to ce_ino
+    //DWORD nFileIndexLow;
 
-	////////////////////////
-	//
-	// Child for target of symlink (if we are a reparse point)
-	//
-	char *ce_abspath; // our full path
-	struct cache_entry *ce_symlink;
-	BOOL ce_bBadSymlink; // TRUE if already tried to follow symlink & failed
+    ////////////////////////
+    //
+    // Child for target of symlink (if we are a reparse point)
+    //
+    char *ce_abspath; // our full path
+    struct cache_entry *ce_symlink;
+    BOOL ce_bBadSymlink; // TRUE if already tried to follow symlink & failed
 
-	////////////////////////
-	//
-	// Registry info
-	//
-	DWORD ce_dwRegType; // REG_SZ, etc
+    ////////////////////////
+    //
+    // Registry info
+    //
+    DWORD ce_dwRegType; // REG_SZ, etc
 };
 
 #define REG_KEY 255  // synthetic type to mark a registry key
@@ -109,14 +109,14 @@ struct cache_entry {
 
 struct dirent
 {
-	uintmax_t		d_ino;		// note size!
-	unsigned short	d_reclen;	// Always zero. */
-	unsigned short	d_namlen;	// Length of name in d_name.
-	unsigned long   d_type;     // DT_xxx type
-	char		d_name[FILENAME_MAX]; // 260 chars max
-	///////////////////////////
-	// Extra info (cached)
-	struct cache_entry *d_ce;
+    uintmax_t       d_ino;      // note size!
+    unsigned short  d_reclen;   // Always zero. */
+    unsigned short  d_namlen;   // Length of name in d_name.
+    unsigned long   d_type;     // DT_xxx type
+    char            d_name[FILENAME_MAX];   // 260 chars max
+    ///////////////////////////
+    // Extra info (cached)
+    struct cache_entry *d_ce;
 };
 
 /*
@@ -126,15 +126,15 @@ struct dirent
  */
 typedef struct
 {
-	/* disk transfer area for this dir */
-	//struct _finddata_t	dd_dta;
-	struct cache_dir *dd_cd;  // cache dir
-	struct cache_entry *dd_next_entry; // next cache entry
+    /* disk transfer area for this dir */
+    //struct _finddata_t    dd_dta;
+    struct cache_dir *dd_cd;  // cache dir
+    struct cache_entry *dd_next_entry; // next cache entry
 
-	/* dirent struct to return from dir (NOTE: this makes this thread
-	 * safe as long as only one thread uses a particular DIR struct at
-	 * a time) */
-	struct dirent		dd_dir;
+    /* dirent struct to return from dir (NOTE: this makes this thread
+     * safe as long as only one thread uses a particular DIR struct at
+     * a time) */
+    struct dirent dd_dir;
 
 } DIR;
 
@@ -198,20 +198,20 @@ void __cdecl seekdir (DIR*, long);
 
 
 struct xstat {
-	_dev_t st_dev;
-	uintmax_t st_ino; // note size!
-	unsigned long st_mode;
-	short st_nlink;
-	short st_uid; // unused
-	short st_gid; // unused
-	_dev_t st_rdev; // unused
-	uintmax_t st_size; // note size!
-	time_t st_atime;
-	time_t st_mtime;
-	time_t st_ctime;
-	///////////////////////////
-	// Extra info (cached)
-	struct cache_entry *st_ce; // might be null
+    _dev_t st_dev;
+    uintmax_t st_ino; // note size!
+    unsigned long st_mode;
+    short st_nlink;
+    short st_uid; // unused
+    short st_gid; // unused
+    _dev_t st_rdev; // unused
+    uintmax_t st_size; // note size!
+    time_t st_atime;
+    time_t st_mtime;
+    time_t st_ctime;
+    ///////////////////////////
+    // Extra info (cached)
+    struct cache_entry *st_ce; // might be null
 };
 
 //
@@ -263,8 +263,8 @@ extern BOOL view_file_security(struct cache_entry *ce);
 extern void win32_mode_string(struct stat *st, char *szMode);
 
 extern BOOL _GetRegSecurity(LPCSTR szPath, struct cache_entry *ce,
-	DWORD dwFlags, PSECURITY_DESCRIPTOR psd, DWORD dwSdLen,
-	PDWORD pdwNeededSdLen);
+    DWORD dwFlags, PSECURITY_DESCRIPTOR psd, DWORD dwSdLen,
+    PDWORD pdwNeededSdLen);
 extern BOOL print_registry_value(struct cache_entry* ce);
 
 extern int DumpToken();
@@ -275,11 +275,11 @@ extern BOOL VirtualView();
 //
 extern BOOL gbComInitialized;
 
-#ifdef	__cplusplus
+#ifdef  __cplusplus
 }
 #endif
 
-#endif	/* Not _XDIRENT_H_ */
+#endif  /* Not _XDIRENT_H_ */
 
 /*
 vim:tabstop=4:shiftwidth=4:noexpandtab

@@ -57,12 +57,12 @@ if not "%ProgramFiles(x86)%"=="" ( set REG32=%SystemRoot%\SysWOW64\reg.exe
 )
 
 if "%~1"=="/silent" (
-	shift /1
-	set silent=yes
+    shift /1
+    set silent=yes
 )
 if "%~1"=="/force" (
-	shift /1
-	set force=yes
+    shift /1
+    set force=yes
 )
 rem
 if "%1"=="restore" goto restore

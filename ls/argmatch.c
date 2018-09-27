@@ -22,6 +22,12 @@
 #include "config.h"
 
 #include <stdio.h>
+// BUG: (for some MSVC 1900 versions) putc() is defined incorrectly when _CRT_DISABLE_PERFCRIT_LOCKS is defined
+#if defined (_CRT_DISABLE_PERFCRIT_LOCKS) && defined(_MSC_VER) && (_MSC_VER >= 1900) && (_MSC_VER < 2000)
+#undef putc
+#define putc(_Ch, _Stream) _fputc_nolock(_Ch, _Stream)
+#endif
+
 #ifdef STDC_HEADERS
 # include <string.h>
 #endif
@@ -94,13 +100,13 @@ argmatch_exit_fn argmatch_die = __argmatch_die;
 
 static int
 __argmatch_internal (const char *arg, const char *const *arglist,
-		     const char *vallist, size_t valsize,
-		     int case_sensitive)
+             const char *vallist, size_t valsize,
+             int case_sensitive)
 {
-  int i;			/* Temporary index in ARGLIST.  */
-  size_t arglen;		/* Length of ARG.  */
-  int matchind = -1;		/* Index of first nonexact match.  */
-  int ambiguous = 0;		/* If nonzero, multiple nonexact match(es).  */
+  int i;                /* Temporary index in ARGLIST.  */
+  size_t arglen;        /* Length of ARG.  */
+  int matchind = -1;    /* Index of first nonexact match.  */
+  int ambiguous = 0;    /* If nonzero, multiple nonexact match(es).  */
 
   arglen = strlen (arg);
 
@@ -108,28 +114,28 @@ __argmatch_internal (const char *arg, const char *const *arglist,
   for (i = 0; arglist[i]; i++)
     {
       if (case_sensitive
-	  ? !strncmp (arglist[i], arg, arglen)
-	  : !strncasecmp (arglist[i], arg, arglen))
-	{
-	  if (strlen (arglist[i]) == arglen)
-	    /* Exact match found.  */
-	    return i;
-	  else if (matchind == -1)
-	    /* First nonexact match found.  */
-	    matchind = i;
-	  else
-	    {
-	      /* Second nonexact match found.  */
-	      if (vallist == NULL
-		  || memcmp (vallist + valsize * matchind,
-			     vallist + valsize * i, valsize))
-		{
-		  /* There is a real ambiguity, or we could not
-		     disambiguate. */
-		  ambiguous = 1;
-		}
-	    }
-	}
+      ? !strncmp (arglist[i], arg, arglen)
+      : !strncasecmp (arglist[i], arg, arglen))
+    {
+      if (strlen (arglist[i]) == arglen)
+        /* Exact match found.  */
+        return i;
+      else if (matchind == -1)
+        /* First nonexact match found.  */
+        matchind = i;
+      else
+        {
+          /* Second nonexact match found.  */
+          if (vallist == NULL
+          || memcmp (vallist + valsize * matchind,
+                 vallist + valsize * i, valsize))
+        {
+          /* There is a real ambiguity, or we could not
+             disambiguate. */
+          ambiguous = 1;
+        }
+        }
+    }
     }
   if (ambiguous)
     return -2;
@@ -140,7 +146,7 @@ __argmatch_internal (const char *arg, const char *const *arglist,
 /* argmatch - case sensitive version */
 int
 argmatch (const char *arg, const char *const *arglist,
-	  const char *vallist, size_t valsize)
+      const char *vallist, size_t valsize)
 {
   return __argmatch_internal (arg, arglist, vallist, valsize, 1);
 }
@@ -148,7 +154,7 @@ argmatch (const char *arg, const char *const *arglist,
 /* argcasematch - case insensitive version */
 int
 argcasematch (const char *arg, const char *const *arglist,
-	      const char *vallist, size_t valsize)
+          const char *vallist, size_t valsize)
 {
   return __argmatch_internal (arg, arglist, vallist, valsize, 0);
 }
@@ -162,8 +168,8 @@ void
 argmatch_invalid (const char *context, const char *value, int problem)
 {
   char const *format = (problem == -1
-			? _("invalid argument %s for `%s'")
-			: _("ambiguous argument %s for `%s'"));
+            ? _("invalid argument %s for `%s'")
+            : _("ambiguous argument %s for `%s'"));
 
   error (0, 0, format, quotearg_style (ARGMATCH_QUOTING_STYLE, value), context);
 }
@@ -174,7 +180,7 @@ argmatch_invalid (const char *context, const char *value, int problem)
    VALSIZE is the size of the elements of VALLIST */
 void
 argmatch_valid (const char *const *arglist,
-		const char *vallist, size_t valsize)
+        const char *vallist, size_t valsize)
 {
   int i;
   const char *last_val = NULL;
@@ -184,14 +190,14 @@ argmatch_valid (const char *const *arglist,
   fprintf (stderr, _("Valid arguments are:"));
   for (i = 0; arglist[i]; i++)
     if ((i == 0)
-	|| memcmp (last_val, vallist + valsize * i, valsize))
+    || memcmp (last_val, vallist + valsize * i, valsize))
       {
-	fprintf (stderr, "\n  - `%s'", arglist[i]);
-	last_val = vallist + valsize * i;
+    fprintf (stderr, "\n  - `%s'", arglist[i]);
+    last_val = vallist + valsize * i;
       }
     else
       {
-	fprintf (stderr, ", `%s'", arglist[i]);
+    fprintf (stderr, ", `%s'", arglist[i]);
       }
   putc ('\n', stderr);
 }
@@ -204,14 +210,14 @@ argmatch_valid (const char *const *arglist,
 
 int
 __xargmatch_internal (const char *context,
-		      const char *arg, const char *const *arglist,
-		      const char *vallist, size_t valsize,
-		      int case_sensitive,
-		      argmatch_exit_fn exit_fn)
+              const char *arg, const char *const *arglist,
+              const char *vallist, size_t valsize,
+              int case_sensitive,
+              argmatch_exit_fn exit_fn)
 {
   int res = __argmatch_internal (arg, arglist,
-				 vallist, valsize,
-				 case_sensitive);
+                 vallist, valsize,
+                 case_sensitive);
   if (res >= 0)
     /* Success. */
     return res;
@@ -228,8 +234,8 @@ __xargmatch_internal (const char *context,
    return the first corresponding argument in ARGLIST */
 const char *
 argmatch_to_argument (const char *value,
-		      const char *const *arglist,
-		      const char *vallist, size_t valsize)
+              const char *const *arglist,
+              const char *vallist, size_t valsize)
 {
   int i;
 
@@ -298,14 +304,14 @@ main (int argc, const char *const *argv)
 
   if ((cp = getenv ("VERSION_CONTROL")))
     backup_type = XARGCASEMATCH ("$VERSION_CONTROL", cp,
-				 backup_args, backup_vals);
+                 backup_args, backup_vals);
 
   if (argc == 2)
     backup_type = XARGCASEMATCH (program_name, argv[1],
-				 backup_args, backup_vals);
+                 backup_args, backup_vals);
 
   printf ("The version control is `%s'\n",
-	  ARGMATCH_TO_ARGUMENT (backup_type, backup_args, backup_vals));
+      ARGMATCH_TO_ARGUMENT (backup_type, backup_args, backup_vals));
 
   return 0;
 }

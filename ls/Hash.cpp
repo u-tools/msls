@@ -51,21 +51,21 @@ IMPLEMENT_SERIALx(Hash1, CHASH, CObject, 1)
 
 void TestHash()
 {
-	CHash<CHData<int>, CHData<CString> > MyHash;
-	int i;
-	MyHash.SetAt(3, _T("test"));
-	int iKey; CString strVal;
-	if (MyHash.Lookup(iKey, strVal)) { }
-	MyHash.RemoveKey(3);
-	MyHash[5] = _T("boo");
-	i = MyHash.GetCount();
-	if (MyHash.IsEmpty()) { }
+    CHash<CHData<int>, CHData<CString> > MyHash;
+    int i;
+    MyHash.SetAt(3, _T("test"));
+    int iKey; CString strVal;
+    if (MyHash.Lookup(iKey, strVal)) { }
+    MyHash.RemoveKey(3);
+    MyHash[5] = _T("boo");
+    i = MyHash.GetCount();
+    if (MyHash.IsEmpty()) { }
 
-	POSITION pos = MyHash.GetStartPosition();
-	while (pos != NULL) {
-		MyHash.GetNextAssoc(pos, iKey, strVal);
-		//use(key, value)
-	}
+    POSITION pos = MyHash.GetStartPosition();
+    while (pos != NULL) {
+        MyHash.GetNextAssoc(pos, iKey, strVal);
+        //use(key, value)
+    }
 }
 #endif // _DEBUG
 
@@ -78,13 +78,13 @@ void TestHash()
 // and the next two lines were suggested by Steve Kirsch.
 //
 static const LONG HashPrimes[] = {
-	7, 13, 31, 61, 127, 251, 509, 1021, 2017, 4093,
-	5987,
-	9551, 15683, 19609, 31397,
-	65521L, 131071L, 262139L, 524287L, 1048573L, 2097143L, 4194301L,
-	//8388593L, 16777213L, 33554393L, 67108859L,
-	//134217689L, 268435399L, 536870909L, 1073741789L,
-	0
+    7, 13, 31, 61, 127, 251, 509, 1021, 2017, 4093,
+    5987,
+    9551, 15683, 19609, 31397,
+    65521L, 131071L, 262139L, 524287L, 1048573L, 2097143L, 4194301L,
+    //8388593L, 16777213L, 33554393L, 67108859L,
+    //134217689L, 268435399L, 536870909L, 1073741789L,
+    0
 };
 
 //
@@ -95,37 +95,37 @@ static const LONG HashPrimes[] = {
 //
 EXPORT ULONG CalcHashIncr(LONG lHashVal, register int cSize)
 {
-	register ULONG uSum, uIncr;
+    register ULONG uSum, uIncr;
 
-	ASSERT(lHashVal != 0 && lHashVal != -1);
-	uSum = (ULONG)lHashVal;
-	do {
-		uSum = 3*uSum + 1; // somewhat arbitrary
-		uIncr = uSum % (ULONG)cSize;
-	} while (uIncr == 0);
-	return uIncr;
+    ASSERT(lHashVal != 0 && lHashVal != -1);
+    uSum = (ULONG)lHashVal;
+    do {
+        uSum = 3*uSum + 1; // somewhat arbitrary
+        uIncr = uSum % (ULONG)cSize;
+    } while (uIncr == 0);
+    return uIncr;
 }
 
 EXPORT LONG NewPrimeSize(int cSize)
 {
-	register int i;
-	ASSERT(cSize > 0);
-	for (i=0; ; ++i) {
-		if (HashPrimes[i] == 0) {
-			DLL_ENTRY;
+    register int i;
+    ASSERT(cSize > 0);
+    for (i=0; ; ++i) {
+        if (HashPrimes[i] == 0) {
+            DLL_ENTRY;
 
 #ifdef UNDEFINED
-			ThrowTSException(AEMSG,
-				AE_FATAL_ERROR, AE_CATEGORY_FATAL,
+            ThrowTSException(AEMSG,
+                AE_FATAL_ERROR, AE_CATEGORY_FATAL,
 _T("Hash table too large: %lu entries"), (ULONG)cSize);
 #else
-			fputs("Hash table too large.\n", stderr);
-			exit(1);
+            fputs("Hash table too large.\n", stderr);
+            exit(1);
 #endif
-		}
-		if (HashPrimes[i] > (LONG)cSize)
-			return HashPrimes[i];
-	}
+        }
+        if (HashPrimes[i] > (LONG)cSize)
+            return HashPrimes[i];
+    }
 }
 /*
 vim:tabstop=4:shiftwidth=4:noexpandtab

@@ -165,8 +165,8 @@ extern void InitVersion(); // AEK
 static int ls_mode = LS_LS;
 
 #define PROGRAM_NAME (ls_mode == LS_LS ? "ls" \
-		      : (ls_mode == LS_MULTI_COL \
-			 ? "dir" : "vdir"))
+              : (ls_mode == LS_MULTI_COL \
+             ? "dir" : "vdir"))
 
 #define AUTHORS "Richard Stallman and David MacKenzie" \
   "\nMicrosoft Windows extensions by Alan Klietz"
@@ -269,7 +269,7 @@ enum filetype
     symbolic_link DT_INIT (DT_LNK),
     sock DT_INIT (DT_SOCK),
     arg_directory DT_INIT (2 * (DT_UNKNOWN | DT_FIFO | DT_CHR | DT_DIR | DT_BLK
-				| DT_REG | DT_LNK | DT_SOCK))
+                | DT_REG | DT_LNK | DT_SOCK))
   };
 
 struct fileinfo
@@ -313,8 +313,8 @@ struct fileinfo
 
 struct bin_str
   {
-    int len;			/* Number of bytes */
-    const char *string;		/* Pointer to the same */
+    int len;                /* Number of bytes */
+    const char *string;     /* Pointer to the same */
   };
 
 #ifndef STDC_HEADERS
@@ -327,55 +327,55 @@ char *getgroup () { return "group"; }; // AEK
 #define LS_PREFIX "LS"
 
 static size_t quote_name PARAMS ((MORE *out, const char *name,
-				  struct quoting_options const *options));
+                  struct quoting_options const *options));
 static char *make_link_path PARAMS ((const char *path, const char *linkname));
 static void mark_if_file_changed_recently PARAMS ((struct stat *pst)); // AEK
 static int compare_atime PARAMS ((const struct fileinfo *file1,
-				  const struct fileinfo *file2));
+                  const struct fileinfo *file2));
 static int rev_cmp_atime PARAMS ((const struct fileinfo *file2,
-				  const struct fileinfo *file1));
+                  const struct fileinfo *file1));
 static int compare_ctime PARAMS ((const struct fileinfo *file1,
-				  const struct fileinfo *file2));
+                  const struct fileinfo *file2));
 static int rev_cmp_ctime PARAMS ((const struct fileinfo *file2,
-				  const struct fileinfo *file1));
+                  const struct fileinfo *file1));
 static int compare_mtime PARAMS ((const struct fileinfo *file1,
-				  const struct fileinfo *file2));
+                  const struct fileinfo *file2));
 static int rev_cmp_mtime PARAMS ((const struct fileinfo *file2,
-				  const struct fileinfo *file1));
+                  const struct fileinfo *file1));
 static int compare_size PARAMS ((const struct fileinfo *file1,
-				 const struct fileinfo *file2));
+                 const struct fileinfo *file2));
 static int rev_cmp_size PARAMS ((const struct fileinfo *file2,
-				 const struct fileinfo *file1));
+                 const struct fileinfo *file1));
 static int compare_name PARAMS ((const struct fileinfo *file1,
-				 const struct fileinfo *file2));
+                 const struct fileinfo *file2));
 static int rev_cmp_name PARAMS ((const struct fileinfo *file2,
-				 const struct fileinfo *file1));
+                 const struct fileinfo *file1));
 static int compare_extension PARAMS ((const struct fileinfo *file1,
-				      const struct fileinfo *file2));
+                      const struct fileinfo *file2));
 static int rev_cmp_extension PARAMS ((const struct fileinfo *file2,
-				      const struct fileinfo *file1));
+                      const struct fileinfo *file1));
 static int compare_version PARAMS ((const struct fileinfo *file1,
-				    const struct fileinfo *file2));
+                    const struct fileinfo *file2));
 static int rev_cmp_version PARAMS ((const struct fileinfo *file2,
-				    const struct fileinfo *file1));
+                    const struct fileinfo *file1));
 // AEK
 static int compare_case_sensitive PARAMS ((const struct fileinfo *file1,
-				 const struct fileinfo *file2));
+                 const struct fileinfo *file2));
 static int rev_cmp_case_sensitive PARAMS ((const struct fileinfo *file2,
-				 const struct fileinfo *file1));
+                 const struct fileinfo *file1));
 static int decode_switches PARAMS ((int argc, char **argv));
 static int file_interesting PARAMS ((const struct dirent *next));
 static uintmax_t gobble_file PARAMS ((const char *name, enum filetype type,
-				      int explicit_arg, const char *dirname));
+                      int explicit_arg, const char *dirname));
 static void print_color_indicator PARAMS ((const char *name, unsigned int mode,
-					   int linkok));
+                       int linkok));
 static void put_indicator PARAMS ((const struct bin_str *ind));
 static int length_of_file_name_and_frills PARAMS ((const struct fileinfo *f));
 static void add_ignore_pattern PARAMS ((const char *pattern));
 static void attach PARAMS ((char *dest, const char *dirname, const char *name));
 static void clear_files PARAMS ((void));
 static void extract_dirs_from_files PARAMS ((const char *dirname,
-					     int recursive));
+                         int recursive));
 static void get_link_name PARAMS ((const char *filename, struct fileinfo *f));
 static void indent PARAMS ((int from, int to));
 static void init_column_info PARAMS ((void));
@@ -386,8 +386,8 @@ static void print_horizontal PARAMS ((void));
 static void print_long_format PARAMS ((const struct fileinfo *f));
 static void print_many_per_line PARAMS ((void));
 static void print_name_with_quoting PARAMS ((const char *p, unsigned int mode,
-					     int linkok,
-					     struct obstack *stack));
+                         int linkok,
+                         struct obstack *stack));
 static void prep_non_filename_text PARAMS ((void));
 //static void print_type_indicator PARAMS ((unsigned int mode));
 static void print_type_indicator PARAMS ((struct stat *pst,
@@ -474,10 +474,10 @@ enum format format; // make global for security.cpp and dirent.c - AEK
    ISO-style time stamps.  `locale' uses locale-dependent time stamps.  */
 enum time_style
   {
-    full_iso_time_style,	/* --time-style=full-iso */
-    long_iso_time_style,	/* --time-style=long-iso */
-    iso_time_style,		/* --time-style=iso */
-    locale_time_style		/* --time-style=locale */
+    full_iso_time_style,    /* --time-style=full-iso */
+    long_iso_time_style,    /* --time-style=long-iso */
+    iso_time_style,         /* --time-style=iso */
+    locale_time_style       /* --time-style=locale */
   };
 
 static char const *const time_style_args[] =
@@ -534,9 +534,9 @@ extern BOOL IsVista;
 
 enum time_type
   {
-    time_mtime,			/* default */
-    time_ctime,			/* -c */
-    time_atime			/* -u */
+    time_mtime,         /* default */
+    time_ctime,         /* -c */
+    time_atime          /* -u */
   };
 
 static enum time_type time_type;
@@ -549,13 +549,13 @@ static int full_time;
 
 enum sort_type
   {
-    sort_none,			/* -U */
-    sort_name,			/* default */
-    sort_extension,		/* -X */
-    sort_time,			/* -t */
-    sort_size,			/* -S */
-    sort_version,		/* -v */
-    sort_case                   /* -sort=case */  /* AEK */
+    sort_none,          /* -U */
+    sort_name,          /* default */
+    sort_extension,     /* -X */
+    sort_time,          /* -t */
+    sort_size,          /* -S */
+    sort_version,       /* -v */
+    sort_case           /* -sort=case */  /* AEK */
   };
 
 static enum sort_type sort_type;
@@ -604,9 +604,9 @@ static int dired;
 
 enum indicator_style
   {
-    none,	/*     --indicator-style=none */
-    classify,	/* -F, --indicator-style=classify */
-    file_type	/* -p, --indicator-style=file-type */
+    none,       /*     --indicator-style=none */
+    classify,   /* -F, --indicator-style=classify */
+    file_type   /* -p, --indicator-style=file-type */
   };
 
 static enum indicator_style indicator_style;
@@ -630,9 +630,9 @@ static int print_with_color;
 
 enum color_type
   {
-    color_never,		/* 0: default or --color=never */
-    color_always,		/* 1: --color=always */
-    color_if_tty		/* 2: --color=tty */
+    color_never,        /* 0: default or --color=never */
+    color_always,       /* 1: --color=always */
+    color_if_tty        /* 2: --color=tty */
   };
 
 enum indicator_no
@@ -656,31 +656,31 @@ static const char *const indicator_name[]=
 
 struct color_ext_type
   {
-    struct bin_str ext;		/* The extension we're looking for */
-    struct bin_str seq;		/* The sequence to output when we do */
-    struct color_ext_type *next;	/* Next in list */
+    struct bin_str ext;             /* The extension we're looking for */
+    struct bin_str seq;             /* The sequence to output when we do */
+    struct color_ext_type *next;    /* Next in list */
   };
 
 static struct bin_str color_indicator[] =
   {
-    { LEN_STR_PAIR ("\033[") },		/* lc: Left of color sequence */
-    { LEN_STR_PAIR ("m") },		/* rc: Right of color sequence */
-    { 0, NULL },			/* ec: End color (replaces lc+no+rc) */
-    { LEN_STR_PAIR ("0") },		/* no: Normal */
-    { LEN_STR_PAIR ("0") },		/* fi: File: default */
-    { LEN_STR_PAIR ("01;32") },		/* di: Directory: bright green */
-    { LEN_STR_PAIR ("01;34") },		/* ln: Symlink: bright blue */
-    { LEN_STR_PAIR ("33") },		/* pi: Pipe: yellow/brown */
-    { LEN_STR_PAIR ("01;35") },		/* so: Socket: bright magenta */
-    { LEN_STR_PAIR ("33") },		/* bd: Block device: brown */
-    { LEN_STR_PAIR ("33") },		/* cd: Char device: bright yellow */
-    { LEN_STR_PAIR ("01;31") },		/* mi: Missing symlink target: bright red */
-    { LEN_STR_PAIR ("01;31") },         /* or: Orphaned symlink source: bright red */
-    { LEN_STR_PAIR ("01;33") },		/* ex: Executable: bright yellow */
-    { LEN_STR_PAIR ("01;35") },		/* do: Door: bright magenta */
-    { LEN_STR_PAIR (";04") },		/* re: Recent: underscore - AEK */
-    { LEN_STR_PAIR (";01;36") },	/* co: Compressed: bright cyan - AEK */
-    { LEN_STR_PAIR (";01;34") },	/* co: Streams: bright blue - AEK */
+    { LEN_STR_PAIR ("\033[") },     /* lc: Left of color sequence */
+    { LEN_STR_PAIR ("m") },         /* rc: Right of color sequence */
+    { 0, NULL },                    /* ec: End color (replaces lc+no+rc) */
+    { LEN_STR_PAIR ("0") },         /* no: Normal */
+    { LEN_STR_PAIR ("0") },         /* fi: File: default */
+    { LEN_STR_PAIR ("01;32") },     /* di: Directory: bright green */
+    { LEN_STR_PAIR ("01;34") },     /* ln: Symlink: bright blue */
+    { LEN_STR_PAIR ("33") },        /* pi: Pipe: yellow/brown */
+    { LEN_STR_PAIR ("01;35") },     /* so: Socket: bright magenta */
+    { LEN_STR_PAIR ("33") },        /* bd: Block device: brown */
+    { LEN_STR_PAIR ("33") },        /* cd: Char device: bright yellow */
+    { LEN_STR_PAIR ("01;31") },     /* mi: Missing symlink target: bright red */
+    { LEN_STR_PAIR ("01;31") },     /* or: Orphaned symlink source: bright red */
+    { LEN_STR_PAIR ("01;33") },     /* ex: Executable: bright yellow */
+    { LEN_STR_PAIR ("01;35") },     /* do: Door: bright magenta */
+    { LEN_STR_PAIR (";04") },       /* re: Recent: underscore - AEK */
+    { LEN_STR_PAIR (";01;36") },    /* co: Compressed: bright cyan - AEK */
+    { LEN_STR_PAIR (";01;34") },    /* co: Streams: bright blue - AEK */
   };
 
 //
@@ -1057,7 +1057,7 @@ static int max_idx;
 
 /* The minimum width of a colum is 3: 1 character for the name and 2
    for the separating white space.  */
-#define MIN_COLUMN_WIDTH	3
+#define MIN_COLUMN_WIDTH    3
 
 
 /* This zero-based index is used solely with the --dired option.
@@ -1083,13 +1083,13 @@ static char stdout_buf[4096]; // setvbuf buffer
 #define DIRED_FPUTS_LITERAL(s, stream) \
     do {more_fputs ((s), (stream)); dired_pos += sizeof((s)) - 1;} while (0)
 
-#define DIRED_INDENT()							\
-    do									\
-      {									\
-	/* FIXME: remove the `&& format == long_format' clause.  */	\
-	if (dired && format == long_format)				\
-	  DIRED_FPUTS_LITERAL ("  ", stdmore);				\
-      }									\
+#define DIRED_INDENT()                                          \
+    do                                                          \
+      {                                                         \
+    /* FIXME: remove the `&& format == long_format' clause.  */ \
+    if (dired && format == long_format)                         \
+      DIRED_FPUTS_LITERAL ("  ", stdmore);                      \
+      }                                                         \
     while (0)
 
 /* With --dired, store pairs of beginning and ending indices of filenames.  */
@@ -1103,13 +1103,13 @@ static struct obstack dired_obstack;
 static struct obstack subdired_obstack;
 
 /* Save the current index on the specified obstack, OBS.  */
-#define PUSH_CURRENT_DIRED_POS(obs)					\
-  do									\
-    {									\
-      /* FIXME: remove the `&& format == long_format' clause.  */	\
-      if (dired && format == long_format)				\
-	obstack_grow ((obs), &dired_pos, sizeof (dired_pos));		\
-    }									\
+#define PUSH_CURRENT_DIRED_POS(obs)                                 \
+  do                                                                \
+    {                                                               \
+      /* FIXME: remove the `&& format == long_format' clause.  */   \
+      if (dired && format == long_format)                           \
+    obstack_grow ((obs), &dired_pos, sizeof (dired_pos));           \
+    }                                                               \
   while (0)
 
 
@@ -1351,24 +1351,24 @@ main (int argc, char **argv)
 
     for (;;) {
       while (*s == ' ' || *s == '\t') { // skip leading spaces
-	++s;
+    ++s;
       }
       if (*s == '\0') {
-	break;
+    break;
       }
       for (p=s; *p; ++p) { // copy arg until whitespace
-	if (*p == ' ' || *p == '\t') {
-	  break;
-	}
+    if (*p == ' ' || *p == '\t') {
+      break;
+    }
       }
       _ls_argv[_ls_argc++] = s;
       if (*p == '\0') {
-	break;
+    break;
       }
       *p++ = '\0';
       s = p;
       if (_ls_argc >= N_LS_ARGS-1) {
-	break;
+    break;
       }
 
     }
@@ -1384,10 +1384,10 @@ main (int argc, char **argv)
       char** _tmp_argv = (char **)xmalloc((sizeof(char*))*(_ls_argc+argc+1));
       _tmp_argv[0] = argv[0]; // program name
       for (i=0; i < _ls_argc; ++i) {
-	_tmp_argv[_tmp_argc++] = _ls_argv[i];
+    _tmp_argv[_tmp_argc++] = _ls_argv[i];
       }
       for (i=1; i < argc; ++i) {
-	_tmp_argv[_tmp_argc++] = argv[i];
+    _tmp_argv[_tmp_argc++] = argv[i];
       }
       assert (_tmp_argc == _ls_argc+argc);
       argc = _tmp_argc;
@@ -1405,16 +1405,16 @@ main (int argc, char **argv)
       prep_non_filename_text ();
       /* Avoid following symbolic links when possible.  */
       if (color_indicator[C_ORPHAN].string != NULL
-	  || (color_indicator[C_MISSING].string != NULL
-	      && format == long_format))
-	check_symlink_color = 1;
+      || (color_indicator[C_MISSING].string != NULL
+          && format == long_format))
+    check_symlink_color = 1;
     }
 
   format_needs_stat = sort_type == sort_time || sort_type == sort_size
     || format == long_format
     || trace_links || trace_dirs || print_block_size || print_inode;
   format_needs_type = (format_needs_stat == 0
-		       && (print_with_color || indicator_style != none));
+               && (print_with_color || indicator_style != none));
 
 #ifdef WIN32
   if (virtual_view) {
@@ -1494,43 +1494,43 @@ main (int argc, char **argv)
       }
 
       if (!gbReg) {
-	lstrcpyn(szPath, argv[i], FILENAME_MAX);
+    lstrcpyn(szPath, argv[i], FILENAME_MAX);
       } else {
-	//
-	// All registry paths are assumed to be absolute, so
-	// prepend '/' if missing
-	//
-	if (argv[i][0] != '/' && argv[i][0] != '\\') {
-	  szPath[0] = '/';
-	  lstrcpyn(szPath+1, argv[i], FILENAME_MAX-1);
-	} else {
-	  lstrcpyn(szPath, argv[i], FILENAME_MAX);
-	}
+    //
+    // All registry paths are assumed to be absolute, so
+    // prepend '/' if missing
+    //
+    if (argv[i][0] != '/' && argv[i][0] != '\\') {
+      szPath[0] = '/';
+      lstrcpyn(szPath+1, argv[i], FILENAME_MAX-1);
+    } else {
+      lstrcpyn(szPath, argv[i], FILENAME_MAX);
+    }
       }
 
       //
       // Change backslashes to forward slashes for glob
       //
       for (s = szPath; *s; ++s) {
-	if (*s == '\\') {
-	  *s = '/';
-	 }
+    if (*s == '\\') {
+      *s = '/';
+     }
       }
 
       glob_argv = glob_filename(szPath);
 
       if (glob_argv == NULL) {
-	error(EXIT_FAILURE,0,"Out of memory");
+    error(EXIT_FAILURE,0,"Out of memory");
       }
       if (glob_argv == &glob_error_return) {
-	error (0, errno, "%s", quotearg_colon (argv[i]));
-	exit_status = 1;
-	continue;
+    error (0, errno, "%s", quotearg_colon (argv[i]));
+    exit_status = 1;
+    continue;
       }
       if (glob_argv[0] == NULL) {
-	error (0, errno, "%s", quotearg_colon (argv[i]));
-	exit_status = 1;
-	continue;
+    error (0, errno, "%s", quotearg_colon (argv[i]));
+    exit_status = 1;
+    continue;
       }
       for (j=0; glob_argv[j] != NULL; ++j) {
         gobble_file(glob_argv[j], unknown, 1, "");
@@ -1552,20 +1552,20 @@ main (int argc, char **argv)
     {
 #ifdef WIN32 // AEK
       if (gbReg) {
-	error(EXIT_FAILURE, 0, "-K requires a registry path");
+    error(EXIT_FAILURE, 0, "-K requires a registry path");
       }
 #endif
       if (immediate_dirs)
-	gobble_file (".", directory, 1, "");
+    gobble_file (".", directory, 1, "");
       else
-	queue_directory (".", 0);
+    queue_directory (".", 0);
     }
 
   if (files_index)
     {
       sort_files ();
       if (!immediate_dirs)
-	extract_dirs_from_files ("", 0);
+    extract_dirs_from_files ("", 0);
       /* `files_index' might be zero now.  */
     }
 
@@ -1595,7 +1595,7 @@ main (int argc, char **argv)
     {
       print_current_files ();
       if (pending_dirs)
-	DIRED_PUTCHAR ('\n');
+    DIRED_PUTCHAR ('\n');
     }
   else if (n_files <= 1 && pending_dirs && pending_dirs->next == 0)
     print_dir_name = 0;
@@ -1607,7 +1607,7 @@ main (int argc, char **argv)
       print_dir (thispend->name, thispend->realname);
       free (thispend->name);
       if (thispend->realname)
-	free (thispend->realname);
+    free (thispend->realname);
       free (thispend);
       print_dir_name = 1;
     }
@@ -1618,18 +1618,10 @@ main (int argc, char **argv)
       dired_dump_obstack ("//DIRED//", &dired_obstack);
       dired_dump_obstack ("//SUBDIRED//", &subdired_obstack);
       printf ("//DIRED-OPTIONS// --quoting-style=%s\n",
-	      // BUG: Need to add '*' to filename_quoting_options - AEK
-	      //ARGMATCH_TO_ARGUMENT (filename_quoting_options,
-	      ARGMATCH_TO_ARGUMENT (*filename_quoting_options,
-	          quoting_style_args, quoting_style_vals));
-    }
-
-  /* Restore default color before exiting */
-  if (print_with_color)
-    {
-      put_indicator (&color_indicator[C_LEFT]);
-      put_indicator (&color_indicator[C_NORM]); // BUG: Missing - AEK
-      put_indicator (&color_indicator[C_RIGHT]);
+          // BUG: Need to add '*' to filename_quoting_options - AEK
+          //ARGMATCH_TO_ARGUMENT (filename_quoting_options,
+          ARGMATCH_TO_ARGUMENT (*filename_quoting_options,
+              quoting_style_args, quoting_style_vals));
     }
 
   exit (exit_status);
@@ -1672,16 +1664,16 @@ decode_switches (int argc, char **argv)
       /* This is for the `ls' program.  */
       // Uses the default literal_quoting style (0)
       if (isatty (STDOUT_FILENO))
-	{
-	  format = many_per_line;
-	  /* See description of qmark_funny_chars, above.  */
-	  qmark_funny_chars = 1;
-	}
+    {
+      format = many_per_line;
+      /* See description of qmark_funny_chars, above.  */
+      qmark_funny_chars = 1;
+    }
       else
-	{
-	  format = one_per_line;
-	  qmark_funny_chars = 0;
-	}
+    {
+      format = one_per_line;
+      qmark_funny_chars = 0;
+    }
       break;
 
     default:
@@ -1715,16 +1707,16 @@ decode_switches (int argc, char **argv)
   if ((p = getenv ("COLUMNS")) && *p)
     {
       if (xstrtol (p, NULL, 0, &tmp_long, NULL) == LONGINT_OK
-	  && 0 < tmp_long && tmp_long <= INT_MAX)
-	{
-	  line_length = (int) tmp_long;
-	}
+      && 0 < tmp_long && tmp_long <= INT_MAX)
+    {
+      line_length = (int) tmp_long;
+    }
       else
-	{
-	  error (0, 0,
-	       _("ignoring invalid width in environment variable COLUMNS: %s"),
-		 quotearg (p));
-	}
+    {
+      error (0, 0,
+           _("ignoring invalid width in environment variable COLUMNS: %s"),
+         quotearg (p));
+    }
     }
 
 #ifdef TIOCGWINSZ
@@ -1742,507 +1734,507 @@ decode_switches (int argc, char **argv)
   if (!getenv ("POSIXLY_CORRECT") && (p = getenv ("TABSIZE")))
     {
       if (xstrtol (p, NULL, 0, &tmp_long, NULL) == LONGINT_OK
-	  && 0 <= tmp_long && tmp_long <= INT_MAX)
-	{
-	  tabsize = (int) tmp_long;
-	}
+      && 0 <= tmp_long && tmp_long <= INT_MAX)
+    {
+      tabsize = (int) tmp_long;
+    }
       else
-	{
-	  error (0, 0,
-	   _("ignoring invalid tab size in environment variable TABSIZE: %s"),
-		 quotearg (p));
-	}
+    {
+      error (0, 0,
+       _("ignoring invalid tab size in environment variable TABSIZE: %s"),
+         quotearg (p));
+    }
     }
 
   while ((c = getopt_long (argc, argv,
-			   //"abcdfghiklmnopqrstuvw:xABCDFGHI:LNQRST:UX1",
-			   "abcdfghiklmnopqrstuvw:xABCDFGHI:KLMNQRST:UX1",// AEK
-			   long_options, NULL)) != -1)
+               //"abcdfghiklmnopqrstuvw:xABCDFGHI:LNQRST:UX1",
+               "abcdfghiklmnopqrstuvw:xABCDFGHI:KLMNQRST:UX1",// AEK
+               long_options, NULL)) != -1)
     {
       switch (c)
-	{
-	case 0:
-	  break;
+    {
+    case 0:
+      break;
 
-	case 'a':
-	  all_files = 1;
-	  really_all_files = 1;
-	  break;
+    case 'a':
+      all_files = 1;
+      really_all_files = 1;
+      break;
 
-	case 'b':
-	  set_quoting_style (NULL, escape_quoting_style);
-	  break;
+    case 'b':
+      set_quoting_style (NULL, escape_quoting_style);
+      break;
 
-	case 'c':
-	  time_type = time_ctime;
-	  break;
+    case 'c':
+      time_type = time_ctime;
+      break;
 
-	case 'd':
-	  immediate_dirs = 1;
-	  break;
+    case 'd':
+      immediate_dirs = 1;
+      break;
 
-	case 'f':
-	  /* Same as enabling -a -U and disabling -l -s.  */
-	  all_files = 1;
-	  really_all_files = 1;
-	  sort_type = sort_none;
-	  sort_type_specified = 1;
-	  /* disable -l */
-	  if (format == long_format)
-	    format = (isatty (STDOUT_FILENO) ? many_per_line : one_per_line);
-	  print_block_size = 0;	/* disable -s */
-	  print_with_color = 0;	/* disable --color */
-	  break;
+    case 'f':
+      /* Same as enabling -a -U and disabling -l -s.  */
+      all_files = 1;
+      really_all_files = 1;
+      sort_type = sort_none;
+      sort_type_specified = 1;
+      /* disable -l */
+      if (format == long_format)
+        format = (isatty (STDOUT_FILENO) ? many_per_line : one_per_line);
+      print_block_size = 0; /* disable -s */
+      print_with_color = 0; /* disable --color */
+      break;
 
-	case 'g': // AEK
-	  if (optarg)
-	    inhibit_group = !XARGMATCH ("--groups", optarg,
-	      yes_no_args, yes_no_types);
-	  else
-	    inhibit_group = no_arg; // show groups if -g
-	  if (!inhibit_group && gids_format == sids_none) {
-	    gids_format = sids_short; // GIDs format if unspecified
-	  }
-	  break;
+    case 'g': // AEK
+      if (optarg)
+        inhibit_group = !XARGMATCH ("--groups", optarg,
+          yes_no_args, yes_no_types);
+      else
+        inhibit_group = no_arg; // show groups if -g
+      if (!inhibit_group && gids_format == sids_none) {
+        gids_format = sids_short; // GIDs format if unspecified
+      }
+      break;
 
-	case 'h':
-	  output_block_size = -1024;
-	  break;
+    case 'h':
+      output_block_size = -1024;
+      break;
 
-	case 'H':
+    case 'H':
 #ifdef UNDEFINED
-	  error (0, 0,
-		 _("\
+      error (0, 0,
+         _("\
 Warning: the meaning of `-H' will change in the future to conform to POSIX.\n\
 Use `--si' for the old meaning."));
-	  /* Fall through.  */
+      /* Fall through.  */
 #else // AEK
-	output_block_size = -1024;
-	break;
+    output_block_size = -1024;
+    break;
 #endif
-	case SI_OPTION:
-	  output_block_size = -1000;
-	  break;
+    case SI_OPTION:
+      output_block_size = -1000;
+      break;
 
-	case 'i':
-	  print_inode = 1;
-	  break;
+    case 'i':
+      print_inode = 1;
+      break;
 
-	case 'k':
-	  output_block_size = 1024;
-	  break;
+    case 'k':
+      output_block_size = 1024;
+      break;
 
 #ifdef WIN32
-	case 'K':
-	  gbReg = TRUE; // AEK show registry via -K
-	  break;
+    case 'K':
+      gbReg = TRUE; // AEK show registry via -K
+      break;
 #endif
 
-	case 'l':
-	  format = long_format;
-	  break;
+    case 'l':
+      format = long_format;
+      break;
 
-	case 'm':
-	  format = with_commas;
-	  break;
+    case 'm':
+      format = with_commas;
+      break;
 
-	case 'M':
-	  use_more = 1;
-	  break;
+    case 'M':
+      use_more = 1;
+      break;
 
-	case 'n':
-	  numeric_ids = 1;
-	  break;
+    case 'n':
+      numeric_ids = 1;
+      break;
 
-	case 'o':  /* Just like -l, but don't display group info.  */
-	  format = long_format;
-	  inhibit_group = 1;
-	  break;
+    case 'o':  /* Just like -l, but don't display group info.  */
+      format = long_format;
+      inhibit_group = 1;
+      break;
 
-	case 'p':
-	  indicator_style = file_type;
-	  break;
+    case 'p':
+      indicator_style = file_type;
+      break;
 
-	case 'q':
-	  qmark_funny_chars = 1;
-	  break;
+    case 'q':
+      qmark_funny_chars = 1;
+      break;
 
-	case 'r':
-	  sort_reverse = 1;
-	  break;
+    case 'r':
+      sort_reverse = 1;
+      break;
 
-	case 's':
-	  print_block_size = 1;
-	  break;
+    case 's':
+      print_block_size = 1;
+      break;
 
-	case 't':
-	  sort_type = sort_time;
-	  sort_type_specified = 1;
-	  break;
+    case 't':
+      sort_type = sort_time;
+      sort_type_specified = 1;
+      break;
 
-	case 'u':
-	  time_type = time_atime;
-	  break;
+    case 'u':
+      time_type = time_atime;
+      break;
 
-	case 'v':
-	  sort_type = sort_version;
-	  sort_type_specified = 1;
-	  break;
+    case 'v':
+      sort_type = sort_version;
+      sort_type_specified = 1;
+      break;
 
-	case 'w':
-	  if (xstrtol (optarg, NULL, 0, &tmp_long, NULL) != LONGINT_OK
-	      || tmp_long <= 0 || tmp_long > INT_MAX)
-	    error (EXIT_FAILURE, 0, _("invalid line width: %s"),
-		   quotearg (optarg));
-	  line_length = (int) tmp_long;
-	  break;
+    case 'w':
+      if (xstrtol (optarg, NULL, 0, &tmp_long, NULL) != LONGINT_OK
+          || tmp_long <= 0 || tmp_long > INT_MAX)
+        error (EXIT_FAILURE, 0, _("invalid line width: %s"),
+           quotearg (optarg));
+      line_length = (int) tmp_long;
+      break;
 
-	case 'x':
-	  format = horizontal;
-	  break;
+    case 'x':
+      format = horizontal;
+      break;
 
-	case 'A':
-	  really_all_files = 0;
-	  all_files = 1;
-	  break;
+    case 'A':
+      really_all_files = 0;
+      all_files = 1;
+      break;
 
-	case 'B':
-	  add_ignore_pattern ("*~");
-	  add_ignore_pattern (".*~");
-	  break;
+    case 'B':
+      add_ignore_pattern ("*~");
+      add_ignore_pattern (".*~");
+      break;
 
-	case 'C':
-	  format = many_per_line;
-	  break;
+    case 'C':
+      format = many_per_line;
+      break;
 
-	case 'D':
-	  dired = 1;
-	  break;
+    case 'D':
+      dired = 1;
+      break;
 
-	case 'F':
-	  indicator_style = classify;
-	  break;
+    case 'F':
+      indicator_style = classify;
+      break;
 
-	case 'G':		/* inhibit display of group info */
-	  inhibit_group = 1;
-	  break;
+    case 'G':       /* inhibit display of group info */
+      inhibit_group = 1;
+      break;
 
-	case 'I':
-	  add_ignore_pattern (optarg);
-	  break;
+    case 'I':
+      add_ignore_pattern (optarg);
+      break;
 
-	case 'L':
-	  trace_links = 1;
-	  break;
+    case 'L':
+      trace_links = 1;
+      break;
 
-	case 'N':
-	  set_quoting_style (NULL, literal_quoting_style);
-	  break;
+    case 'N':
+      set_quoting_style (NULL, literal_quoting_style);
+      break;
 
-	case 'Q':
-	  set_quoting_style (NULL, c_quoting_style);
-	  break;
+    case 'Q':
+      set_quoting_style (NULL, c_quoting_style);
+      break;
 
-	case 'R':
-	  trace_dirs = 1;
-	  break;
+    case 'R':
+      trace_dirs = 1;
+      break;
 
-	case 'S':
-	  sort_type = sort_size;
-	  sort_type_specified = 1;
-	  break;
+    case 'S':
+      sort_type = sort_size;
+      sort_type_specified = 1;
+      break;
 
-	case 'T':
-	  if (xstrtol (optarg, NULL, 0, &tmp_long, NULL) != LONGINT_OK
-	      || tmp_long < 0 || tmp_long > INT_MAX)
-	    error (EXIT_FAILURE, 0, _("invalid tab size: %s"),
-		   quotearg (optarg));
-	  tabsize = (int) tmp_long;
-	  break;
+    case 'T':
+      if (xstrtol (optarg, NULL, 0, &tmp_long, NULL) != LONGINT_OK
+          || tmp_long < 0 || tmp_long > INT_MAX)
+        error (EXIT_FAILURE, 0, _("invalid tab size: %s"),
+           quotearg (optarg));
+      tabsize = (int) tmp_long;
+      break;
 
-	case 'U':
-	  sort_type = sort_none;
-	  sort_type_specified = 1;
-	  break;
+    case 'U':
+      sort_type = sort_none;
+      sort_type_specified = 1;
+      break;
 
-	case 'X':
-	  sort_type = sort_extension;
-	  sort_type_specified = 1;
-	  break;
+    case 'X':
+      sort_type = sort_extension;
+      sort_type_specified = 1;
+      break;
 
-	case '1':
-	  /* -1 has no effect after -l.  */
-	  if (format != long_format)
-	    format = one_per_line;
-	  break;
+    case '1':
+      /* -1 has no effect after -l.  */
+      if (format != long_format)
+        format = one_per_line;
+      break;
 
 #ifdef WIN32 // AEK
-	case BIT32_OPTION:
-	  gb32bit = TRUE;
-	  break;
+    case BIT32_OPTION:
+      gb32bit = TRUE;
+      break;
 
-	case BIT64_OPTION:
-	  gb32bit = FALSE;
-	  break;
+    case BIT64_OPTION:
+      gb32bit = FALSE;
+      break;
 
-	case ANSICP_OPTION:
-	  gbOemCp = FALSE;
+    case ANSICP_OPTION:
+      gbOemCp = FALSE;
 
-	  SetCodePage(TRUE/*bAnsi*/);
+      SetCodePage(TRUE/*bAnsi*/);
 
-	  if (_HasConsole()) {
-	    //
-	    // Set the console codepage to ANSI.
-	    //
-	    SetConsoleCodePage(get_codepage());
-	  }
+      if (_HasConsole()) {
+        //
+        // Set the console codepage to ANSI.
+        //
+        SetConsoleCodePage(get_codepage());
+      }
 
-	  break;
+      break;
 
-	case OEMCP_OPTION:
-	  gbOemCp = TRUE;
+    case OEMCP_OPTION:
+      gbOemCp = TRUE;
 
-	  SetCodePage(FALSE/*bAnsi*/);
+      SetCodePage(FALSE/*bAnsi*/);
 
-	  if (_HasConsole()) {
-	    //
-	    // Set the console codepage to OEM.
-	    //
-	    SetConsoleCodePage(get_codepage());
-	  }
+      if (_HasConsole()) {
+        //
+        // Set the console codepage to OEM.
+        //
+        SetConsoleCodePage(get_codepage());
+      }
 
-	  break;
+      break;
 #endif
 
-	case SORT_OPTION:
-	  sort_type = XARGMATCH ("--sort", optarg, sort_args, sort_types);
-	  sort_type_specified = 1;
-	  break;
+    case SORT_OPTION:
+      sort_type = XARGMATCH ("--sort", optarg, sort_args, sort_types);
+      sort_type_specified = 1;
+      break;
 
-	case TIME_OPTION:
-	  time_type = XARGMATCH ("--time", optarg, time_args, time_types);
-	  break;
+    case TIME_OPTION:
+      time_type = XARGMATCH ("--time", optarg, time_args, time_types);
+      break;
 
-	case FORMAT_OPTION:
-	  format = XARGMATCH ("--format", optarg, format_args, format_types);
-	  break;
+    case FORMAT_OPTION:
+      format = XARGMATCH ("--format", optarg, format_args, format_types);
+      break;
 
-	case FULL_TIME_OPTION:
-	  format = long_format;
-	  full_time = 1;
-	  time_style_option = "full-iso";
-	  break;
+    case FULL_TIME_OPTION:
+      format = long_format;
+      full_time = 1;
+      time_style_option = "full-iso";
+      break;
 
-	case COLOR_OPTION:
-	  if (optarg)
-	    i = XARGMATCH ("--color", optarg, color_args, color_types);
-	  else
-	    /* Using --color with no argument is equivalent to using
-	       --color=always.  */
-	    i = color_always;
+    case COLOR_OPTION:
+      if (optarg)
+        i = XARGMATCH ("--color", optarg, color_args, color_types);
+      else
+        /* Using --color with no argument is equivalent to using
+           --color=always.  */
+        i = color_always;
 
-	  print_with_color = (i == color_always
-			      || (i == color_if_tty
-				  && isatty (STDOUT_FILENO)));
+      print_with_color = (i == color_always
+                  || (i == color_if_tty
+                  && isatty (STDOUT_FILENO)));
 
-	  if (print_with_color)
-	    {
-	      /* Don't use TAB characters in output.  Some terminal
-		 emulators can't handle the combination of tabs and
-		 color codes on the same line.  */
-	      tabsize = 0;
-	    }
-	  break;
+      if (print_with_color)
+        {
+          /* Don't use TAB characters in output.  Some terminal
+         emulators can't handle the combination of tabs and
+         color codes on the same line.  */
+          tabsize = 0;
+        }
+      break;
 
-	case INDICATOR_STYLE_OPTION:
-	  indicator_style = XARGMATCH ("--indicator-style", optarg,
-				       indicator_style_args,
-				       indicator_style_types);
-	  break;
+    case INDICATOR_STYLE_OPTION:
+      indicator_style = XARGMATCH ("--indicator-style", optarg,
+                       indicator_style_args,
+                       indicator_style_types);
+      break;
 
-	case QUOTING_STYLE_OPTION:
-	  set_quoting_style (NULL,
-			     XARGMATCH ("--quoting-style", optarg,
-					quoting_style_args,
-					quoting_style_vals));
-	  break;
+    case QUOTING_STYLE_OPTION:
+      set_quoting_style (NULL,
+                 XARGMATCH ("--quoting-style", optarg,
+                    quoting_style_args,
+                    quoting_style_vals));
+      break;
 
-	case TIME_STYLE_OPTION:
-	  time_style_option = optarg;
-	  break;
+    case TIME_STYLE_OPTION:
+      time_style_option = optarg;
+      break;
 
-	case SHOW_CONTROL_CHARS_OPTION:
-	  qmark_funny_chars = 0;
-	  break;
+    case SHOW_CONTROL_CHARS_OPTION:
+      qmark_funny_chars = 0;
+      break;
 
-	case BLOCK_SIZE_OPTION:
-	  human_block_size (optarg, 1, &output_block_size);
-	  break;
+    case BLOCK_SIZE_OPTION:
+      human_block_size (optarg, 1, &output_block_size);
+      break;
 
-	case FAST_OPTION: // AEK
-	  run_fast = 1;
-	  explicit_run_fast_or_slow = 1;
-	  break;
+    case FAST_OPTION: // AEK
+      run_fast = 1;
+      explicit_run_fast_or_slow = 1;
+      break;
 
-	case SLOW_OPTION: // AEK
-	  run_fast = 0;
-	  explicit_run_fast_or_slow = 1;
-	  break;
+    case SLOW_OPTION: // AEK
+      run_fast = 0;
+      explicit_run_fast_or_slow = 1;
+      break;
 
-	case RECENT_OPTION: // AEK
-	  if (optarg) { // --recent[=n], n is minutes
-	    if (xstrtol (optarg, NULL, 0, &tmp_long, NULL) != LONGINT_OK
-		|| tmp_long < 0 || tmp_long > INT_MAX)
-	      error (EXIT_FAILURE, 0, _("invalid --recent size: %s"),
-		     quotearg (optarg));
-	  } else {
-	    /* Using --recent with no argument is equivalent to using
-	       --recent=60. */
-	    recent_file_mod = DEFAULT_RECENT_FILE_MOD;
-	  }
-	  if (command_line && recent_file_mod != 0) {
-	    // specified on command line
-	    if (print_with_color == color_never) {
-	      print_with_color = color_always; // implies --color=always
-	    }
-	  }
-	  break;
+    case RECENT_OPTION: // AEK
+      if (optarg) { // --recent[=n], n is minutes
+        if (xstrtol (optarg, NULL, 0, &tmp_long, NULL) != LONGINT_OK
+        || tmp_long < 0 || tmp_long > INT_MAX)
+          error (EXIT_FAILURE, 0, _("invalid --recent size: %s"),
+             quotearg (optarg));
+      } else {
+        /* Using --recent with no argument is equivalent to using
+           --recent=60. */
+        recent_file_mod = DEFAULT_RECENT_FILE_MOD;
+      }
+      if (command_line && recent_file_mod != 0) {
+        // specified on command line
+        if (print_with_color == color_never) {
+          print_with_color = color_always; // implies --color=always
+        }
+      }
+      break;
 
 #ifdef WIN32
-	case PHYS_SIZE_OPTION: // AEK
-	  phys_size = 1;
-	  break;
+    case PHYS_SIZE_OPTION: // AEK
+      phys_size = 1;
+      break;
 
-	case SHORT_NAMES_OPTION: // AEK
-	  short_names = 1;
-	  break;
+    case SHORT_NAMES_OPTION: // AEK
+      short_names = 1;
+      break;
 
-	case COMPRESSED_OPTION: // AEK
-	  color_compressed = 1;
-	  break;
+    case COMPRESSED_OPTION: // AEK
+      color_compressed = 1;
+      break;
 
-	case SHOW_STREAMS_OPTION: // AEK
-	  if (optarg)
-	    show_streams = XARGMATCH ("--streams", optarg,
-	      yes_no_args, yes_no_types);
-	  else
-	    show_streams = yes_arg;
-	  if (command_line && show_streams == yes_arg) {
-	    // specified on command line
-	    if (!explicit_run_fast_or_slow) run_fast = 0;
-	  }
-	  break;
+    case SHOW_STREAMS_OPTION: // AEK
+      if (optarg)
+        show_streams = XARGMATCH ("--streams", optarg,
+          yes_no_args, yes_no_types);
+      else
+        show_streams = yes_arg;
+      if (command_line && show_streams == yes_arg) {
+        // specified on command line
+        if (!explicit_run_fast_or_slow) run_fast = 0;
+      }
+      break;
 
-	case SIDS_OPTION: // AEK
-	  if (!optarg) {
-	    sids_format = sids_short;
-	  } else {
-	    sids_format = XARGMATCH ("--sids", optarg, sids_args, sids_formats);
-	  }
-	  if (command_line && sids_format != sids_none) {
-	    // specified on command line
-	    format = long_format; // implies -l
-	    if (!explicit_run_fast_or_slow) run_fast = 0;
-	  }
-	  break;
+    case SIDS_OPTION: // AEK
+      if (!optarg) {
+        sids_format = sids_short;
+      } else {
+        sids_format = XARGMATCH ("--sids", optarg, sids_args, sids_formats);
+      }
+      if (command_line && sids_format != sids_none) {
+        // specified on command line
+        format = long_format; // implies -l
+        if (!explicit_run_fast_or_slow) run_fast = 0;
+      }
+      break;
 
-	case GIDS_OPTION: // AEK
-	  if (!optarg) {
-	   gids_format = sids_short;
-	  } else {
-	   gids_format = XARGMATCH ("--gids", optarg, sids_args, sids_formats);
-	  }
-	  if (command_line && gids_format != sids_none) {
-	    // specified on command line
-	    format = long_format; // implies -l
-	    inhibit_group = 0; // turns off -G
-	    if (!explicit_run_fast_or_slow) run_fast = 0;
-	  }
-	  break;
+    case GIDS_OPTION: // AEK
+      if (!optarg) {
+       gids_format = sids_short;
+      } else {
+       gids_format = XARGMATCH ("--gids", optarg, sids_args, sids_formats);
+      }
+      if (command_line && gids_format != sids_none) {
+        // specified on command line
+        format = long_format; // implies -l
+        inhibit_group = 0; // turns off -G
+        if (!explicit_run_fast_or_slow) run_fast = 0;
+      }
+      break;
 
-	case ACLS_OPTION: // AEK
-	  if (!optarg) {
-	    acls_format = acls_short;
-	  } else {
-	    acls_format = XARGMATCH ("--acls", optarg, acls_args, acls_formats);
-	  }
-	  if (command_line && acls_format != acls_none) {
-	    // specified on command line
-	    format = long_format; // implies -l
-	    if (!explicit_run_fast_or_slow) run_fast = 0;
-	  }
-	  break;
+    case ACLS_OPTION: // AEK
+      if (!optarg) {
+        acls_format = acls_short;
+      } else {
+        acls_format = XARGMATCH ("--acls", optarg, acls_args, acls_formats);
+      }
+      if (command_line && acls_format != acls_none) {
+        // specified on command line
+        format = long_format; // implies -l
+        if (!explicit_run_fast_or_slow) run_fast = 0;
+      }
+      break;
 
-	case ENCRYPTION_OPTION: // AEK
-	  encrypted_files = 1;
-	  if (command_line) {
-	    // specified on command line
-	    format = long_format; // implies -l
-	    if (!explicit_run_fast_or_slow) run_fast = 0;
-	  }
-	  break;
+    case ENCRYPTION_OPTION: // AEK
+      encrypted_files = 1;
+      if (command_line) {
+        // specified on command line
+        format = long_format; // implies -l
+        if (!explicit_run_fast_or_slow) run_fast = 0;
+      }
+      break;
 
-	case OBJECTID_OPTION: // AEK
-	  show_objectid = 1;
-	  if (command_line) {
-	    // specified on command line
-	    format = long_format; // implies -l
-	    if (!explicit_run_fast_or_slow) run_fast = 0;
-	  }
-	  break;
+    case OBJECTID_OPTION: // AEK
+      show_objectid = 1;
+      if (command_line) {
+        // specified on command line
+        format = long_format; // implies -l
+        if (!explicit_run_fast_or_slow) run_fast = 0;
+      }
+      break;
 
-	case USER_OPTION: // AEK
-	  view_as = optarg;
-	  break;
+    case USER_OPTION: // AEK
+      view_as = optarg;
+      break;
 
-	case VIEW_SECURITY_OPTION: // AEK
-	  view_security = 1;
-	  immediate_dirs = 1; // implies -d
-	  if (command_line) {
-	    // specified on command line
-	    if (!explicit_run_fast_or_slow) run_fast = 0;
-	  }
-	  break;
+    case VIEW_SECURITY_OPTION: // AEK
+      view_security = 1;
+      immediate_dirs = 1; // implies -d
+      if (command_line) {
+        // specified on command line
+        if (!explicit_run_fast_or_slow) run_fast = 0;
+      }
+      break;
 
-	case TOKEN_OPTION: // AEK
-	  show_token = 1;
-	  break;
+    case TOKEN_OPTION: // AEK
+      show_token = 1;
+      break;
 
-	case VIRTUAL_OPTION: // AEK
-	  if (IsVista) {
+    case VIRTUAL_OPTION: // AEK
+      if (IsVista) {
             virtual_view = 1;
-	  }
-	  break;
+      }
+      break;
 
-	case REGSETVAL_OPTION: // AEK
-	  gbRegSetVal = 1;
-	  break;
+    case REGSETVAL_OPTION: // AEK
+      gbRegSetVal = 1;
+      break;
 
-	case REGDELVAL_OPTION: // AEK
-	  gbRegDelVal = 1;
-	  break;
+    case REGDELVAL_OPTION: // AEK
+      gbRegDelVal = 1;
+      break;
 
-	case EXPANDMUI_OPTION: // AEK
-	  if (IsVista) {
-	    gbExpandMui = TRUE;
-	  }
-	  break;
+    case EXPANDMUI_OPTION: // AEK
+      if (IsVista) {
+        gbExpandMui = TRUE;
+      }
+      break;
 
 #endif // WIN32 AEK
 
-	case COMMAND_LINE_OPTION: // AEK
-	  // Indicate that the remaining args are from the real command line
-	  // and not from LS_OPTIONS
-	  command_line = 1;
-	  break;
+    case COMMAND_LINE_OPTION: // AEK
+      // Indicate that the remaining args are from the real command line
+      // and not from LS_OPTIONS
+      command_line = 1;
+      break;
 
-	case_GETOPT_HELP_CHAR;
+    case_GETOPT_HELP_CHAR;
 
-	case_GETOPT_VERSION_CHAR (PROGRAM_NAME, AUTHORS);
+    case_GETOPT_VERSION_CHAR (PROGRAM_NAME, AUTHORS);
 
-	default:
-	  usage (EXIT_FAILURE);
-	}
+    default:
+      usage (EXIT_FAILURE);
+    }
     }
 
   if (format != long_format) { // if not -l   - AEK
@@ -2295,82 +2287,82 @@ Use `--si' for the old meaning."));
       static char const posix_prefix[] = "posix-";
 
       if (! style)
-	if (! (style = getenv ("TIME_STYLE")))
-	  style = "locale";
+    if (! (style = getenv ("TIME_STYLE")))
+      style = "locale";
 
       while (strncmp (style, posix_prefix, sizeof posix_prefix - 1) == 0)
-	{
+    {
 #ifndef WIN32
-	  if (! hard_locale (LC_TIME))
-	    return optind;
+      if (! hard_locale (LC_TIME))
+        return optind;
 #endif
-	  style += sizeof posix_prefix - 1;
-	}
+      style += sizeof posix_prefix - 1;
+    }
 
       if (*style == '+')
-	{
-	  char *p0 = style + 1;
-	  char *p1 = strchr (p0, TIME_SEP_CHAR);
-	  if (! p1)
-	    p1 = p0;
-	  else
-	    {
-	      if (strchr (p1 + 1, TIME_SEP_CHAR))
-		error (0, 0, _("invalid time style format '%s'"),
-		       p0);
-	      *p1++ = '\0';
-	    }
-	  long_time_format[0] = p0;
-	  long_time_format[1] = p1;
-	}
+    {
+      char *p0 = style + 1;
+      char *p1 = strchr (p0, TIME_SEP_CHAR);
+      if (! p1)
+        p1 = p0;
       else
-	switch (XARGMATCH ("time style", style,
-			   time_style_args,
-			   time_style_types))
-	  {
-	  case full_iso_time_style:
-	    long_time_format[0] = long_time_format[1] =
+        {
+          if (strchr (p1 + 1, TIME_SEP_CHAR))
+        error (0, 0, _("invalid time style format '%s'"),
+               p0);
+          *p1++ = '\0';
+        }
+      long_time_format[0] = p0;
+      long_time_format[1] = p1;
+    }
+      else
+    switch (XARGMATCH ("time style", style,
+               time_style_args,
+               time_style_types))
+      {
+      case full_iso_time_style:
+        long_time_format[0] = long_time_format[1] =
 #ifdef WIN32 // Win32 strftime does not support %N.  %z = "Central Daylight Time", not -0600
-	      "%Y-%m-%d %H:%M:%S";
+          "%Y-%m-%d %H:%M:%S";
 #else
-	      "%Y-%m-%d %H:%M:%S.%N %z";
+          "%Y-%m-%d %H:%M:%S.%N %z";
 #endif
-	    break;
+        break;
 
-	  case long_iso_time_style:
+      case long_iso_time_style:
 #ifndef WIN32
-	  case_long_iso_time_style:
+      case_long_iso_time_style:
 #endif
-	    long_time_format[0] = long_time_format[1] = "%Y-%m-%d %H:%M";
-	    break;
+        long_time_format[0] = long_time_format[1] = "%Y-%m-%d %H:%M";
+        break;
 
-	  case iso_time_style:
-	    long_time_format[0] = "%Y-%m-%d ";
-	    long_time_format[1] = "%m-%d %H:%M";
-	    break;
+      case iso_time_style:
+        long_time_format[0] = "%Y-%m-%d ";
+        long_time_format[1] = "%m-%d %H:%M";
+        break;
 
-	  case locale_time_style:
+      case locale_time_style:
 #ifdef WIN32
-	  // BUG: Win32 strftime() does not support '%e', so use '%d' - AEK
-	  long_time_format[0] = dcgettext (NULL, "%b %d  %Y", LC_TIME); // AEK
-	  long_time_format[1] = dcgettext (NULL, "%b %d %H:%M", LC_TIME); // AEK
+      // BUG: Win32 strftime() does not support '%e', so use '%d' - AEK
+      long_time_format[0] = dcgettext (NULL, "%b %d  %Y", LC_TIME); // AEK
+      long_time_format[1] = dcgettext (NULL, "%b %d %H:%M", LC_TIME); // AEK
 #else
-	    if (hard_locale (LC_TIME))
-	      {
-		/* Ensure that the locale has translations for both
-		   formats.  If not, fall back on long-iso format.  */
-		int i;
-		for (i = 0; i < 2; i++)
-		  {
-		    char const *locale_format =
-		      dcgettext (NULL, long_time_format[i], LC_TIME);
-		    if (locale_format == long_time_format[i])
-		      goto case_long_iso_time_style;
-		    long_time_format[i] = locale_format;
-		  }
-	      }
+        if (hard_locale (LC_TIME))
+          {
+        /* Ensure that the locale has translations for both
+           formats.  If not, fall back on long-iso format.  */
+        int i;
+        for (i = 0; i < 2; i++)
+          {
+            char const *locale_format =
+              dcgettext (NULL, long_time_format[i], LC_TIME);
+            if (locale_format == long_time_format[i])
+              goto case_long_iso_time_style;
+            long_time_format[i] = locale_format;
+          }
+          }
 #endif
-	  }
+      }
     }
 
 
@@ -2392,188 +2384,188 @@ Use `--si' for the old meaning."));
 static int
 get_funky_string (char **dest, const char **src, int equals_end)
 {
-  int num;			/* For numerical codes */
-  int count;			/* Something to count with */
+  int num;              /* For numerical codes */
+  int count;            /* Something to count with */
   enum {
     ST_GND, ST_BACKSLASH, ST_OCTAL, ST_HEX, ST_CARET, ST_END, ST_ERROR
   } state;
   const char *p;
   char *q;
 
-  p = *src;			/* We don't want to double-indirect */
-  q = *dest;			/* the whole darn time.  */
+  p = *src;             /* We don't want to double-indirect */
+  q = *dest;            /* the whole darn time.  */
 
-  count = 0;			/* No characters counted in yet.  */
+  count = 0;            /* No characters counted in yet.  */
   num = 0;
 
-  state = ST_GND;		/* Start in ground state.  */
+  state = ST_GND;       /* Start in ground state.  */
   while (state < ST_END)
     {
       switch (state)
-	{
-	case ST_GND:		/* Ground state (no escapes) */
-	  switch (*p)
-	    {
-	    case ':':
-	    case '\0':
-	      state = ST_END;	/* End of string */
-	      break;
-	    case '\\':
-	      state = ST_BACKSLASH; /* Backslash scape sequence */
-	      ++p;
-	      break;
-	    case '^':
-	      state = ST_CARET; /* Caret escape */
-	      ++p;
-	      break;
-	    case '=':
-	      if (equals_end)
-		{
-		  state = ST_END; /* End */
-		  break;
-		}
-	      /* else fall through */
-	    default:
-	      *(q++) = *(p++);
-	      ++count;
-	      break;
-	    }
-	  break;
+    {
+    case ST_GND:        /* Ground state (no escapes) */
+      switch (*p)
+        {
+        case ':':
+        case '\0':
+          state = ST_END;   /* End of string */
+          break;
+        case '\\':
+          state = ST_BACKSLASH; /* Backslash scape sequence */
+          ++p;
+          break;
+        case '^':
+          state = ST_CARET; /* Caret escape */
+          ++p;
+          break;
+        case '=':
+          if (equals_end)
+        {
+          state = ST_END; /* End */
+          break;
+        }
+          /* else fall through */
+        default:
+          *(q++) = *(p++);
+          ++count;
+          break;
+        }
+      break;
 
-	case ST_BACKSLASH:	/* Backslash escaped character */
-	  switch (*p)
-	    {
-	    case '0':
-	    case '1':
-	    case '2':
-	    case '3':
-	    case '4':
-	    case '5':
-	    case '6':
-	    case '7':
-	      state = ST_OCTAL;	/* Octal sequence */
-	      num = *p - '0';
-	      break;
-	    case 'x':
-	    case 'X':
-	      state = ST_HEX;	/* Hex sequence */
-	      num = 0;
-	      break;
-	    case 'a':		/* Bell */
-	      num = 7;		/* Not all C compilers know what \a means */
-	      break;
-	    case 'b':		/* Backspace */
-	      num = '\b';
-	      break;
-	    case 'e':		/* Escape */
-	      num = 27;
-	      break;
-	    case 'f':		/* Form feed */
-	      num = '\f';
-	      break;
-	    case 'n':		/* Newline */
-	      num = '\n';
-	      break;
-	    case 'r':		/* Carriage return */
-	      num = '\r';
-	      break;
-	    case 't':		/* Tab */
-	      num = '\t';
-	      break;
-	    case 'v':		/* Vtab */
-	      num = '\v';
-	      break;
-	    case '?':		/* Delete */
+    case ST_BACKSLASH:  /* Backslash escaped character */
+      switch (*p)
+        {
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+          state = ST_OCTAL; /* Octal sequence */
+          num = *p - '0';
+          break;
+        case 'x':
+        case 'X':
+          state = ST_HEX;   /* Hex sequence */
+          num = 0;
+          break;
+        case 'a':       /* Bell */
+          num = 7;      /* Not all C compilers know what \a means */
+          break;
+        case 'b':       /* Backspace */
+          num = '\b';
+          break;
+        case 'e':       /* Escape */
+          num = 27;
+          break;
+        case 'f':       /* Form feed */
+          num = '\f';
+          break;
+        case 'n':       /* Newline */
+          num = '\n';
+          break;
+        case 'r':       /* Carriage return */
+          num = '\r';
+          break;
+        case 't':       /* Tab */
+          num = '\t';
+          break;
+        case 'v':       /* Vtab */
+          num = '\v';
+          break;
+        case '?':       /* Delete */
               num = 127;
-	      break;
-	    case '_':		/* Space */
-	      num = ' ';
-	      break;
-	    case '\0':		/* End of string */
-	      state = ST_ERROR;	/* Error! */
-	      break;
-	    default:		/* Escaped character like \ ^ : = */
-	      num = *p;
-	      break;
-	    }
-	  if (state == ST_BACKSLASH)
-	    {
-	      *(q++) = num;
-	      ++count;
-	      state = ST_GND;
-	    }
-	  ++p;
-	  break;
+          break;
+        case '_':       /* Space */
+          num = ' ';
+          break;
+        case '\0':      /* End of string */
+          state = ST_ERROR; /* Error! */
+          break;
+        default:        /* Escaped character like \ ^ : = */
+          num = *p;
+          break;
+        }
+      if (state == ST_BACKSLASH)
+        {
+          *(q++) = num;
+          ++count;
+          state = ST_GND;
+        }
+      ++p;
+      break;
 
-	case ST_OCTAL:		/* Octal sequence */
-	  if (*p < '0' || *p > '7')
-	    {
-	      *(q++) = num;
-	      ++count;
-	      state = ST_GND;
-	    }
-	  else
-	    num = (num << 3) + (*(p++) - '0');
-	  break;
+    case ST_OCTAL:      /* Octal sequence */
+      if (*p < '0' || *p > '7')
+        {
+          *(q++) = num;
+          ++count;
+          state = ST_GND;
+        }
+      else
+        num = (num << 3) + (*(p++) - '0');
+      break;
 
-	case ST_HEX:		/* Hex sequence */
-	  switch (*p)
-	    {
-	    case '0':
-	    case '1':
-	    case '2':
-	    case '3':
-	    case '4':
-	    case '5':
-	    case '6':
-	    case '7':
-	    case '8':
-	    case '9':
-	      num = (num << 4) + (*(p++) - '0');
-	      break;
-	    case 'a':
-	    case 'b':
-	    case 'c':
-	    case 'd':
-	    case 'e':
-	    case 'f':
-	      num = (num << 4) + (*(p++) - 'a') + 10;
-	      break;
-	    case 'A':
-	    case 'B':
-	    case 'C':
-	    case 'D':
-	    case 'E':
-	    case 'F':
-	      num = (num << 4) + (*(p++) - 'A') + 10;
-	      break;
-	    default:
-	      *(q++) = num;
-	      ++count;
-	      state = ST_GND;
-	      break;
-	    }
-	  break;
+    case ST_HEX:        /* Hex sequence */
+      switch (*p)
+        {
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+          num = (num << 4) + (*(p++) - '0');
+          break;
+        case 'a':
+        case 'b':
+        case 'c':
+        case 'd':
+        case 'e':
+        case 'f':
+          num = (num << 4) + (*(p++) - 'a') + 10;
+          break;
+        case 'A':
+        case 'B':
+        case 'C':
+        case 'D':
+        case 'E':
+        case 'F':
+          num = (num << 4) + (*(p++) - 'A') + 10;
+          break;
+        default:
+          *(q++) = num;
+          ++count;
+          state = ST_GND;
+          break;
+        }
+      break;
 
-	case ST_CARET:		/* Caret escape */
-	  state = ST_GND;	/* Should be the next state... */
-	  if (*p >= '@' && *p <= '~')
-	    {
-	      *(q++) = *(p++) & 037;
-	      ++count;
-	    }
-	  else if (*p == '?')
-	    {
-	      *(q++) = 127;
-	      ++count;
-	    }
-	  else
-	    state = ST_ERROR;
-	  break;
+    case ST_CARET:      /* Caret escape */
+      state = ST_GND;   /* Should be the next state... */
+      if (*p >= '@' && *p <= '~')
+        {
+          *(q++) = *(p++) & 037;
+          ++count;
+        }
+      else if (*p == '?')
+        {
+          *(q++) = 127;
+          ++count;
+        }
+      else
+        state = ST_ERROR;
+      break;
 
-	default:
-	  abort ();
-	}
+    default:
+      abort ();
+    }
     }
 
   *dest = q;
@@ -2585,12 +2577,12 @@ get_funky_string (char **dest, const char **src, int equals_end)
 static void
 parse_ls_color (void)
 {
-  const char *p;		/* Pointer to character being parsed */
-  char *buf;			/* color_buf buffer pointer */
-  int state;			/* State of parser */
-  int ind_no;			/* Indicator number */
-  char label[3];		/* Indicator label */
-  struct color_ext_type *ext;	/* Extension we are working on */
+  const char *p;        /* Pointer to character being parsed */
+  char *buf;            /* color_buf buffer pointer */
+  int state;            /* State of parser */
+  int ind_no;           /* Indicator number */
+  char label[3];        /* Indicator label */
+  struct color_ext_type *ext;   /* Extension we are working on */
 
   if (((p = getenv (MSLS_PREFIX "_COLORS"/*AEK*/)) == NULL &&
       (p = getenv (LS_PREFIX "_COLORS")) == NULL) || *p == '\0') {
@@ -2610,83 +2602,83 @@ parse_ls_color (void)
   while (state > 0)
     {
       switch (state)
-	{
-	case 1:		/* First label character */
-	  switch (*p)
-	    {
-	    case ':':
-	      ++p;
-	      break;
+    {
+    case 1:     /* First label character */
+      switch (*p)
+        {
+        case ':':
+          ++p;
+          break;
 
-	    case '*':
-	      /* Allocate new extension block and add to head of
-		 linked list (this way a later definition will
-		 override an earlier one, which can be useful for
-		 having terminal-specific defs override global).  */
+        case '*':
+          /* Allocate new extension block and add to head of
+         linked list (this way a later definition will
+         override an earlier one, which can be useful for
+         having terminal-specific defs override global).  */
 
-	      ext = (struct color_ext_type *)
-		xmalloc (sizeof (struct color_ext_type));
-	      ext->next = color_ext_list;
-	      color_ext_list = ext;
+          ext = (struct color_ext_type *)
+                xmalloc (sizeof (struct color_ext_type));
+          ext->next = color_ext_list;
+          color_ext_list = ext;
 
-	      ++p;
-	      ext->ext.string = buf;
+          ++p;
+          ext->ext.string = buf;
 
-	      state = (ext->ext.len =
-		       get_funky_string (&buf, &p, 1)) < 0 ? -1 : 4;
-	      break;
+          state = (ext->ext.len =
+                get_funky_string (&buf, &p, 1)) < 0 ? -1 : 4;
+          break;
 
-	    case '\0':
-	      state = 0;	/* Done! */
-	      break;
+        case '\0':
+          state = 0;    /* Done! */
+          break;
 
-	    default:	/* Assume it is file type label */
-	      label[0] = *(p++);
-	      state = 2;
-	      break;
-	    }
-	  break;
+        default:    /* Assume it is file type label */
+          label[0] = *(p++);
+          state = 2;
+          break;
+        }
+      break;
 
-	case 2:		/* Second label character */
-	  if (*p)
-	    {
-	      label[1] = *(p++);
-	      state = 3;
-	    }
-	  else
-	    state = -1;	/* Error */
-	  break;
+    case 2:     /* Second label character */
+      if (*p)
+        {
+          label[1] = *(p++);
+          state = 3;
+        }
+      else
+        state = -1; /* Error */
+      break;
 
-	case 3:		/* Equal sign after indicator label */
-	  state = -1;	/* Assume failure... */
-	  if (*(p++) == '=')/* It *should* be... */
-	    {
-	      for (ind_no = 0; indicator_name[ind_no] != NULL; ++ind_no)
-		{
-		  if (STREQ (label, indicator_name[ind_no]))
-		    {
-		      color_indicator[ind_no].string = buf;
-		      state = ((color_indicator[ind_no].len =
-				get_funky_string (&buf, &p, 0)) < 0 ? -1 : 1);
-		      break;
-		    }
-		}
-	      if (state == -1)
-		error (0, 0, _("unrecognized prefix: %s"), quotearg (label));
-	    }
-	 break;
+    case 3:     /* Equal sign after indicator label */
+      state = -1;   /* Assume failure... */
+      if (*(p++) == '=')/* It *should* be... */
+        {
+          for (ind_no = 0; indicator_name[ind_no] != NULL; ++ind_no)
+        {
+          if (STREQ (label, indicator_name[ind_no]))
+            {
+              color_indicator[ind_no].string = buf;
+              state = ((color_indicator[ind_no].len =
+                get_funky_string (&buf, &p, 0)) < 0 ? -1 : 1);
+              break;
+            }
+        }
+          if (state == -1)
+        error (0, 0, _("unrecognized prefix: %s"), quotearg (label));
+        }
+     break;
 
-	case 4:		/* Equal sign after *.ext */
-	  if (*(p++) == '=')
-	    {
-	      ext->seq.string = buf;
-	      state = (ext->seq.len =
-		       get_funky_string (&buf, &p, 0)) < 0 ? -1 : 1;
-	    }
-	  else
-	    state = -1;
-	  break;
-	}
+    case 4:     /* Equal sign after *.ext */
+      if (*(p++) == '=')
+        {
+          ext->seq.string = buf;
+          state = (ext->seq.len =
+               get_funky_string (&buf, &p, 0)) < 0 ? -1 : 1;
+        }
+      else
+        state = -1;
+      break;
+    }
     }
 
   if (state < 0)
@@ -2695,14 +2687,14 @@ parse_ls_color (void)
       struct color_ext_type *e2;
 
       error (0, 0,
-	     _("unparsable value for " LS_PREFIX "_COLORS environment variable")); // AEK
+         _("unparsable value for " LS_PREFIX "_COLORS environment variable")); // AEK
       free (color_buf);
       for (e = color_ext_list; e != NULL; /* empty */)
-	{
-	  e2 = e;
-	  e = e->next;
-	  free (e2);
-	}
+    {
+      e2 = e;
+      e = e->next;
+      free (e2);
+    }
       print_with_color = 0;
     }
 
@@ -2764,15 +2756,15 @@ print_dir (const char *name, const char *realname)
   while ((next = readdir (reading)) != NULL)
     if (file_interesting (next))
       {
-	enum filetype type = unknown;
+    enum filetype type = unknown;
 
 #if HAVE_STRUCT_DIRENT_D_TYPE
-	if (next->d_type == DT_DIR || next->d_type == DT_CHR
-	    || next->d_type == DT_BLK || next->d_type == DT_SOCK
-	    || next->d_type == DT_FIFO)
-	  type = next->d_type;
+    if (next->d_type == DT_DIR || next->d_type == DT_CHR
+        || next->d_type == DT_BLK || next->d_type == DT_SOCK
+        || next->d_type == DT_FIFO)
+      type = next->d_type;
 #endif
-	total_blocks += gobble_file (next->d_name, type, 0, name);
+    total_blocks += gobble_file (next->d_name, type, 0, name);
       }
 
   if (CLOSEDIR (reading))
@@ -2796,7 +2788,7 @@ print_dir (const char *name, const char *realname)
       DIRED_INDENT ();
       PUSH_CURRENT_DIRED_POS (&subdired_obstack);
       dired_pos += quote_name (stdmore, realname ? realname : name,
-			       dirname_quoting_options);
+                   dirname_quoting_options);
       PUSH_CURRENT_DIRED_POS (&subdired_obstack);
       DIRED_FPUTS_LITERAL (":\n", stdmore);
     }
@@ -2811,7 +2803,7 @@ print_dir (const char *name, const char *realname)
       DIRED_FPUTS (p, stdmore, strlen (p));
       DIRED_PUTCHAR (' ');
       p = human_readable_inexact (total_blocks, buf, ST_NBLOCKSIZE,
-				  output_block_size, human_ceiling);
+                  output_block_size, human_ceiling);
       DIRED_FPUTS (p, stdmore, strlen (p));
       DIRED_PUTCHAR ('\n');
     }
@@ -2877,7 +2869,7 @@ clear_files (void)
     {
       free (files[i].name);
       if (files[i].linkname)
-	free (files[i].linkname);
+    free (files[i].linkname);
     }
 
   files_index = 0;
@@ -2891,7 +2883,7 @@ clear_files (void)
 
 static uintmax_t
 gobble_file (const char *name, enum filetype type, int explicit_arg,
-	     const char *dirname)
+         const char *dirname)
 {
   register uintmax_t blocks;
   register char *path;
@@ -2900,7 +2892,7 @@ gobble_file (const char *name, enum filetype type, int explicit_arg,
     {
       nfiles *= 2;
       files = (struct fileinfo *) xrealloc ((char *) files,
-					    sizeof (*files) * nfiles);
+                        sizeof (*files) * nfiles);
     }
 
   files[files_index].linkname = 0;
@@ -2919,138 +2911,138 @@ gobble_file (const char *name, enum filetype type, int explicit_arg,
 
       if (name[0] == '/' || dirname[0] == 0
 #ifdef WIN32
-	// C:xxx - dont concat
-	|| (name[0] != '\0' && name[1] == ':')
+    // C:xxx - dont concat
+    || (name[0] != '\0' && name[1] == ':')
 #endif
-	)
-	path = (char *) name;
+    )
+    path = (char *) name;
       else
-	{
-	  path = (char *) alloca (strlen (name) + strlen (dirname) + 2);
-	  attach (path, dirname, name);
-	}
+    {
+      path = (char *) alloca (strlen (name) + strlen (dirname) + 2);
+      attach (path, dirname, name);
+    }
 
 #ifdef WIN32
       val = (trace_links
-	     ? stat_nocache (path, &files[files_index].stat, (unsigned long)type)
-	     : lstat_nocache (path, &files[files_index].stat, (unsigned long)type));
+         ? stat_nocache (path, &files[files_index].stat, (unsigned long)type)
+         : lstat_nocache (path, &files[files_index].stat, (unsigned long)type));
 #else
       val = (trace_links
-	     ? stat (path, &files[files_index].stat)
-	     : lstat (path, &files[files_index].stat));
+         ? stat (path, &files[files_index].stat)
+         : lstat (path, &files[files_index].stat));
 #endif
 
       mark_if_file_changed_recently(&files[files_index].stat); // AEK
 
       if (val < 0)
-	{
-	  error (0, errno, "%s", quotearg_colon (path));
-	  exit_status = 1;
-	  return 0;
-	}
+    {
+      error (0, errno, "%s", quotearg_colon (path));
+      exit_status = 1;
+      return 0;
+    }
 
 #if USE_ACL
       if (format == long_format)
-	files[files_index].have_acl =
-	  (! S_ISLNK (files[files_index].stat.st_mode)
-	   && 4 < acl (path, GETACLCNT, 0, NULL));
+    files[files_index].have_acl =
+      (! S_ISLNK (files[files_index].stat.st_mode)
+       && 4 < acl (path, GETACLCNT, 0, NULL));
 #endif
 
 #if HAVE_SYMLINKS // AEK
       if (S_ISLNK (files[files_index].stat.st_mode)
-	  && (explicit_arg || format == long_format || check_symlink_color))
-	{
-	  char *linkpath;
-	  struct stat linkstats;
+      && (explicit_arg || format == long_format || check_symlink_color))
+    {
+      char *linkpath;
+      struct stat linkstats;
 
-	  get_link_name (path, &files[files_index]);
-	  linkpath = make_link_path (path, files[files_index].linkname);
+      get_link_name (path, &files[files_index]);
+      linkpath = make_link_path (path, files[files_index].linkname);
 
-	  /* Avoid following symbolic links when possible, ie, when
-	     they won't be traced and when no indicator is needed. */
-	  if (linkpath
-	      && ((explicit_arg && format != long_format)
-		  || indicator_style != none
-		  || check_symlink_color)
-	      && stat (linkpath, &linkstats) == 0)
-	    {
-	      files[files_index].linkok = 1;
+      /* Avoid following symbolic links when possible, ie, when
+         they won't be traced and when no indicator is needed. */
+      if (linkpath
+          && ((explicit_arg && format != long_format)
+          || indicator_style != none
+          || check_symlink_color)
+          && stat (linkpath, &linkstats) == 0)
+        {
+          files[files_index].linkok = 1;
 
-	      mark_if_file_changed_recently(&linkstats); // AEK
+          mark_if_file_changed_recently(&linkstats); // AEK
 
-	      /* Symbolic links to directories that are mentioned on the
-	         command line are automatically traced if not being
-	         listed as files.  */
-	      if (explicit_arg && format != long_format
-		  && S_ISDIR (linkstats.st_mode))
-		{
-		  /* Substitute the linked-to directory's name, but
-		     save the real name in `linkname' for printing.  */
-		  if (!immediate_dirs)
-		    {
-		      const char *tempname = name;
-		      name = linkpath;
-		      linkpath = files[files_index].linkname;
-		      //
-		      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		      // BUG: Must include a strdup - otherwise
-		      // we later free garbage memory and trash
-		      // the arena!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		      //
-		      tempname = xstrdup(tempname); // BUFGIX - AEK
-		      files[files_index].linkname = (char *) tempname;
-		    }
-		  files[files_index].stat = linkstats;
-		}
-	      else
-		{
-		  /* Get the linked-to file's mode for the filetype indicator
-		     in long listings.  */
-		  files[files_index].linkmode = linkstats.st_mode;
-		  files[files_index].linkok = 1;
-		}
-	    }
-	  if (linkpath)
-	    free (linkpath);
-	}
+          /* Symbolic links to directories that are mentioned on the
+             command line are automatically traced if not being
+             listed as files.  */
+          if (explicit_arg && format != long_format
+          && S_ISDIR (linkstats.st_mode))
+        {
+          /* Substitute the linked-to directory's name, but
+             save the real name in `linkname' for printing.  */
+          if (!immediate_dirs)
+            {
+              const char *tempname = name;
+              name = linkpath;
+              linkpath = files[files_index].linkname;
+              //
+              // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+              // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+              // BUG: Must include a strdup - otherwise
+              // we later free garbage memory and trash
+              // the arena!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+              // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+              //
+              tempname = xstrdup(tempname); // BUFGIX - AEK
+              files[files_index].linkname = (char *) tempname;
+            }
+          files[files_index].stat = linkstats;
+        }
+          else
+        {
+          /* Get the linked-to file's mode for the filetype indicator
+             in long listings.  */
+          files[files_index].linkmode = linkstats.st_mode;
+          files[files_index].linkok = 1;
+        }
+        }
+      if (linkpath)
+        free (linkpath);
+    }
 #endif // HAVE_SYMLINKS - AEK
 
       if (S_ISLNK (files[files_index].stat.st_mode))
-	files[files_index].filetype = symbolic_link;
+    files[files_index].filetype = symbolic_link;
       else if (S_ISDIR (files[files_index].stat.st_mode))
-	{
-	  if (explicit_arg && !immediate_dirs)
-	    files[files_index].filetype = arg_directory;
-	  else
-	    files[files_index].filetype = directory;
-	}
+    {
+      if (explicit_arg && !immediate_dirs)
+        files[files_index].filetype = arg_directory;
       else
-	files[files_index].filetype = normal;
+        files[files_index].filetype = directory;
+    }
+      else
+    files[files_index].filetype = normal;
 
       blocks = ST_NBLOCKS (files[files_index].stat);
       {
-	char buf[LONGEST_HUMAN_READABLE + 1];
-	int len = strlen (human_readable_inexact (blocks, buf, ST_NBLOCKSIZE,
-						  output_block_size,
-						  human_ceiling));
-	if (block_size_size < len)
+    char buf[LONGEST_HUMAN_READABLE + 1];
+    int len = strlen (human_readable_inexact (blocks, buf, ST_NBLOCKSIZE,
+                          output_block_size,
+                          human_ceiling));
+    if (block_size_size < len)
 #ifdef UNDEFINED
-	  block_size_size = len < 7 ? len : 7;
+      block_size_size = len < 7 ? len : 7;
 #else
-	  block_size_size = len; // AEK make columns thin as possible
+      block_size_size = len; // AEK make columns thin as possible
 #endif
-	//
-	// Get max size for long format (which is exact if requested)
-	//
-	if (format == long_format) { // AEK
-		len = strlen(human_readable(files[files_index].stat.st_size,
-			buf, 1, output_block_size < 0 ? output_block_size : 1));
-	  if (long_block_size_size < len) {
-	    long_block_size_size = len;
-	  }
-	}
+    //
+    // Get max size for long format (which is exact if requested)
+    //
+    if (format == long_format) { // AEK
+        len = strlen(human_readable(files[files_index].stat.st_size,
+            buf, 1, output_block_size < 0 ? output_block_size : 1));
+      if (long_block_size_size < len) {
+        long_block_size_size = len;
+      }
+    }
       }
     }
   else
@@ -3185,24 +3177,24 @@ extract_dirs_from_files (const char *dirname, int recursive)
      order.  */
   for (i = files_index - 1; i >= 0; i--)
     if ((files[i].filetype == directory || files[i].filetype == arg_directory)
-	&& (!recursive || !basename_is_dot_or_dotdot (files[i].name)))
+    && (!recursive || !basename_is_dot_or_dotdot (files[i].name)))
       {
-	if (files[i].name[0] == '/' || dirname[0] == 0
+    if (files[i].name[0] == '/' || dirname[0] == 0
 #ifdef WIN32
-	  || files[i].name[1] == ':'// C:xxx - dont concat
+      || files[i].name[1] == ':'// C:xxx - dont concat
 #endif
-	  )
-	  {
-	    queue_directory (files[i].name, files[i].linkname);
-	  }
-	else
-	  {
-	    char *path = path_concat (dirname, files[i].name, NULL);
-	    queue_directory (path, files[i].linkname);
-	    free (path);
-	  }
-	if (files[i].filetype == arg_directory)
-	  free (files[i].name);
+      )
+      {
+        queue_directory (files[i].name, files[i].linkname);
+      }
+    else
+      {
+        char *path = path_concat (dirname, files[i].name, NULL);
+        queue_directory (path, files[i].linkname);
+        free (path);
+      }
+    if (files[i].filetype == arg_directory)
+      free (files[i].name);
       }
 
   /* Now delete the directories from the table, compacting all the remaining
@@ -3228,19 +3220,19 @@ sort_files (void)
       return;
     case sort_time:
       switch (time_type)
-	{
-	case time_ctime:
-	  func = sort_reverse ? rev_cmp_ctime : compare_ctime;
-	  break;
-	case time_mtime:
-	  func = sort_reverse ? rev_cmp_mtime : compare_mtime;
-	  break;
-	case time_atime:
-	  func = sort_reverse ? rev_cmp_atime : compare_atime;
-	  break;
-	default:
-	  abort ();
-	}
+    {
+    case time_ctime:
+      func = sort_reverse ? rev_cmp_ctime : compare_ctime;
+      break;
+    case time_mtime:
+      func = sort_reverse ? rev_cmp_mtime : compare_mtime;
+      break;
+    case time_atime:
+      func = sort_reverse ? rev_cmp_atime : compare_atime;
+      break;
+    default:
+      abort ();
+    }
       break;
     case sort_name:
       func = sort_reverse ? rev_cmp_name : compare_name;
@@ -3460,10 +3452,10 @@ print_current_files (void)
     {
     case one_per_line:
       for (i = 0; i < files_index; i++)
-	{
-	  print_file_name_and_frills (files + i);
-	  more_putchar ('\n');
-	}
+    {
+      print_file_name_and_frills (files + i);
+      more_putchar ('\n');
+    }
       break;
 
     case many_per_line:
@@ -3482,40 +3474,40 @@ print_current_files (void)
 
     case long_format:
       for (i = 0; i < files_index; i++)
-	{
+    {
 #ifdef WIN32
-	  size_t count;
+      size_t count;
 #endif
-	  print_long_format (files + i);
-	  DIRED_PUTCHAR ('\n');
+      print_long_format (files + i);
+      DIRED_PUTCHAR ('\n');
 #ifdef WIN32
-	  count = MORE_COUNT(stdmore); // get output odometer
-	  //
-	  // Print the long ACL
-	  //
-	  if (gbReg) {
-	    print_registry_value(files[i].stat.st_ce);
-	  }
-	  if (acls_format == acls_long || acls_format == acls_very_long
-	        || acls_format == acls_exhaustive) {
-	    print_long_acl(files[i].stat.st_ce);
-	  }
-	  //
-	  // Print the name(s) of principals with encryption credentails
-	  // for the file
-	  //
-	  if (encrypted_files) {
-	    print_encrypted_file(files[i].stat.st_ce);
-	  }
-	  if (show_objectid) {
-	    print_objectid(files[i].stat.st_ce);
-	  }
-	  //
-	  // Bump the EMACS dired_pos by the total number of chars output
-	  //
-	  dired_pos += (MORE_COUNT(stdmore) - count);
+      count = MORE_COUNT(stdmore); // get output odometer
+      //
+      // Print the long ACL
+      //
+      if (gbReg) {
+        print_registry_value(files[i].stat.st_ce);
+      }
+      if (acls_format == acls_long || acls_format == acls_very_long
+            || acls_format == acls_exhaustive) {
+        print_long_acl(files[i].stat.st_ce);
+      }
+      //
+      // Print the name(s) of principals with encryption credentails
+      // for the file
+      //
+      if (encrypted_files) {
+        print_encrypted_file(files[i].stat.st_ce);
+      }
+      if (show_objectid) {
+        print_objectid(files[i].stat.st_ce);
+      }
+      //
+      // Bump the EMACS dired_pos by the total number of chars output
+      //
+      dired_pos += (MORE_COUNT(stdmore) - count);
 #endif
-	}
+    }
       break;
     }
 }
@@ -3539,17 +3531,17 @@ long_time_expected_width (void)
       size_t len;
 
       for (;;)
-	{
-	  *buf = '\1';
-	  len = strftime (buf, bufsize, fmt, tm);
-	  if (len || ! *buf)
-	    break;
-	  buf = alloca (bufsize *= 2);
-	}
+    {
+      *buf = '\1';
+      len = strftime (buf, bufsize, fmt, tm);
+      if (len || ! *buf)
+        break;
+      buf = alloca (bufsize *= 2);
+    }
 
       width = mbsnwidth (buf, len, 0);
       if (width < 0)
-	width = 0;
+    width = 0;
     }
 
   return width;
@@ -3565,9 +3557,9 @@ get_current_time (void)
     struct timespec timespec;
     if (clock_gettime (CLOCK_REALTIME, &timespec) == 0)
       {
-	current_time = timespec.tv_sec;
-	current_time_ns = timespec.tv_nsec;
-	return;
+    current_time = timespec.tv_sec;
+    current_time_ns = timespec.tv_nsec;
+    return;
       }
   }
 #endif
@@ -3583,9 +3575,9 @@ get_current_time (void)
     struct timeval timeval;
     if (gettimeofday (&timeval, NULL) == 0)
       {
-	current_time = timeval.tv_sec;
-	current_time_ns = timeval.tv_usec * 1000 + 999;
-	return;
+    current_time = timeval.tv_sec;
+    current_time_ns = timeval.tv_usec * 1000 + 999;
+    return;
       }
   }
 #endif
@@ -3606,10 +3598,10 @@ print_long_format (const struct fileinfo *f)
      9 spaces, one following each of these fields, and
      1 trailing NUL byte.  */
   char init_bigbuf[7 * LONGEST_HUMAN_READABLE + 10
-		   + (LONGEST_HUMAN_READABLE < 24 ? 24 : LONGEST_HUMAN_READABLE)
-		   + 9 + 1
+           + (LONGEST_HUMAN_READABLE < 24 ? 24 : LONGEST_HUMAN_READABLE)
+           + 9 + 1
 #ifdef WIN32
-		   + 128 // longer user + group names
+           + 128 // longer user + group names
 #endif
   ];
   char *buf = init_bigbuf;
@@ -3704,7 +3696,7 @@ print_long_format (const struct fileinfo *f)
     {
       char hbuf[LONGEST_HUMAN_READABLE + 1];
       sprintf (p, "%*s ", INODE_DIGITS,
-	       human_readable ((uintmax_t) f->stat.st_ino, hbuf, 1, 1));
+           human_readable ((uintmax_t) f->stat.st_ino, hbuf, 1, 1));
       p += strlen (p);
     }
 
@@ -3712,9 +3704,9 @@ print_long_format (const struct fileinfo *f)
     {
       char hbuf[LONGEST_HUMAN_READABLE + 1];
       sprintf (p, "%*s ", block_size_size,
-	       human_readable_inexact ((uintmax_t) ST_NBLOCKS (f->stat), hbuf,
-				       ST_NBLOCKSIZE, output_block_size,
-				       human_ceiling));
+           human_readable_inexact ((uintmax_t) ST_NBLOCKS (f->stat), hbuf,
+                       ST_NBLOCKSIZE, output_block_size,
+                       human_ceiling));
       p += strlen (p);
     }
 
@@ -3760,9 +3752,9 @@ print_long_format (const struct fileinfo *f)
       if (strcmp(group_name, "0") == 0) {
         //
         // We return "0" to keep the number of columns the same.
-	//
-	// Needed for perl scripts that expect exactly 9 columns in the output
-	//
+    //
+    // Needed for perl scripts that expect exactly 9 columns in the output
+    //
         // To turn off gids entirely use -G or -o.
         //
         sprintf (p, "%-1.1s ", group_name); // keep short
@@ -3774,23 +3766,23 @@ print_long_format (const struct fileinfo *f)
 #else
       char *group_name = (numeric_ids ? NULL : getgroup (f->stat.st_gid));
       if (group_name)
-	sprintf (p, "%-8.8s ", group_name);
+    sprintf (p, "%-8.8s ", group_name);
       else
-	sprintf (p, "%-8u ", (unsigned int) f->stat.st_gid);
+    sprintf (p, "%-8u ", (unsigned int) f->stat.st_gid);
 #endif
       p += strlen (p);
     }
 
   if (S_ISCHR (f->stat.st_mode) || S_ISBLK (f->stat.st_mode))
     sprintf (p, "%3u, %3u ", (unsigned) major (f->stat.st_rdev),
-	     (unsigned) minor (f->stat.st_rdev));
+         (unsigned) minor (f->stat.st_rdev));
   else
     {
       char hbuf[LONGEST_HUMAN_READABLE + 1];
       //sprintf (p, "%8s ",
       sprintf (p, "%*s ", long_block_size_size, // AEK
-	       human_readable ((uintmax_t) f->stat.st_size, hbuf, 1,
-			       output_block_size < 0 ? output_block_size : 1));
+           human_readable ((uintmax_t) f->stat.st_size, hbuf, 1,
+                   output_block_size < 0 ? output_block_size : 1));
     }
 
   p += strlen (p);
@@ -3802,46 +3794,46 @@ print_long_format (const struct fileinfo *f)
       char const *fmt;
 
       /* If the file appears to be in the future, update the current
-	 time, in case the file happens to have been modified since
-	 the last time we checked the clock.  */
+     time, in case the file happens to have been modified since
+     the last time we checked the clock.  */
       if (current_time < when
-	  || (current_time == when && current_time_ns < when_ns))
-	get_current_time ();
+      || (current_time == when && current_time_ns < when_ns))
+    get_current_time ();
 
       /* Consider a time to be recent if it is within the past six
-	 months.  A Gregorian year has 365.2425 * 24 * 60 * 60 ==
-	 31556952 seconds on the average.  Write this value as an
-	 integer constant to avoid floating point hassles.  */
+     months.  A Gregorian year has 365.2425 * 24 * 60 * 60 ==
+     31556952 seconds on the average.  Write this value as an
+     integer constant to avoid floating point hassles.  */
       six_months_ago = current_time - 31556952 / 2;
       recent = (six_months_ago <= when
-		&& (when < current_time
-		    || (when == current_time && when_ns <= current_time_ns)));
+        && (when < current_time
+            || (when == current_time && when_ns <= current_time_ns)));
       fmt = long_time_format[recent];
 
       for (;;)
-	{
-	  char *newbuf;
-	  *p = '\1';
-	  s = strftime (p, buf + bufsize - p - 1, fmt, when_local);
-	  if (s || ! *p)
-	    break;
-	  newbuf = alloca (bufsize *= 2);
-	  memcpy (newbuf, buf, p - buf);
-	  p = newbuf + (p - buf);
-	  buf = newbuf;
-	}
+    {
+      char *newbuf;
+      *p = '\1';
+      s = strftime (p, buf + bufsize - p - 1, fmt, when_local);
+      if (s || ! *p)
+        break;
+      newbuf = alloca (bufsize *= 2);
+      memcpy (newbuf, buf, p - buf);
+      p = newbuf + (p - buf);
+      buf = newbuf;
+    }
 
       {
-	//
-	// Manually chop the leading zero from day-of-month.  This is needed
-	// because Win32 strftime does not have "%e" format - AEK
-	//
-	char *sz;
-	if ((sz = _mbschr(p, '0')) != NULL) {
-	  if (sz[-1] == ' ' && sz[2] == ' ') {
-	    *sz = ' ';
-	  }
-	}
+    //
+    // Manually chop the leading zero from day-of-month.  This is needed
+    // because Win32 strftime does not have "%e" format - AEK
+    //
+    char *sz;
+    if ((sz = _mbschr(p, '0')) != NULL) {
+      if (sz[-1] == ' ' && sz[2] == ' ') {
+        *sz = ' ';
+      }
+    }
       }
 
       p += s;
@@ -3853,21 +3845,21 @@ print_long_format (const struct fileinfo *f)
   else
     {
       /* The time cannot be represented as a local time;
-	 print it as a huge integer number of seconds.  */
+     print it as a huge integer number of seconds.  */
       char hbuf[LONGEST_HUMAN_READABLE + 1];
       int width = long_time_expected_width ();
 
       if (when < 0)
-	{
-	  // BUG: use signed __int64 - AEK
-	  //const char *num = human_readable (- (uintmax_t) when, hbuf, 1, 1);
-	  const char *num = human_readable (- (__int64) when, hbuf, 1, 1);
-	  int sign_width = width - strlen (num);
-	  sprintf (p, "%*s%s ", sign_width < 0 ? 0 : sign_width, "-", num);
-	}
+    {
+      // BUG: use signed __int64 - AEK
+      //const char *num = human_readable (- (uintmax_t) when, hbuf, 1, 1);
+      const char *num = human_readable (- (__int64) when, hbuf, 1, 1);
+      int sign_width = width - strlen (num);
+      sprintf (p, "%*s%s ", sign_width < 0 ? 0 : sign_width, "-", num);
+    }
       else
-	sprintf (p, "%*s ", width,
-		 human_readable ((uintmax_t) when, hbuf, 1, 1));
+    sprintf (p, "%*s ", width,
+         human_readable ((uintmax_t) when, hbuf, 1, 1));
 
       p += strlen (p);
     }
@@ -3875,18 +3867,18 @@ print_long_format (const struct fileinfo *f)
   DIRED_INDENT ();
   DIRED_FPUTS (buf, stdmore, p - buf);
   print_name_with_quoting (f->name, FILE_OR_LINK_MODE (f), f->linkok,
-			   &dired_obstack);
+               &dired_obstack);
 
   if (f->filetype == symbolic_link)
     {
       if (f->linkname)
-	{
-	  DIRED_FPUTS_LITERAL (" -> ", stdmore);
-	  print_name_with_quoting (f->linkname, f->linkmode, f->linkok - 1,
-				   NULL);
-	  if (indicator_style != none)
+    {
+      DIRED_FPUTS_LITERAL (" -> ", stdmore);
+      print_name_with_quoting (f->linkname, f->linkmode, f->linkok - 1,
+                   NULL);
+      if (indicator_style != none)
             print_type_indicator (&((struct fileinfo *)f)->stat, f->linkmode);  // RIVY
-	}
+    }
     }
   else if (indicator_style != none)
     print_type_indicator (&((struct fileinfo *)f)->stat, f->stat.st_mode);     // RIVY
@@ -3917,133 +3909,133 @@ quote_name (MORE *out, const char *name, struct quoting_options const *options)
     {
 #if HAVE_MBRTOWC
       if (MB_CUR_MAX > 1)
-	{
-	  const char *p = buf;
-	  char *plimit = buf + len;
-	  char *q = buf;
-	  displayed_width = 0;
+    {
+      const char *p = buf;
+      char *plimit = buf + len;
+      char *q = buf;
+      displayed_width = 0;
 
-	  while (p < plimit)
-	    switch (*p)
-	      {
-		case ' ': case '!': case '"': case '#': case '%':
-		case '&': case '\'': case '(': case ')': case '*':
-		case '+': case ',': case '-': case '.': case '/':
-		case '0': case '1': case '2': case '3': case '4':
-		case '5': case '6': case '7': case '8': case '9':
-		case ':': case ';': case '<': case '=': case '>':
-		case '?':
-		case 'A': case 'B': case 'C': case 'D': case 'E':
-		case 'F': case 'G': case 'H': case 'I': case 'J':
-		case 'K': case 'L': case 'M': case 'N': case 'O':
-		case 'P': case 'Q': case 'R': case 'S': case 'T':
-		case 'U': case 'V': case 'W': case 'X': case 'Y':
-		case 'Z':
-		case '[': case '\\': case ']': case '^': case '_':
-		case 'a': case 'b': case 'c': case 'd': case 'e':
-		case 'f': case 'g': case 'h': case 'i': case 'j':
-		case 'k': case 'l': case 'm': case 'n': case 'o':
-		case 'p': case 'q': case 'r': case 's': case 't':
-		case 'u': case 'v': case 'w': case 'x': case 'y':
-		case 'z': case '{': case '|': case '}': case '~':
-		  /* These characters are printable ASCII characters.  */
-		  *q++ = *p++;
-		  displayed_width += 1;
-		  break;
-		default:
-		  /* If we have a multibyte sequence, copy it until we
-		     reach its end, replacing each non-printable multibyte
-		     character with a single question mark.  */
-		  {
-		    mbstate_t mbstate;
-		    memset (&mbstate, 0, sizeof mbstate);
-		    do
-		      {
-			wchar_t wc;
-			size_t bytes;
-			int w;
+      while (p < plimit)
+        switch (*p)
+          {
+        case ' ': case '!': case '"': case '#': case '%':
+        case '&': case '\'': case '(': case ')': case '*':
+        case '+': case ',': case '-': case '.': case '/':
+        case '0': case '1': case '2': case '3': case '4':
+        case '5': case '6': case '7': case '8': case '9':
+        case ':': case ';': case '<': case '=': case '>':
+        case '?':
+        case 'A': case 'B': case 'C': case 'D': case 'E':
+        case 'F': case 'G': case 'H': case 'I': case 'J':
+        case 'K': case 'L': case 'M': case 'N': case 'O':
+        case 'P': case 'Q': case 'R': case 'S': case 'T':
+        case 'U': case 'V': case 'W': case 'X': case 'Y':
+        case 'Z':
+        case '[': case '\\': case ']': case '^': case '_':
+        case 'a': case 'b': case 'c': case 'd': case 'e':
+        case 'f': case 'g': case 'h': case 'i': case 'j':
+        case 'k': case 'l': case 'm': case 'n': case 'o':
+        case 'p': case 'q': case 'r': case 's': case 't':
+        case 'u': case 'v': case 'w': case 'x': case 'y':
+        case 'z': case '{': case '|': case '}': case '~':
+          /* These characters are printable ASCII characters.  */
+          *q++ = *p++;
+          displayed_width += 1;
+          break;
+        default:
+          /* If we have a multibyte sequence, copy it until we
+             reach its end, replacing each non-printable multibyte
+             character with a single question mark.  */
+          {
+            mbstate_t mbstate;
+            memset (&mbstate, 0, sizeof mbstate);
+            do
+              {
+            wchar_t wc;
+            size_t bytes;
+            int w;
 
-			bytes = mbrtowc (&wc, p, plimit - p, &mbstate);
+            bytes = mbrtowc (&wc, p, plimit - p, &mbstate);
 
-			if (bytes == (size_t) -1)
-			  {
-			    /* An invalid multibyte sequence was
-			       encountered.  Skip one input byte, and
-			       put a question mark.  */
-			    p++;
-			    *q++ = '?';
-			    displayed_width += 1;
-			    break;
-			  }
+            if (bytes == (size_t) -1)
+              {
+                /* An invalid multibyte sequence was
+                   encountered.  Skip one input byte, and
+                   put a question mark.  */
+                p++;
+                *q++ = '?';
+                displayed_width += 1;
+                break;
+              }
 
-			if (bytes == (size_t) -2)
-			  {
-			    /* An incomplete multibyte character
-			       at the end.  Replace it entirely with
-			       a question mark.  */
-			    p = plimit;
-			    *q++ = '?';
-			    displayed_width += 1;
-			    break;
-			  }
+            if (bytes == (size_t) -2)
+              {
+                /* An incomplete multibyte character
+                   at the end.  Replace it entirely with
+                   a question mark.  */
+                p = plimit;
+                *q++ = '?';
+                displayed_width += 1;
+                break;
+              }
 
-			if (bytes == 0)
-			  /* A null wide character was encountered.  */
-			  bytes = 1;
+            if (bytes == 0)
+              /* A null wide character was encountered.  */
+              bytes = 1;
 
-			w = wcwidth (wc);
-			if (w >= 0)
-			  {
-			    /* A printable multibyte character.
-			       Keep it.  */
-			    for (; bytes > 0; --bytes)
-			      *q++ = *p++;
-			    displayed_width += w;
-			  }
-			else
-			  {
-			    /* An unprintable multibyte character.
-			       Replace it entirely with a question
-			       mark.  */
-			    p += bytes;
-			    *q++ = '?';
-			    displayed_width += 1;
-			  }
-		      }
-		    while (! mbsinit (&mbstate));
-		  }
-		  break;
-	      }
+            w = wcwidth (wc);
+            if (w >= 0)
+              {
+                /* A printable multibyte character.
+                   Keep it.  */
+                for (; bytes > 0; --bytes)
+                  *q++ = *p++;
+                displayed_width += w;
+              }
+            else
+              {
+                /* An unprintable multibyte character.
+                   Replace it entirely with a question
+                   mark.  */
+                p += bytes;
+                *q++ = '?';
+                displayed_width += 1;
+              }
+              }
+            while (! mbsinit (&mbstate));
+          }
+          break;
+          }
 
-	  /* The buffer may have shrunk.  */
-	  len = q - buf;
-	}
+      /* The buffer may have shrunk.  */
+      len = q - buf;
+    }
       else
 #endif
-	{
-	  char *p = buf;
-	  char *plimit = buf + len;
+    {
+      char *p = buf;
+      char *plimit = buf + len;
 
-	  while (p < plimit)
-	    {
-	      if (! ISPRINT ((unsigned char) *p))
-		*p = '?';
-	      p++;
-	    }
-	  displayed_width = len;
-	}
+      while (p < plimit)
+        {
+          if (! ISPRINT ((unsigned char) *p))
+        *p = '?';
+          p++;
+        }
+      displayed_width = len;
+    }
     }
   else
     {
       /* Assume unprintable characters have a displayed_width of 1.  */
 #if HAVE_MBRTOWC
       if (MB_CUR_MAX > 1)
-	displayed_width = mbsnwidth (buf, len,
-				     (MBSW_ACCEPT_INVALID
-				      | MBSW_ACCEPT_UNPRINTABLE));
+    displayed_width = mbsnwidth (buf, len,
+                     (MBSW_ACCEPT_INVALID
+                      | MBSW_ACCEPT_UNPRINTABLE));
       else
 #endif
-	displayed_width = len;
+    displayed_width = len;
     }
 
 #ifdef WIN32
@@ -4065,7 +4057,7 @@ quote_name (MORE *out, const char *name, struct quoting_options const *options)
 
 static void
 print_name_with_quoting (const char *p, unsigned int mode, int linkok,
-			 struct obstack *stack)
+             struct obstack *stack)
 {
   if (print_with_color)
     print_color_indicator (p, mode, linkok);
@@ -4106,13 +4098,13 @@ print_file_name_and_frills (const struct fileinfo *f)
 
   if (print_inode)
     more_printf ("%*s ", INODE_DIGITS,
-	    human_readable ((uintmax_t) f->stat.st_ino, buf, 1, 1));
+        human_readable ((uintmax_t) f->stat.st_ino, buf, 1, 1));
 
   if (print_block_size)
     more_printf ("%*s ", block_size_size,
-	    human_readable_inexact ((uintmax_t) ST_NBLOCKS (f->stat), buf,
-				    ST_NBLOCKSIZE, output_block_size,
-				    human_ceiling));
+        human_readable_inexact ((uintmax_t) ST_NBLOCKS (f->stat), buf,
+                    ST_NBLOCKSIZE, output_block_size,
+                    human_ceiling));
 
   print_name_with_quoting (f->name, FILE_OR_LINK_MODE (f), f->linkok, NULL);
 
@@ -4129,37 +4121,37 @@ print_type_indicator (struct stat *pst, unsigned int mode)  // AEK
   if (S_ISREG (mode))
     {
       if (indicator_style == classify && (mode & S_IXUGO))
-	c ='*';
+    c ='*';
 #ifdef WIN32 // AEK
       else if (S_ISSTREAM (mode)) {
-	struct cache_entry *ce = pst->st_ce;
-	char *s = ce->ce_abspath;
-	if (s == NULL || _mbschr(s+2, ':') == NULL) {
-	  c = '$'; // indicate that the file contains streams
-	}
+    struct cache_entry *ce = pst->st_ce;
+    char *s = ce->ce_abspath;
+    if (s == NULL || _mbschr(s+2, ':') == NULL) {
+      c = '$'; // indicate that the file contains streams
+    }
       }
 #endif
       else
-	c = 0;
+    c = 0;
     }
   else
     {
       if (S_ISDIR (mode))
 #if WIN32
-	c = '\\';
+    c = '\\';
 #else
-	c = '/';
+    c = '/';
 #endif
       else if (S_ISLNK (mode))
-	c = '@';
+    c = '@';
       else if (S_ISFIFO (mode))
-	c = '|';
+    c = '|';
       else if (S_ISSOCK (mode))
-	c = '=';
+    c = '=';
       else if (S_ISDOOR (mode))
-	c = '>';
+    c = '>';
       else
-	c = 0;
+    c = 0;
     }
 
   if (c)
@@ -4171,8 +4163,8 @@ print_color_indicator (const char *name, unsigned int mode, int linkok)
 {
   int type = C_FILE;
   int recent=0, compressed=0, streams=0; // AEK
-  struct color_ext_type *ext;	/* Color extension */
-  size_t len;			/* Length of name */
+  struct color_ext_type *ext;   /* Color extension */
+  size_t len;           /* Length of name */
 
   /* Is this a nonexistent file?  If so, linkok == -1.  */
 
@@ -4184,41 +4176,41 @@ print_color_indicator (const char *name, unsigned int mode, int linkok)
   else
     {
       if (S_ISDIR (mode))
-	type = C_DIR;
+    type = C_DIR;
       else if (S_ISLNK (mode))
-	type = ((!linkok && color_indicator[C_ORPHAN].string)
-		? C_ORPHAN : C_LINK);
+    type = ((!linkok && color_indicator[C_ORPHAN].string)
+        ? C_ORPHAN : C_LINK);
       else if (S_ISFIFO (mode))
-	type = C_FIFO;
+    type = C_FIFO;
       else if (S_ISSOCK (mode))
-	type = C_SOCK;
+    type = C_SOCK;
       else if (S_ISBLK (mode))
-	type = C_BLK;
+    type = C_BLK;
       else if (S_ISCHR (mode))
-	type = C_CHR;
+    type = C_CHR;
       else if (S_ISDOOR (mode))
-	type = C_DOOR;
+    type = C_DOOR;
 
       if (type == C_FILE && (mode & S_IXUGO) != 0)
-	type = C_EXEC;
+    type = C_EXEC;
 
       /* Check the file's suffix only if still classified as C_FILE.  */
       ext = NULL;
       if (type == C_FILE)
-	{
-	  /* Test if NAME has a recognized suffix.  */
+    {
+      /* Test if NAME has a recognized suffix.  */
 
-	  len = strlen (name);
-	  name += len;		/* Pointer to final \0.  */
-	  for (ext = color_ext_list; ext != NULL; ext = ext->next)
-	    {
-	      if ((size_t) ext->ext.len <= len
-		// was strncmp -- AEK
-		  && _strnicmp (name - ext->ext.len, ext->ext.string,
-			      ext->ext.len) == 0)
-		break;
-	    }
-	}
+      len = strlen (name);
+      name += len;      /* Pointer to final \0.  */
+      for (ext = color_ext_list; ext != NULL; ext = ext->next)
+        {
+          if ((size_t) ext->ext.len <= len
+        // was strncmp -- AEK
+          && _strnicmp (name - ext->ext.len, ext->ext.string,
+                  ext->ext.len) == 0)
+        break;
+        }
+    }
     }
 
     recent = ((type == C_FILE || type == C_EXEC) && ((mode & S_RECENT) != 0));
@@ -4229,7 +4221,7 @@ print_color_indicator (const char *name, unsigned int mode, int linkok)
     if (color_compressed) {
       compressed = (((mode & S_COMPR) != 0) && !S_ISDIR(mode));
       if (color_indicator[C_COMPRESSED].len == 0) {
-	compressed = 0;
+    compressed = 0;
       }
     }
 
@@ -4408,10 +4400,8 @@ put_indicator (const struct bin_str *ind)
     // Output escape sequences a la Unix.  Only do this if we
     // are running under a GUI, e.g., under Emacs or rxvt.
     //
-    if (!_HasConsole()) {
-      for (i = ind->len; i > 0; --i)
-	more_putchar (*(p++));
-    }
+    for (i = ind->len; i > 0; --i)
+      more_putchar (*(p++));
     return;
   }
 
@@ -4433,15 +4423,15 @@ put_indicator (const struct bin_str *ind)
   // Format: ll;mm;nn;oo;pp (any order, ';...' optional)
   //
   // ll = Attribute codes:
-  //	00=none, 01=bold, 04=underscore, 05=blink, 07=reverse, 08=concealed
+  //    00=none, 01=bold, 04=underscore, 05=blink, 07=reverse, 08=concealed
   //
   // nn = Foregroud color codes:
-  //	30=black, 31=red, 32=green, 33=yellow, 34=blue, 35=magenta,
-  //	36=cyan, 37=white
+  //    30=black, 31=red, 32=green, 33=yellow, 34=blue, 35=magenta,
+  //    36=cyan, 37=white
   //
   // nn = Background color codes:
-  //	40=black, 41=red, 42=green, 43=yellow, 44=blue, 45=magenta,
-  //	46=cyan, 47=white
+  //    40=black, 41=red, 42=green, 43=yellow, 44=blue, 45=magenta,
+  //    46=cyan, 47=white
   //
   if (*p == 'm') { // ignore C_RIGHT
     return;
@@ -4497,10 +4487,10 @@ put_indicator (const struct bin_str *ind)
   } else {
     if (bUnderscore) {
       if ((wColor & 0xF) == (FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE)) {
-	//
-	// Use highlight to simulate underscore for white chars
-	//
-	wColor |= FOREGROUND_INTENSITY;
+    //
+    // Use highlight to simulate underscore for white chars
+    //
+    wColor |= FOREGROUND_INTENSITY;
       }
     }
     if (bBold) {
@@ -4555,27 +4545,27 @@ length_of_file_name_and_frills (const struct fileinfo *f)
       unsigned filetype = f->stat.st_mode;
 
       if (S_ISREG (filetype))
-	{
-	  if (indicator_style == classify
-	      && (f->stat.st_mode & S_IXUGO))
-	    len += 1;
+    {
+      if (indicator_style == classify
+          && (f->stat.st_mode & S_IXUGO))
+        len += 1;
 #ifdef WIN32 // AEK
-	  else if (S_ISSTREAM (filetype)) {
-	    struct cache_entry *ce = f->stat.st_ce;
-	    char *s = ce->ce_abspath;
-	    if (s == NULL || _mbschr(s+2, ':') == NULL) { // not stream itself
-		len += 1; // space for '$' suffix
-	    }
-	  }
+      else if (S_ISSTREAM (filetype)) {
+        struct cache_entry *ce = f->stat.st_ce;
+        char *s = ce->ce_abspath;
+        if (s == NULL || _mbschr(s+2, ':') == NULL) { // not stream itself
+        len += 1; // space for '$' suffix
+        }
+      }
 #endif
-	}
+    }
       else if (S_ISDIR (filetype)
-	       || S_ISLNK (filetype)
-	       || S_ISFIFO (filetype)
-	       || S_ISSOCK (filetype)
-	       || S_ISDOOR (filetype)
-	       )
-	len += 1;
+           || S_ISLNK (filetype)
+           || S_ISFIFO (filetype)
+           || S_ISSOCK (filetype)
+           || S_ISDOOR (filetype)
+           )
+    len += 1;
     }
 
   return len;
@@ -4585,13 +4575,13 @@ static void
 print_many_per_line (void)
 {
   struct column_info *line_fmt;
-  int filesno;			/* Index into files. */
-  int row;			/* Current row. */
-  int max_name_length;		/* Length of longest file name + frills. */
-  int name_length;		/* Length of each file name + frills. */
-  int pos;			/* Current character column. */
-  int cols;			/* Number of files across. */
-  int rows;			/* Maximum number of files down. */
+  int filesno;          /* Index into files. */
+  int row;              /* Current row. */
+  int max_name_length;  /* Length of longest file name + frills. */
+  int name_length;      /* Length of each file name + frills. */
+  int pos;              /* Current character column. */
+  int cols;             /* Number of files across. */
+  int rows;             /* Maximum number of files down. */
   int max_cols;
 
   /* Normally the maximum number of columns is determined by the
@@ -4607,28 +4597,28 @@ print_many_per_line (void)
       name_length = length_of_file_name_and_frills (files + filesno);
 
       for (i = 0; i < max_cols; ++i)
-	{
-	  if (column_info[i].valid_len)
-	    {
-	      int idx = filesno / ((files_index + i) / (i + 1));
-	      int real_length = name_length + (idx == i ? 0 : 2);
+    {
+      if (column_info[i].valid_len)
+        {
+          int idx = filesno / ((files_index + i) / (i + 1));
+          int real_length = name_length + (idx == i ? 0 : 2);
 
-	      if (real_length > column_info[i].col_arr[idx])
-		{
-		  column_info[i].line_len += (real_length
-					   - column_info[i].col_arr[idx]);
-		  column_info[i].col_arr[idx] = real_length;
-		  column_info[i].valid_len = column_info[i].line_len < line_length;
-		}
-	    }
-	}
+          if (real_length > column_info[i].col_arr[idx])
+        {
+          column_info[i].line_len += (real_length
+                       - column_info[i].col_arr[idx]);
+          column_info[i].col_arr[idx] = real_length;
+          column_info[i].valid_len = column_info[i].line_len < line_length;
+        }
+        }
+    }
     }
 
   /* Find maximum allowed columns.  */
   for (cols = max_cols; cols > 1; --cols)
     {
       if (column_info[cols - 1].valid_len)
-	break;
+    break;
     }
 
   line_fmt = &column_info[cols - 1];
@@ -4644,18 +4634,18 @@ print_many_per_line (void)
       pos = 0;
       /* Print the next row.  */
       while (1)
-	{
-	  print_file_name_and_frills (files + filesno);
-	  name_length = length_of_file_name_and_frills (files + filesno);
-	  max_name_length = line_fmt->col_arr[col++];
+    {
+      print_file_name_and_frills (files + filesno);
+      name_length = length_of_file_name_and_frills (files + filesno);
+      max_name_length = line_fmt->col_arr[col++];
 
-	  filesno += rows;
-	  if (filesno >= files_index)
-	    break;
+      filesno += rows;
+      if (filesno >= files_index)
+        break;
 
-	  indent (pos + name_length, pos + max_name_length);
-	  pos += max_name_length;
-	}
+      indent (pos + name_length, pos + max_name_length);
+      pos += max_name_length;
+    }
       more_putchar ('\n');
     }
 }
@@ -4685,28 +4675,28 @@ print_horizontal (void)
       name_length = length_of_file_name_and_frills (files + filesno);
 
       for (i = 0; i < max_cols; ++i)
-	{
-	  if (column_info[i].valid_len)
-	    {
-	      int idx = filesno % (i + 1);
-	      int real_length = name_length + (idx == i ? 0 : 2);
+    {
+      if (column_info[i].valid_len)
+        {
+          int idx = filesno % (i + 1);
+          int real_length = name_length + (idx == i ? 0 : 2);
 
-	      if (real_length > column_info[i].col_arr[idx])
-		{
-		  column_info[i].line_len += (real_length
-					   - column_info[i].col_arr[idx]);
-		  column_info[i].col_arr[idx] = real_length;
-		  column_info[i].valid_len = column_info[i].line_len < line_length;
-		}
-	    }
-	}
+          if (real_length > column_info[i].col_arr[idx])
+        {
+          column_info[i].line_len += (real_length
+                       - column_info[i].col_arr[idx]);
+          column_info[i].col_arr[idx] = real_length;
+          column_info[i].valid_len = column_info[i].line_len < line_length;
+        }
+        }
+    }
     }
 
   /* Find maximum allowed columns.  */
   for (cols = max_cols; cols > 1; --cols)
     {
       if (column_info[cols - 1].valid_len)
-	break;
+    break;
     }
 
   line_fmt = &column_info[cols - 1];
@@ -4724,15 +4714,15 @@ print_horizontal (void)
       int col = filesno % cols;
 
       if (col == 0)
-	{
-	  more_putchar ('\n');
-	  pos = 0;
-	}
+    {
+      more_putchar ('\n');
+      pos = 0;
+    }
       else
-	{
-	  indent (pos + name_length, pos + max_name_length);
-	  pos += max_name_length;
-	}
+    {
+      indent (pos + name_length, pos + max_name_length);
+      pos += max_name_length;
+    }
 
       print_file_name_and_frills (files + filesno);
 
@@ -4756,20 +4746,20 @@ print_with_commas (void)
 
       pos += length_of_file_name_and_frills (files + filesno);
       if (filesno + 1 < files_index)
-	pos += 2;		/* For the comma and space */
+    pos += 2;       /* For the comma and space */
 
       if (old_pos != 0 && pos >= line_length)
-	{
-	  more_putchar ('\n');
-	  pos -= old_pos;
-	}
+    {
+      more_putchar ('\n');
+      pos -= old_pos;
+    }
 
       print_file_name_and_frills (files + filesno);
       if (filesno + 1 < files_index)
-	{
-	  more_putchar (',');
-	  more_putchar (' ');
-	}
+    {
+      more_putchar (',');
+      more_putchar (' ');
+    }
     }
   more_putchar ('\n');
 }
@@ -4783,15 +4773,15 @@ indent (int from, int to)
   while (from < to)
     {
       if (tabsize > 0 && to / tabsize > (from + 1) / tabsize)
-	{
-	  more_putchar ('\t');
-	  from += tabsize - from % tabsize;
-	}
+    {
+      more_putchar ('\t');
+      from += tabsize - from % tabsize;
+    }
       else
-	{
-	  more_putchar (' ');
-	  from++;
-	}
+    {
+      more_putchar (' ');
+      from++;
+    }
     }
 }
 
@@ -4808,7 +4798,7 @@ attach (char *dest, const char *dirname, const char *name)
   if (dirname[0] != '.' || dirname[1] != 0)
     {
       while (*dirnamep)
-	*dest++ = *dirnamep++;
+    *dest++ = *dirnamep++;
       /* Add '/' if `dirname' doesn't already end with it. */
       if (dirnamep > dirname && dirnamep[-1] != '/')
 #ifdef WIN32 // AEK
@@ -4817,7 +4807,7 @@ attach (char *dest, const char *dirname, const char *name)
        //
        if (dirname[0] == '\0' || dirname[1] != ':' || dirname[2] != '\0')
 #endif
-	*dest++ = '/';
+    *dest++ = '/';
     }
   while (*name)
     *dest++ = *name++;
@@ -4837,7 +4827,7 @@ init_column_info (void)
   if (column_info == NULL)
     {
       column_info = (struct column_info *) xmalloc (max_idx
-						    * sizeof (struct column_info));
+                            * sizeof (struct column_info));
       allocate = 1;
     }
 
@@ -4849,10 +4839,10 @@ init_column_info (void)
       column_info[i].line_len = (i + 1) * MIN_COLUMN_WIDTH;
 
       if (allocate)
-	column_info[i].col_arr = (int *) xmalloc ((i + 1) * sizeof (int));
+    column_info[i].col_arr = (int *) xmalloc ((i + 1) * sizeof (int));
 
       for (j = 0; j <= i; ++j)
-	column_info[i].col_arr[j] = MIN_COLUMN_WIDTH;
+    column_info[i].col_arr[j] = MIN_COLUMN_WIDTH;
     }
 }
 
@@ -4861,7 +4851,7 @@ usage (int status)
 {
   if (status != 0)
     more_fprintf (stdmore_err, _("Try `%s --help' for more information.\n"),
-	     program_name);
+         program_name);
   else
     {
       more_printf (_("Usage: %s [OPTION]... [FILE]...\n"), program_name);

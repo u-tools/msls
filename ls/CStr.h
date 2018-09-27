@@ -11,31 +11,31 @@
 class EXPORT CString
 {
 public:
-	CString() { m_szBuf = NULL; };
-	CString(const CString& stringSrc);
-	CString(LPCSTR psz);
-	~CString();
+    CString() { m_szBuf = NULL; };
+    CString(const CString& stringSrc);
+    CString(LPCSTR psz);
+    ~CString();
 
-	// cast to LPCTSTR
-	operator LPCTSTR() const { return m_szBuf == NULL ? "" : m_szBuf; };
+    // cast to LPCTSTR
+    operator LPCTSTR() const { return m_szBuf == NULL ? "" : m_szBuf; };
 
-	// assignment
-	CString& operator=(const CString& stringSrc);
-	CString& operator=(LPCSTR sz);
+    // assignment
+    CString& operator=(const CString& stringSrc);
+    CString& operator=(LPCSTR sz);
 
-	LPCTSTR GetData() const { return m_szBuf; };
-	int GetLength() const { return m_iLen; };
+    LPCTSTR GetData() const { return m_szBuf; };
+    int GetLength() const { return m_iLen; };
 
-	int Equal(LPCTSTR sz) const { return _tcscmp(m_szBuf == NULL ? "" : m_szBuf, sz); };
+    int Equal(LPCTSTR sz) const { return _tcscmp(m_szBuf == NULL ? "" : m_szBuf, sz); };
 
-	BOOL IsEmpty() const { return m_iLen == 0; };
-
-private:
-	void _alloc(int iLen);
+    BOOL IsEmpty() const { return m_iLen == 0; };
 
 private:
-	LPTSTR m_szBuf;
-	int m_iLen;
+    void _alloc(int iLen);
+
+private:
+    LPTSTR m_szBuf;
+    int m_iLen;
 };
 
 EXPORT extern BOOL operator==(const CString& s1, const CString& s2);

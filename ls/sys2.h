@@ -426,7 +426,7 @@ uid_t getuid ();
 
 #define DOT_OR_DOTDOT(Basename) \
   (Basename[0] == '.' && (Basename[1] == '\0' \
-			  || (Basename[1] == '.' && Basename[2] == '\0')))
+              || (Basename[1] == '.' && Basename[2] == '\0')))
 
 #if SETVBUF_REVERSED
 # define SETVBUF(Stream, Buffer, Type, Size) \
@@ -454,18 +454,18 @@ enum
 #define GETOPT_VERSION_OPTION_DECL \
   "version", no_argument, 0, GETOPT_VERSION_CHAR
 
-#define case_GETOPT_HELP_CHAR			\
-  case GETOPT_HELP_CHAR:			\
-    usage (EXIT_SUCCESS);			\
+#define case_GETOPT_HELP_CHAR       \
+  case GETOPT_HELP_CHAR:            \
+    usage (EXIT_SUCCESS);           \
     break;
 
 #include "closeout.h"
 #include "version-etc.h"
 
-#define case_GETOPT_VERSION_CHAR(Program_name, Authors)			\
-  case GETOPT_VERSION_CHAR:						\
-    version_etc (stdout, Program_name, PACKAGE, VERSION, Authors);	\
-    exit (EXIT_SUCCESS);						\
+#define case_GETOPT_VERSION_CHAR(Program_name, Authors)             \
+  case GETOPT_VERSION_CHAR:                                         \
+    version_etc (stdout, Program_name, PACKAGE, VERSION, Authors);  \
+    exit (EXIT_SUCCESS);                                            \
     break;
 
 #ifndef MAX
@@ -485,7 +485,7 @@ enum
 /* The outer cast is needed to work around a bug in Cray C 5.0.3.0.
    It is necessary at least when t == time_t.  */
 #define TYPE_MINIMUM(t) ((t) (TYPE_SIGNED (t) \
-			      ? ~ (t) 0 << (sizeof (t) * CHAR_BIT - 1) : (t) 0))
+                  ? ~ (t) 0 << (sizeof (t) * CHAR_BIT - 1) : (t) 0))
 #define TYPE_MAXIMUM(t) ((t) (~ (t) 0 - TYPE_MINIMUM (t)))
 
 /* Upper bound on the string length of an integer converted to string.
@@ -591,16 +591,16 @@ enum
 #endif
 
 #if defined strdupa
-# define ASSIGN_STRDUPA(DEST, S)		\
+# define ASSIGN_STRDUPA(DEST, S)        \
   do { DEST = strdupa(S); } while (0)
 #else
-# define ASSIGN_STRDUPA(DEST, S)		\
-  do						\
-    {						\
-      const char *s_ = (S);			\
-      size_t len_ = strlen (s_) + 1;		\
-      char *tmp_dest_ = (char *) alloca (len_);	\
-      DEST = memcpy (tmp_dest_, (s_), len_);	\
-    }						\
+# define ASSIGN_STRDUPA(DEST, S)                \
+  do                                            \
+    {                                           \
+      const char *s_ = (S);                     \
+      size_t len_ = strlen (s_) + 1;            \
+      char *tmp_dest_ = (char *) alloca (len_); \
+      DEST = memcpy (tmp_dest_, (s_), len_);    \
+    }                                           \
   while (0)
 #endif

@@ -55,9 +55,9 @@ base_name (char const *name)
   for (p = name; *p; p++)
     {
       if (ISSLASH (*p))
-	base = p + 1;
+    base = p + 1;
       else
-	all_slashes = 0;
+    all_slashes = 0;
     }
 
   /* If NAME is all slashes, arrange to return `/'.  */

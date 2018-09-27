@@ -13,7 +13,7 @@
 
 int
 getstr PARAMS ((char **lineptr, size_t *n, FILE *stream,
-		int delim1, int delim2,
-		size_t offset));
+        int delim1, int delim2,
+        size_t offset));
 
 #endif

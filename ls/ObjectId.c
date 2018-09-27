@@ -65,83 +65,83 @@
 //
 void print_objectid(struct cache_entry *ce)
 {
-	HANDLE hFile;
-	FILE_OBJECTID_BUFFER objId;
-	DWORD dwBytesReturned=0;
-	DWORD l,i;
-	unsigned char *szUuid=NULL;
-	unsigned char *szGuidZero = (unsigned char*)"00000000-0000-0000-0000-000000000000";
+    HANDLE hFile;
+    FILE_OBJECTID_BUFFER objId;
+    DWORD dwBytesReturned=0;
+    DWORD l,i;
+    unsigned char *szUuid=NULL;
+    unsigned char *szGuidZero = (unsigned char*)"00000000-0000-0000-0000-000000000000";
 
-	//
-	// DESIGN BUG: GENERIC_READ fails to open files that have
-	// FILE_ATTRIBUTE_HIDDEN or FILE_ATTRIBUTE_SYSTEM.
-	//
-	// WORKAROUND #1: Use FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_SYSTEM for arg 6.
-	//
-	// WORKAROUND #2: Use SYNCHRONIZE|FILE_READ_ATTRIBUTES
-	//
-	// UNDOCUMENTED: FILE_FLAG_BACKUP_SEMANTICS is silently ignored
-	// if not an elevated admin user
-	//
-	if ((hFile = CreateFile(ce->ce_abspath,
-			/*GENERIC_READ*/SYNCHRONIZE|FILE_READ_ATTRIBUTES,
-			0, 0, OPEN_EXISTING,
-			FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, 0)) ==
-				INVALID_HANDLE_VALUE)  {
+    //
+    // DESIGN BUG: GENERIC_READ fails to open files that have
+    // FILE_ATTRIBUTE_HIDDEN or FILE_ATTRIBUTE_SYSTEM.
+    //
+    // WORKAROUND #1: Use FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_SYSTEM for arg 6.
+    //
+    // WORKAROUND #2: Use SYNCHRONIZE|FILE_READ_ATTRIBUTES
+    //
+    // UNDOCUMENTED: FILE_FLAG_BACKUP_SEMANTICS is silently ignored
+    // if not an elevated admin user
+    //
+    if ((hFile = CreateFile(ce->ce_abspath,
+            /*GENERIC_READ*/SYNCHRONIZE|FILE_READ_ATTRIBUTES,
+            0, 0, OPEN_EXISTING,
+            FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, 0)) ==
+                INVALID_HANDLE_VALUE)  {
 #ifdef _DEBUG
 more_printf("CreateFile failed, err=%u\n", GetLastError());
 #endif
-		return;
-	}
+        return;
+    }
 
-	memset(&objId, 0, sizeof(objId));
+    memset(&objId, 0, sizeof(objId));
 
-	if (!DeviceIoControl(hFile, FSCTL_GET_OBJECT_ID, NULL, 0,
-			(LPVOID)&objId, sizeof(objId),
-			&dwBytesReturned, 0)) {
+    if (!DeviceIoControl(hFile, FSCTL_GET_OBJECT_ID, NULL, 0,
+            (LPVOID)&objId, sizeof(objId),
+            &dwBytesReturned, 0)) {
 #ifdef _DEBUG
 if (GetLastError() != ERROR_FILE_NOT_FOUND)
 more_printf("DeviceIoControl(FSCTL_GET_OBJECT_ID) failed, err=%u\n", GetLastError());
 #endif
-		CloseHandle(hFile);
-		return;
-	}
+        CloseHandle(hFile);
+        return;
+    }
 
-	CloseHandle(hFile); hFile = NULL;
+    CloseHandle(hFile); hFile = NULL;
 
-	for (l=0; l < sizeof(objId); l += 16) {
-		more_fputs(l == 0 ? "     Object ID: " : "                ", stdmore);
-		for (i=0; i < 16; ++i) {
-			more_printf("%02.2x ", ((PBYTE)(&objId))[l+i]);
-		}
-		more_putc('\n', stdmore);
-	}
+    for (l=0; l < sizeof(objId); l += 16) {
+        more_fputs(l == 0 ? "     Object ID: " : "                ", stdmore);
+        for (i=0; i < 16; ++i) {
+            more_printf("%02.2x ", ((PBYTE)(&objId))[l+i]);
+        }
+        more_putc('\n', stdmore);
+    }
 
-	UuidToString((UUID*)&objId.ObjectId, &szUuid);
-	more_printf("      ObjectID: {%s}\n", szUuid);
-	RpcStringFree(&szUuid); szUuid = NULL;
+    UuidToString((UUID*)&objId.ObjectId, &szUuid);
+    more_printf("      ObjectID: {%s}\n", szUuid);
+    RpcStringFree(&szUuid); szUuid = NULL;
 
-	UuidToString((UUID*)&objId.BirthVolumeId[0], &szUuid);
-	if (strcmp((LPSTR)szUuid, (LPSTR)szGuidZero) != 0) {
-		more_printf(" BirthVolumeID: {%s}\n", szUuid);
-	}
-	RpcStringFree(&szUuid); szUuid = NULL;
+    UuidToString((UUID*)&objId.BirthVolumeId[0], &szUuid);
+    if (strcmp((LPSTR)szUuid, (LPSTR)szGuidZero) != 0) {
+        more_printf(" BirthVolumeID: {%s}\n", szUuid);
+    }
+    RpcStringFree(&szUuid); szUuid = NULL;
 
-	UuidToString((UUID*)&objId.BirthObjectId[0], &szUuid);
-	if (strcmp((LPSTR)szUuid, (LPSTR)szGuidZero) != 0) {
-		more_printf(" BirthObjectID: {%s}\n", szUuid);
-	}
-	RpcStringFree(&szUuid); szUuid = NULL;
+    UuidToString((UUID*)&objId.BirthObjectId[0], &szUuid);
+    if (strcmp((LPSTR)szUuid, (LPSTR)szGuidZero) != 0) {
+        more_printf(" BirthObjectID: {%s}\n", szUuid);
+    }
+    RpcStringFree(&szUuid); szUuid = NULL;
 
-	UuidToString((UUID*)&objId.DomainId[0], &szUuid);
-	if (strcmp((LPSTR)szUuid, (LPSTR)szGuidZero) != 0) {
-		more_printf("      DomainID: {%s}\n", szUuid);
-	}
-	RpcStringFree(&szUuid); szUuid = NULL;
+    UuidToString((UUID*)&objId.DomainId[0], &szUuid);
+    if (strcmp((LPSTR)szUuid, (LPSTR)szGuidZero) != 0) {
+        more_printf("      DomainID: {%s}\n", szUuid);
+    }
+    RpcStringFree(&szUuid); szUuid = NULL;
 
-	more_putc('\n', stdmore);
+    more_putc('\n', stdmore);
 
-	return;
+    return;
 }
 
 /*

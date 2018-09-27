@@ -116,9 +116,9 @@ path_concat (const char *dir, const char *base, char **base_in_result)
   if ((int)dir_len != FILESYSTEM_PREFIX_LEN(dir)) // fixed - AEK
     {
       if (ISSLASH (*(p - 1)) && ISSLASH (*base))
-	--p;
+    --p;
       else if (!ISSLASH (*(p - 1)) && !ISSLASH (*base))
-	*p++ = DIRECTORY_SEPARATOR;
+    *p++ = DIRECTORY_SEPARATOR;
     }
 
   if (base_in_result)

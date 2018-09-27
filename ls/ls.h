@@ -16,11 +16,11 @@ extern "C" {
 
 enum format
   {
-    long_format,		/* -l */
-    one_per_line,		/* -1 */
-    many_per_line,		/* -C */
-    horizontal,			/* -x */
-    with_commas			/* -m */
+    long_format,        /* -l */
+    one_per_line,       /* -1 */
+    many_per_line,      /* -C */
+    horizontal,         /* -x */
+    with_commas         /* -m */
   };
 
 extern enum format format; // make global for dirent.c - AEK
@@ -35,8 +35,8 @@ extern int run_fast;
 
 enum yes_no_type
 {
-	no_arg=0,
-	yes_arg
+    no_arg=0,
+    yes_arg
 };
 
 extern enum yes_no_type show_streams; // AEK

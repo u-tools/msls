@@ -69,15 +69,15 @@ char *getenv ();
 
 static const char suffixes[] =
 {
-  0,	/* not used */
-  'k',	/* kilo */
-  'M',	/* Mega */
-  'G',	/* Giga */
-  'T',	/* Tera */
-  'P',	/* Peta */
-  'E',	/* Exa */
-  'Z',	/* Zetta */
-  'Y'	/* Yotta */
+  0,    /* not used */
+  'k',  /* kilo */
+  'M',  /* Mega */
+  'G',  /* Giga */
+  'T',  /* Tera */
+  'P',  /* Peta */
+  'E',  /* Exa */
+  'Z',  /* Zetta */
+  'Y'   /* Yotta */
 };
 
 /* If INEXACT_STYLE is not human_round_to_even, and if easily
@@ -90,7 +90,7 @@ adjust_value (enum human_inexact_style inexact_style, double value)
      So leave the value alone if it is too large to easily round.  */
   if (inexact_style != human_round_to_even && value < (uintmax_t) -1)
     {
-	  // BUG: direct conversion from unsigned __int64 to double not impl - AEK
+      // BUG: direct conversion from unsigned __int64 to double not impl - AEK
       //uintmax_t u = value;
       __int64 u = value; // AEK
       value = u + (inexact_style == human_ceiling && u != value);
@@ -102,10 +102,10 @@ adjust_value (enum human_inexact_style inexact_style, double value)
 /* Like human_readable_inexact, except always round to even.  */
 char *
 human_readable (uintmax_t n, char *buf,
-		int from_block_size, int output_block_size)
+        int from_block_size, int output_block_size)
 {
   return human_readable_inexact (n, buf, from_block_size, output_block_size,
-				 human_round_to_even);
+                 human_round_to_even);
 }
 
 /* Convert N to a human readable format in BUF.
@@ -133,8 +133,8 @@ human_readable (uintmax_t n, char *buf,
 
 char *
 human_readable_inexact (uintmax_t n, char *buf,
-			int from_block_size, int output_block_size,
-			enum human_inexact_style inexact_style)
+            int from_block_size, int output_block_size,
+            enum human_inexact_style inexact_style)
 {
   uintmax_t amt;
   int base;
@@ -176,52 +176,52 @@ human_readable_inexact (uintmax_t n, char *buf,
     int r2;
     int r10;
     if (to_block_size <= from_block_size
-	? (from_block_size % to_block_size != 0
-	   || (multiplier = from_block_size / to_block_size,
-	       (amt = n * multiplier) / multiplier != n))
-	: (from_block_size == 0
-	   || to_block_size % from_block_size != 0
-	   || (divisor = to_block_size / from_block_size,
-	       r10 = (n % divisor) * 10,
-	       r2 = (r10 % divisor) * 2,
-	       amt = n / divisor,
-	       tenths = r10 / divisor,
-	       rounding = r2 < divisor ? 0 < r2 : 2 + (divisor < r2),
-	       0)))
+    ? (from_block_size % to_block_size != 0
+       || (multiplier = from_block_size / to_block_size,
+           (amt = n * multiplier) / multiplier != n))
+    : (from_block_size == 0
+       || to_block_size % from_block_size != 0
+       || (divisor = to_block_size / from_block_size,
+           r10 = (n % divisor) * 10,
+           r2 = (r10 % divisor) * 2,
+           amt = n / divisor,
+           tenths = r10 / divisor,
+           rounding = r2 < divisor ? 0 < r2 : 2 + (divisor < r2),
+           0)))
       {
-	/* Either the result cannot be computed easily using uintmax_t,
-	   or from_block_size is zero.  Fall back on floating point.
-	   FIXME: This can yield answers that are slightly off.  */
+    /* Either the result cannot be computed easily using uintmax_t,
+       or from_block_size is zero.  Fall back on floating point.
+       FIXME: This can yield answers that are slightly off.  */
 
     // BUG: Cannot convert from unsigned __int64 to double directly - AEK
-	//double damt = n * (from_block_size / (double) to_block_size);
-	double damt = ((__int64)n) * (from_block_size / (double) to_block_size);
+    //double damt = n * (from_block_size / (double) to_block_size);
+    double damt = ((__int64)n) * (from_block_size / (double) to_block_size);
 
-	if (! base)
-	  sprintf (buf, "%.0f", adjust_value (inexact_style, damt));
-	else
-	  {
-	    double e = 1;
-	    power = 0;
+    if (! base)
+      sprintf (buf, "%.0f", adjust_value (inexact_style, damt));
+    else
+      {
+        double e = 1;
+        power = 0;
 
-	    do
-	      {
-		e *= base;
-		power++;
-	      }
-	    while (e * base <= damt && power < sizeof suffixes - 1);
+        do
+          {
+        e *= base;
+        power++;
+          }
+        while (e * base <= damt && power < sizeof suffixes - 1);
 
-	    damt /= e;
+        damt /= e;
 
-	    sprintf (buf, "%.1f%c", adjust_value (inexact_style, damt),
-		     suffixes[power]);
-	    if (4 < strlen (buf))
-	      sprintf (buf, "%.0f%c",
-		       adjust_value (inexact_style, damt * 10) / 10,
-		       suffixes[power]);
-	  }
+        sprintf (buf, "%.1f%c", adjust_value (inexact_style, damt),
+             suffixes[power]);
+        if (4 < strlen (buf))
+          sprintf (buf, "%.0f%c",
+               adjust_value (inexact_style, damt * 10) / 10,
+               suffixes[power]);
+      }
 
-	return buf;
+    return buf;
       }
   }
 
@@ -232,42 +232,42 @@ human_readable_inexact (uintmax_t n, char *buf,
       power = 0;
 
       do
-	{
-	  int r10 = (amt % base) * 10 + tenths;
-	  int r2 = (r10 % base) * 2 + (rounding >> 1);
-	  amt /= base;
-	  tenths = r10 / base;
-	  rounding = (r2 < base
-		      ? 0 < r2 + rounding
-		      : 2 + (base < r2 + rounding));
-	  power++;
-	}
+    {
+      int r10 = (amt % base) * 10 + tenths;
+      int r2 = (r10 % base) * 2 + (rounding >> 1);
+      amt /= base;
+      tenths = r10 / base;
+      rounding = (r2 < base
+              ? 0 < r2 + rounding
+              : 2 + (base < r2 + rounding));
+      power++;
+    }
       while (base <= amt && power < sizeof suffixes - 1);
 
       *--p = suffixes[power];
 
       if (amt < 10)
-	{
-	  if (2 * (1 - (int) inexact_style)
-	      < rounding + (tenths & (inexact_style == human_round_to_even)))
-	    {
-	      tenths++;
-	      rounding = 0;
+    {
+      if (2 * (1 - (int) inexact_style)
+          < rounding + (tenths & (inexact_style == human_round_to_even)))
+        {
+          tenths++;
+          rounding = 0;
 
-	      if (tenths == 10)
-		{
-		  amt++;
-		  tenths = 0;
-		}
-	    }
+          if (tenths == 10)
+        {
+          amt++;
+          tenths = 0;
+        }
+        }
 
-	  if (amt < 10)
-	    {
-	      *--p = '0' + tenths;
-	      *--p = '.';
-	      tenths = rounding = 0;
-	    }
-	}
+      if (amt < 10)
+        {
+          *--p = '0' + tenths;
+          *--p = '.';
+          tenths = rounding = 0;
+        }
+    }
     }
 
   if (inexact_style == human_ceiling
@@ -279,12 +279,12 @@ human_readable_inexact (uintmax_t n, char *buf,
       amt++;
 
       if (amt == base && power < sizeof suffixes - 1)
-	{
-	  *p = suffixes[power + 1];
-	  *--p = '0';
-	  *--p = '.';
-	  amt = 1;
-	}
+    {
+      *p = suffixes[power + 1];
+      *--p = '0';
+      *--p = '.';
+      amt = 1;
+    }
     }
 
   do
@@ -325,11 +325,11 @@ humblock (char const *spec, int *block_size)
       unsigned long val;
       strtol_error e = xstrtoul (spec, &ptr, 0, &val, "eEgGkKmMpPtTyYzZ0");
       if (e != LONGINT_OK)
-	return e;
+    return e;
       if (*ptr)
-	return LONGINT_INVALID_SUFFIX_CHAR;
+    return LONGINT_INVALID_SUFFIX_CHAR;
       if ((int) val < 0 || val != (int) val)
-	return LONGINT_OVERFLOW;
+    return LONGINT_OVERFLOW;
       *block_size = (int) val;
     }
 

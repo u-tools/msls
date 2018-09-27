@@ -53,10 +53,10 @@
 
 int argmatch
   PARAMS ((const char *arg, const char *const *arglist,
-	   const char *vallist, size_t valsize));
+       const char *vallist, size_t valsize));
 int argcasematch
   PARAMS ((const char *arg, const char *const *arglist,
-	   const char *vallist, size_t valsize));
+       const char *vallist, size_t valsize));
 
 # define ARGMATCH(Arg, Arglist, Vallist) \
   argmatch ((Arg), (Arglist), (const char *) (Vallist), sizeof (*(Vallist)))
@@ -86,7 +86,7 @@ void argmatch_invalid
 
 void argmatch_valid
   PARAMS ((const char *const *arglist,
-	   const char *vallist, size_t valsize));
+       const char *vallist, size_t valsize));
 
 # define ARGMATCH_VALID(Arglist, Vallist) \
   argmatch_valid (Arglist, (const char *) Vallist, sizeof (*(Vallist)))
@@ -98,32 +98,32 @@ void argmatch_valid
 
 int __xargmatch_internal
   PARAMS ((const char *context,
-	   const char *arg, const char *const *arglist,
-	   const char *vallist, size_t valsize,
-	   int case_sensitive, argmatch_exit_fn exit_fn));
+       const char *arg, const char *const *arglist,
+       const char *vallist, size_t valsize,
+       int case_sensitive, argmatch_exit_fn exit_fn));
 
 /* Programmer friendly interface to __xargmatch_internal. */
 
-# define XARGMATCH(Context, Arg, Arglist, Vallist)			\
-  (Vallist [__xargmatch_internal ((Context), (Arg), (Arglist),	\
-                                  (const char *) (Vallist),	\
-				  sizeof (*(Vallist)),		\
-				  1, argmatch_die)])
+# define XARGMATCH(Context, Arg, Arglist, Vallist)              \
+  (Vallist [__xargmatch_internal ((Context), (Arg), (Arglist),  \
+                                  (const char *) (Vallist),     \
+                  sizeof (*(Vallist)),                          \
+                  1, argmatch_die)])
 
-# define XARGCASEMATCH(Context, Arg, Arglist, Vallist)		\
-  (Vallist [__xargmatch_internal ((Context), (Arg), (Arglist),	\
-                                  (const char *) (Vallist),	\
-				  sizeof (*(Vallist)),		\
-				  0, argmatch_die)])
+# define XARGCASEMATCH(Context, Arg, Arglist, Vallist)          \
+  (Vallist [__xargmatch_internal ((Context), (Arg), (Arglist),  \
+                                  (const char *) (Vallist),     \
+                  sizeof (*(Vallist)),                          \
+                  0, argmatch_die)])
 
 /* Convert a value into a corresponding argument. */
 
 const char *argmatch_to_argument
   PARAMS ((char const *value, const char *const *arglist,
-	   const char *vallist, size_t valsize));
+       const char *vallist, size_t valsize));
 
-# define ARGMATCH_TO_ARGUMENT(Value, Arglist, Vallist)			\
-  argmatch_to_argument ((char const *) &(Value), (Arglist), 		\
-		        (const char *) (Vallist), sizeof (*(Vallist)))
+# define ARGMATCH_TO_ARGUMENT(Value, Arglist, Vallist)          \
+  argmatch_to_argument ((char const *) &(Value), (Arglist),     \
+                (const char *) (Vallist), sizeof (*(Vallist)))
 
 #endif /* ARGMATCH_H_ */

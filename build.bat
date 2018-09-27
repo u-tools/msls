@@ -1,7 +1,8 @@
-rem @echo off
-setlocal enableextensions
+@setlocal enableextensions
+@echo off
 
 rem
+rem Build script for all repository projects
 rem Build script for msls
 rem Written by Roy Ivy III (https://github.com/rivy)
 rem
@@ -27,7 +28,8 @@ if EXIST "%BUILD_DIR%" ( set "BUILD_DIR_present=true" )
 
 ( endlocal
 setlocal
-:: call sub-builds with clean environment
+set "ERRORLEVEL="
+:: build each project with a clean environment (targeted at BUILD_DIR) and from within that project directory
 if /I "%CC%"=="cl" if NOT DEFINED VCVARS_ARE_SET if EXIST "%__dp0%dbin\VCvars.BAT" ( call "%__dp0%dbin\VCvars.BAT" ) else ( call VCVars 2>NUL )
 call %CC% >NUL 2>NUL && (
     for /D %%d in (%projects%) DO @(
@@ -36,7 +38,7 @@ call %CC% >NUL 2>NUL && (
             cd "%__dp0%%%d"
             set "BUILD_DIR=%BUILD_DIR%\%%d"
             call echo INFO: building into "%%BUILD_DIR%%"
-            call build %*
+            call build %* || ( echo ERR!: build failure >&2 & set "ERRORLEVEL=255" )
         ))
     )
     :: regenerate any needed environment
@@ -58,4 +60,5 @@ if EXIST "%BUILD_DIR%" (
             rmdir /q "%BUILD_DIR%" && if DEFINED BUILD_DIR_present ( echo "%BUILD_DIR%" removed )
         ))
 )
-endlocal
+
+if /I NOT "%ERRORLEVEL%" == "0" ( set "ERRORLEVEL=" & goto _undefined_ 2>NUL || "%COMSPEC%" /d/c exit %ERRORLEVEL% )

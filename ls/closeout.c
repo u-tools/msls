@@ -103,9 +103,9 @@ close_stdout_status (int status)
     {
       char const *write_error = _("write error");
       if (file_name)
-	error (status, e, "%s: %s", quotearg_colon (file_name), write_error);
+    error (status, e, "%s: %s", quotearg_colon (file_name), write_error);
       else
-	error (status, e, "%s", write_error);
+    error (status, e, "%s", write_error);
     }
 }
 

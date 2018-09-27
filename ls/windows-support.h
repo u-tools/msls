@@ -68,8 +68,8 @@ extern DWORD gbIsWindowsWOW64; // not BOOL
 // Set process privileges (not on Win9x)
 //
 // Example:
-//		LPCSTR aszPrivs[] = {"SeDebugPrivilege", "SeTCBPrivilege"};
-//		_SetPrivileges(2, aszPrivs, TRUE);
+//      LPCSTR aszPrivs[] = {"SeDebugPrivilege", "SeTCBPrivilege"};
+//      _SetPrivileges(2, aszPrivs, TRUE);
 //
 extern BOOL _SetPrivileges(int nPrivs, LPCSTR *ppszPrivilege, BOOL bEnable);
 extern BOOL _EnableSecurityPrivilege(); // Enable SeSecurityPrivilege
@@ -79,9 +79,9 @@ extern BOOL _EnableSecurityPrivilege(); // Enable SeSecurityPrivilege
 // Wrappers for _findfirsti64/_findnexti64/_findclose
 //
 extern long _xfindfirsti64(const char *szPath, struct _finddatai64_t *pfd,
-	BOOL bShowStreams, DWORD dwType);
+    BOOL bShowStreams, DWORD dwType);
 extern int _xfindnexti64(long handle, struct _finddatai64_t *pfd,
-	BOOL bShowStreams);
+    BOOL bShowStreams);
 extern int _xfindclose(long handle, BOOL bShowStreams);
 
 //
@@ -99,7 +99,7 @@ _GetRegistryLink(struct cache_entry *ce, char *szPath);
 
 extern BOOL
 _GetViewAs(char* szViewAs, PSID pUserSid, DWORD cbSid,
-	PTOKEN_GROUPS pTokenGroups, DWORD cbGroups, PDWORD pdwGroupsSize);
+    PTOKEN_GROUPS pTokenGroups, DWORD cbGroups, PDWORD pdwGroupsSize);
 
 time_t ConvertFileTimeToTimeT(PFILETIME pft);
 

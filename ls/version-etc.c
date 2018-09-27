@@ -22,6 +22,12 @@
 #endif
 
 #include <stdio.h>
+// BUG: (for some MSVC 1900 versions) putc() is defined incorrectly when _CRT_DISABLE_PERFCRIT_LOCKS is defined
+#if defined (_CRT_DISABLE_PERFCRIT_LOCKS) && defined(_MSC_VER) && (_MSC_VER >= 1900) && (_MSC_VER < 2000)
+#undef putc
+#define putc(_Ch, _Stream) _fputc_nolock(_Ch, _Stream)
+#endif
+
 #include "version-etc.h"
 
 #if ENABLE_NLS
@@ -52,8 +58,8 @@ Distributed under GNU General Public License version 2.\n");
    COMMAND_NAME (PACKAGE) VERSION.  */
 void
 version_etc (FILE *stream,
-	     const char *command_name, const char *package,
-	     const char *version, const char *authors)
+         const char *command_name, const char *package,
+         const char *version, const char *authors)
 {
   if (command_name)
     fprintf (stream, "%s (%s) %s\n", command_name, package, version);
@@ -68,5 +74,5 @@ version_etc (FILE *stream,
   fputs (_("\
 This is free software; see the source for copying conditions.  There is NO\n\
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
-	 stream);
+     stream);
 }

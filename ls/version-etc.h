@@ -32,7 +32,7 @@ extern char *version_etc_copyright;
 
 void
 version_etc PARAMS ((FILE *stream,
-		     const char *command_name, const char *package,
-		     const char *version, const char *authors));
+             const char *command_name, const char *package,
+             const char *version, const char *authors));
 
 #endif /* VERSION_ETC_H */
