@@ -17,3 +17,6 @@ getstr PARAMS ((char **lineptr, size_t *n, FILE *stream,
         size_t offset));
 
 #endif
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

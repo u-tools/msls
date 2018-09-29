@@ -1,5 +1,5 @@
 //
-// Thread-safe hash template class
+// Hash template class
 //
 // Copyright (c) 2004-2018, U-Tools Software LLC
 // Written by Alan Klietz
@@ -509,5 +509,5 @@ private:
 ////////////////////////////////////////////////////////////////////////////
 
 /*
-vim:tabstop=4:shiftwidth=4:noexpandtab
+vim:tabstop=4:shiftwidth=4:expandtab
 */

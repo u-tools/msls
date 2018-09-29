@@ -15,3 +15,6 @@ void close_stdout PARAMS ((void));
 void close_stdout_status PARAMS ((int status));
 
 #endif
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

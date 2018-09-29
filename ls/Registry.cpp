@@ -1239,5 +1239,5 @@ _GetRegistryLink(struct cache_entry *ce, char *szPath)
 } // end extern "C"
 
 /*
-vim:tabstop=4:shiftwidth=4:noexpandtab
+vim:tabstop=4:shiftwidth=4:expandtab
 */

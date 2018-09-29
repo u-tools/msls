@@ -53,5 +53,5 @@ extern int more_printf(const char *fmt, ...);
 #endif
 
 /*
-vim:tabstop=4:shiftwidth=4:noexpandtab
+vim:tabstop=4:shiftwidth=4:expandtab
 */

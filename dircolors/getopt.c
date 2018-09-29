@@ -1062,3 +1062,6 @@ main (argc, argv)
 }
 
 #endif /* TEST */
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

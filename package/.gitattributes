@@ -1,0 +1,5 @@
+#
+# .gitattributes
+#
+#
+*.cmd           text eol=crlf

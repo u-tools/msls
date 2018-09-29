@@ -305,3 +305,6 @@ error_at_line (status, errnum, file_name, line_number, message, va_alist)
 weak_alias (__error, error)
 weak_alias (__error_at_line, error_at_line)
 #endif
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

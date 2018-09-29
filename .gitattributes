@@ -12,4 +12,8 @@
 Makefile.nmake          text eol=lf
 Makefile.nmake.core     text eol=lf
 
-README.mkd              text eol=lf
+#
+# README.mkd must use crlf so that it is correctly displayed
+# during installation with WinZip Self-Extractor.
+#
+README.mkd              text eol=crlf

@@ -25,3 +25,6 @@ void mode_string PARAMS ((mode_t mode, char *str));
 #endif
 
 #endif
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

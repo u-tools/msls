@@ -140,5 +140,5 @@ xpath_concat (const char *dir, const char *base, char **base_in_result)
   xalloc_die ();
 }
 /*
-vim:tabstop=8:shiftwidth=2:noexpandtab
+vim:tabstop=2:shiftwidth=2:expandtab
 */

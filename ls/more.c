@@ -643,5 +643,5 @@ static int _more_paginate(struct more* m, int n)
 }
 
 /*
-vim:tabstop=4:shiftwidth=4:noexpandtab
+vim:tabstop=4:shiftwidth=4:expandtab
 */

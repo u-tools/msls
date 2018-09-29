@@ -92,3 +92,6 @@ char *xstrdup PARAMS ((const char *str));
 #endif
 
 #endif /* !XALLOC_H_ */
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

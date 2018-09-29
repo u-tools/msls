@@ -348,3 +348,6 @@ human_block_size (char const *spec, int report_errors, int *block_size)
   if (e != LONGINT_OK && report_errors)
     STRTOL_FATAL_ERROR (spec, _("block size"), e);
 }
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

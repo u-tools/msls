@@ -40,3 +40,6 @@ extern int mbswidth PARAMS ((const char *string, int flags));
 /* Returns the number of screen columns needed for the NBYTES bytes
    starting at BUF.  */
 extern int mbsnwidth PARAMS ((const char *buf, size_t nbytes, int flags));
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

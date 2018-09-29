@@ -236,5 +236,5 @@ xmbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *pst)
 #endif
 
 /*
-vim:tabstop=4:shiftwidth=4:noexpandtab
+vim:tabstop=4:shiftwidth=4:expandtab
 */

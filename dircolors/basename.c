@@ -69,3 +69,6 @@ base_name (char const *name)
 
   return (char *) base;
 }
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

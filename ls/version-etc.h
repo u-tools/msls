@@ -36,3 +36,6 @@ version_etc PARAMS ((FILE *stream,
              const char *version, const char *authors));
 
 #endif /* VERSION_ETC_H */
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

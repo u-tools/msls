@@ -69,3 +69,6 @@ STRXCASECMP_FUNCTION (const char *s1, const char *s2 STRXCASECMP_DECLARE_N)
 
   return c1 - c2;
 }
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

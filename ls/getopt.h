@@ -167,3 +167,6 @@ extern int _getopt_internal ();
 #undef __need_getopt
 
 #endif /* getopt.h */
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

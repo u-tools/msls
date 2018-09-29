@@ -112,3 +112,6 @@ getstr (char **lineptr, size_t *n, FILE *stream, int delim1, int delim2,
   ret = read_pos - (*lineptr + offset);
   return ret;
 }
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

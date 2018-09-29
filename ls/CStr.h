@@ -42,5 +42,5 @@ EXPORT extern BOOL operator==(const CString& s1, const CString& s2);
 EXPORT extern BOOL operator!=(const CString& s1, const CString& s2);
 
 /*
-vim:tabstop=4:shiftwidth=4:noexpandtab
+vim:tabstop=4:shiftwidth=4:expandtab
 */

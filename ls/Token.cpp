@@ -835,3 +835,6 @@ VirtualView()
 {
     return SetVirtualView(TRUE/*bEnable*/, TRUE/*bVerify*/);
 }
+/*
+vim:tabstop=4:shiftwidth=4:expandtab
+*/

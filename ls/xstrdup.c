@@ -44,3 +44,6 @@ xstrdup (const char *string)
 {
   return strcpy (xmalloc (strlen (string) + 1), string);
 }
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

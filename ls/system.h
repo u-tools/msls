@@ -277,3 +277,6 @@ extern int errno;
 #endif
 
 #include "sys2.h"
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

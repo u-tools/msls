@@ -309,5 +309,5 @@ int _aefindnexti64(long hFile, struct _finddatai64_t * pfd)
 }
 
 /*
-vim:tabstop=4:shiftwidth=4:noexpandtab
+vim:tabstop=4:shiftwidth=4:expandtab
 */

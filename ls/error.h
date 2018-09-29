@@ -76,3 +76,6 @@ extern int error_one_per_line;
 #endif
 
 #endif /* error.h */
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

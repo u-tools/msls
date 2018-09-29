@@ -52,3 +52,6 @@
 # endif
 
 #endif /* _PATHMAX_H */
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

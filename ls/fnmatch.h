@@ -67,3 +67,6 @@ extern int fnmatch __P ((const char *__pattern, const char *__string,
 #endif
 
 #endif /* fnmatch.h */
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

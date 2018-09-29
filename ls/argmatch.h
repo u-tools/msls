@@ -127,3 +127,6 @@ const char *argmatch_to_argument
                 (const char *) (Vallist), sizeof (*(Vallist)))
 
 #endif /* ARGMATCH_H_ */
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

@@ -432,3 +432,6 @@ _GetViewAs(char* szViewAs, PSID pUserSid, DWORD cbSid,
 
     return TRUE;
 }
+/*
+vim:tabstop=4:shiftwidth=4:expandtab
+*/

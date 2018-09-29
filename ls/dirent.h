@@ -282,5 +282,5 @@ extern BOOL gbComInitialized;
 #endif  /* Not _XDIRENT_H_ */
 
 /*
-vim:tabstop=4:shiftwidth=4:noexpandtab
+vim:tabstop=4:shiftwidth=4:expandtab
 */

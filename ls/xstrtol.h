@@ -62,3 +62,6 @@ _DECLARE_XSTRTOL (xstrtoumax, uintmax_t)
   _STRTOL_ERROR (0, Str, Argument_type_string, Err)
 
 #endif /* not XSTRTOL_H_ */
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

@@ -579,5 +579,5 @@ dircolors' internal database"));
   exit (err == 0 ? EXIT_SUCCESS : EXIT_FAILURE);
 }
 /*
-vim:tabstop=8:shiftwidth=2:noexpandtab
+vim:tabstop=2:shiftwidth=2:expandtab
 */

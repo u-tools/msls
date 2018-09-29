@@ -37,3 +37,6 @@ char *human_readable_inexact PARAMS ((uintmax_t, char *, int, int,
 void human_block_size PARAMS ((char const *, int, int *));
 
 #endif /* HUMAN_H_ */
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

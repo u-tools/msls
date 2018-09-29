@@ -108,3 +108,6 @@ char *quotearg_char PARAMS ((char const *arg, char ch));
 
 /* Equivalent to quotearg_char (ARG, ':').  */
 char *quotearg_colon PARAMS ((char const *arg));
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

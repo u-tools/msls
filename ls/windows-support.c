@@ -274,5 +274,5 @@ void AeTrace(LPCTSTR szFormat, ...)
 }
 
 /*
-vim:tabstop=4:shiftwidth=4:noexpandtab
+vim:tabstop=4:shiftwidth=4:expandtab
 */

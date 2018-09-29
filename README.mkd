@@ -66,3 +66,4 @@ For `grep` the recommended settings for "GREP_OPTIONS" are:
 
 The port was written by Alan Klietz of [U-Tools Software](https://u-tools.com).
 Additional patches and a streamlined build process were contributed by [Roy Ivy III](https://github.com/rivy).
+

@@ -13,3 +13,6 @@ extern int _RegFindClose(long handle);
 #ifdef __cplusplus
 }
 #endif
+/*
+vim:tabstop=4:shiftwidth=4:expandtab
+*/

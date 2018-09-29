@@ -603,3 +603,6 @@ POINTER (obstack_copy0) (obstack, address, length)
 # endif /* 0 */
 
 #endif  /* !ELIDE_CODE */
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

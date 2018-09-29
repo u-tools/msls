@@ -115,3 +115,6 @@ close_stdout (void)
 {
   close_stdout_status (default_exit_status);
 }
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

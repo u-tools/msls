@@ -95,5 +95,5 @@ EXPORT BOOL operator==(const CString& s1, const CString& s2)
 EXPORT BOOL operator!=(const CString& s1, const CString& s2)
     { return s1.Equal(s2) != 0; }
 /*
-vim:tabstop=4:shiftwidth=4:noexpandtab
+vim:tabstop=4:shiftwidth=4:expandtab
 */

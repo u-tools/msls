@@ -620,5 +620,5 @@ quotearg_colon (char const *arg)
   return quotearg_char (arg, ':');
 }
 /*
-vim:tabstop=8:shiftwidth=2:noexpandtab
+vim:tabstop=2:shiftwidth=2:expandtab
 */

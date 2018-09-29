@@ -145,5 +145,5 @@ more_printf("DeviceIoControl(FSCTL_GET_OBJECT_ID) failed, err=%u\n", GetLastErro
 }
 
 /*
-vim:tabstop=4:shiftwidth=4:noexpandtab
+vim:tabstop=4:shiftwidth=4:expandtab
 */

@@ -4993,5 +4993,5 @@ Example: -bhAC --more --color=auto --recent --streams\n\
   exit (status);
 }
 /*
-vim:tabstop=8:shiftwidth=2:noexpandtab
+vim:tabstop=2:shiftwidth=2:expandtab
 */

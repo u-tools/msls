@@ -207,3 +207,6 @@ mbsnwidth (const char *string, size_t nbytes, int flags)
     }
   return width;
 }
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

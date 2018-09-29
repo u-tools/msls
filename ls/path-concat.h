@@ -13,3 +13,6 @@ char *
 path_concat PARAMS ((const char *dir, const char *base, char **base_in_result));
 
 #endif
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

@@ -1059,7 +1059,7 @@ _CRTIMP extern int __mb_cur_max; // AEK
 /* #undef UMAX4_3 */
 
 /* Version number of package */
-#define VERSION "4.8.329 2018/09"
+#define VERSION "4.8.331 2018/09"
 
 /* Define if your system defines `struct winsize' in sys/ptem.h. */
 /* #undef WINSIZE_IN_PTEM */
@@ -1186,3 +1186,6 @@ typedef unsigned __int64 uintmax_t; // AEK
 #pragma warning(disable: 4996)  // DISABLE: POSIX deprecated warnings
 
 #define _CRT_DISABLE_PERFCRIT_LOCKS // Big perf win -- ls is single-threaded
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

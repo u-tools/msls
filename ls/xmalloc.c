@@ -114,3 +114,6 @@ xcalloc (size_t n, size_t s)
     xalloc_die ();
   return p;
 }
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

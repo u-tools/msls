@@ -180,3 +180,6 @@ extern int _nl_msg_cat_cntr;
 #endif
 
 #endif
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

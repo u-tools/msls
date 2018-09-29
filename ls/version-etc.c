@@ -76,3 +76,6 @@ This is free software; see the source for copying conditions.  There is NO\n\
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
      stream);
 }
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

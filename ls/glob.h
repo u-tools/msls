@@ -32,3 +32,6 @@ extern int noglob_dot_filenames;
 extern int glob_ignore_case;
 
 #endif /* _GLOB_H_ */
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

@@ -316,3 +316,6 @@ main (int argc, const char *const *argv)
   return 0;
 }
 #endif
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

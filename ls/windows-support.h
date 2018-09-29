@@ -236,3 +236,6 @@ typedef __POSITION* POSITION;
 #endif // NEED_HASH_H
 
 #endif // __cplusplus
+/*
+vim:tabstop=4:shiftwidth=4:expandtab
+*/

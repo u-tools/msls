@@ -83,3 +83,6 @@ extern char *view_as;
 #ifdef __cplusplus
 }
 #endif
+/*
+vim:tabstop=2:shiftwidth=2:expandtab
+*/

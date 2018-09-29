@@ -785,5 +785,5 @@ main (argc, argv)
 }
 #endif  /* TEST.  */
 /*
-vim:tabstop=8:shiftwidth=2:noexpandtab
+vim:tabstop=2:shiftwidth=2:expandtab
 */
