@@ -1204,9 +1204,9 @@ exit_ls(void)
     //
     fflush(stdout);
     // atomic: stdout interlocks
-    fputs(color_indicator[C_LEFT].string, stdout);
-    fputs(color_indicator[C_NORM].string, stdout);
-    fputs(color_indicator[C_RIGHT].string, stdout);
+    fwrite(color_indicator[C_LEFT].string, sizeof(char), color_indicator[C_LEFT].len, stdout);
+    fwrite(color_indicator[C_NORM].string, sizeof(char), color_indicator[C_NORM].len, stdout);
+    fwrite(color_indicator[C_RIGHT].string, sizeof(char), color_indicator[C_RIGHT].len, stdout);
     fflush(stdout);
   }
 
