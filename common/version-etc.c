@@ -41,7 +41,9 @@
 /* Default copyright goes to the FSF. */
 
 char* version_etc_copyright =
-  N_("Copyright (C) 2001 Free Software Foundation, Inc.");
+  N_("Copyright (C) 2001 Free Software Foundation, Inc.\n\n\
+Microsoft Windows extensions copyright (C) 2004-2018, U-Tools Software LLC\n\
+Distributed under GNU General Public License version 2.\n");
 
 
 /* Display the --version information the standard way.
