@@ -1,4 +1,6 @@
 ## emacs -*- coding: utf8-unix; mode: makefile; -*-
+## makefile:spell-checker:words CC CFLAGS COPTS CPP CPPFLAGS IFDEF IFNDEF LD LDFLAGS LDOPTS MAKEDIR MAKEFLAGS NDEBUG OBJS RC RCFLAGS RCOPTS realclean REZS SRCS veryclean
+## spell-checker:words msls Klietz MBCS advapi netapi delayimp delayload nobind rpcrt WinNT
 #
 # msls - GNU ls for Microsoft Windows
 # Ported to Microsoft Windows by Alan Klietz
@@ -9,8 +11,11 @@
 # Distributed under GNU General Public License version 2.
 #
 
+## NOTE!: directories and paths (eg, $(INT_DIR), $(ME_FILENAME) and $(FILE_NMAKE_CORE)) are expected to be relative to the current working directory (CWD)
+##    ... so, for correct operation, the make process *must* be started with CWD == directory of this makefile
+##    ... eg, use `cd MAKEFILE_DIR && nmake /f Makefile.nmake` )
+
 NAME=ls
-TYPE=exe
 
 DEFS=/D HAVE_CONFIG_H /D _CONSOLE /D WIN32 /D _WIN32_WINNT=0x0500 \
 	/D STRICT /D _MBCS /D _CRT_SECURE_NO_WARNINGS
@@ -22,41 +27,9 @@ LIBS=kernel32.lib advapi32.lib shell32.lib \
 	delayimp.lib /delay:nobind \
 	/delayload:ole32.dll /delayload:shell32.dll /delayload:netapi32.dll /delayload:rpcrt4.dll
 
-OBJS= \
-	"$(INTDIR)\argmatch.obj" \
-	"$(INTDIR)\basename.obj" \
-	"$(INTDIR)\closeout.obj" \
-	"$(INTDIR)\CStr.obj" \
-	"$(INTDIR)\dirent.obj" \
-	"$(INTDIR)\error.obj" \
-	"$(INTDIR)\filemode.obj" \
-	"$(INTDIR)\fnmatch.obj" \
-	"$(INTDIR)\getopt.obj" "$(INTDIR)\getopt1.obj" \
-	"$(INTDIR)\glob.obj" \
-	"$(INTDIR)\human.obj" \
-	"$(INTDIR)\mbswidth.obj" \
-	"$(INTDIR)\more.obj" \
-	"$(INTDIR)\obstack.obj" \
-	"$(INTDIR)\path-concat.obj" \
-	"$(INTDIR)\quotearg.obj" \
-	"$(INTDIR)\strncasecmp.obj" \
-	"$(INTDIR)\version-etc.obj" \
-	"$(INTDIR)\windows-support.obj" \
-	"$(INTDIR)\xmalloc.obj" \
-	"$(INTDIR)\xmbrtowc.obj" \
-	"$(INTDIR)\xstrdup.obj" \
-	"$(INTDIR)\xstrtol.obj" \
-	"$(INTDIR)\xstrtoul.obj" \
-	"$(INTDIR)\FindFiles.obj" \
-	"$(INTDIR)\Hash.obj" \
-	"$(INTDIR)\ObjectId.obj" \
-	"$(INTDIR)\Registry.obj" \
-	"$(INTDIR)\Reparse.obj" \
-	"$(INTDIR)\Security.obj" \
-	"$(INTDIR)\Shortcut.obj" \
-	"$(INTDIR)\Streams.obj" \
-	"$(INTDIR)\Token.obj" \
-	"$(INTDIR)\ViewAs.obj" \
+SRCS=*.c *.cpp ..\common\*.c ..\common\*.cpp
+REZS=*.rc
+TESTS=..\tests\*.BAT
 
 ####
 

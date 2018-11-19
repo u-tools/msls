@@ -1,0 +1,41 @@
+# .appveyor.yml (for Perl distributions)
+
+# - for usage instructions, see <https://github.com/rivy/CI.AppVeyor.helpers-perl/blob/master/README.mkd>
+
+# ref: <https://www.appveyor.com/docs/appveyor-yml>[`@`](https://archive.is/OUJHS)
+# - "appveyor.yml" validation tool @ <https://ci.appveyor.com/tools/validate-yaml>
+
+version: "{build} ~ {branch}"
+
+branches:
+  except:
+    - gh-pages
+
+skip_tags: true     ## do not build on tags
+
+environment:
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+  # global:
+  #   AUTOMATED_TESTING: 1
+  #   CI_CACHE_DIR: C:\cache
+
+install:
+  - ps: ;"[{0:HH:mm:ss}].install" -f $($mark = get-date; $mark)
+  # ensure CWD is project main directory
+  - cd "%APPVEYOR_BUILD_FOLDER%"
+  # setup MSVC
+  - call "dbin\vcvars.BAT"
+  - ps: ;"[{0:HH:mm:ss}].build" -f $($mark = get-date; $mark)
+
+build_script:
+  - ps: ;"[{0:HH:mm:ss}].build" -f $($mark = get-date; $mark)
+  - call "build.BAT"
+  - ps: ;"[{0:HH:mm:ss}].build" -f $($mark = get-date; $mark)
+
+test_script:
+  - ps: ;"[{0:HH:mm:ss}].test" -f $($mark = get-date; $mark)
+  - ps: $ERR=0 ; Get-ChildItem @('.\tests\*.exe', '.\tests\*.bat', '.\tests\*.cmd') | foreach { & CMD @( '/d/c', $_.FullName ); if ($LASTEXITCODE -ne 0) { $ERR++ }; }; if ($ERR -ne 0) { exit $ERR; }
+  - ps: ;"[{0:HH:mm:ss}].test ... done ({1:0.0}s)" -f $(get-date; $($(get-date) - $mark).totalseconds)
