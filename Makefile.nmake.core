@@ -402,7 +402,7 @@ realclean: clean  ## Remove *all* build artifacts (including all configurations 
 
 help:
 	@echo: & @echo usage: `$(BUILD_HELP_ALIAS) [TARGET [TARGET]...]`
-	@echo builds `$(NAME)$(TYPE)` to "$(MAKEDIR)\$(OUT_DIR)"
+	@echo builds `$(NAME)$(TYPE)` into "$(OUT_DIR)"
 	@echo: & @echo [valid TARGETs] & @echo:
 	@"$(FINDSTR)" "^[a-zA-Z-]*:" "$(FILE_NMAKE_CORE)" | "$(SORT)" | for /f "tokens=1-2,* delims=:#" %g in ('$(MORE)') do @(@set "t=%g                " & @call echo ^%t:~0,15^% %i)
 
