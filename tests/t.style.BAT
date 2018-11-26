@@ -8,8 +8,8 @@
 :: * this software is provided for free, WITHOUT ANY EXPRESS OR IMPLIED WARRANTY (see the license for details)
 
 :config
-set "_exclude_dir=(?i)[_.#]build|\.git|\.gpg|vendor"
-set "_exclude=(?i)\.dll$|\.exe$|\.zip$"
+set "_exclude_dir=(?i)[_.#]build|[.]git|[.]gpg|vendor"
+set "_exclude=(?i)[.]dll$|[.]exe$|[.]zip|README.mkd$"
 :config_done
 
 set _dp0=%~dp0.
