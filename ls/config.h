@@ -1059,7 +1059,7 @@ _CRTIMP extern int __mb_cur_max; // AEK
 /* #undef UMAX4_3 */
 
 /* Version number of package */
-#define VERSION "4.8.331 2018/09"
+#define VERSION "4.8.333 2018/12"
 
 /* Define if your system defines `struct winsize' in sys/ptem.h. */
 /* #undef WINSIZE_IN_PTEM */
