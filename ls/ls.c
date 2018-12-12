@@ -639,9 +639,12 @@ enum indicator_no
   {
     C_LEFT, C_RIGHT, C_END, C_NORM, C_FILE, C_DIR, C_LINK, C_FIFO, C_SOCK,
     C_BLK, C_CHR, C_MISSING, C_ORPHAN, C_EXEC, C_DOOR,
-    C_RECENT, // AEK
-    C_COMPRESSED, // AEK
-    C_STREAMS // AEK
+    C_RECENT,
+    C_COMPRESSED,
+    C_STREAMS,
+    // additional *nix compatible keywords
+    C_RESET, C_MULTIHARDLINK, C_SETUID, C_SETGID, C_CAPABILITY,
+    C_STICKY_OTHER_WRITABLE, C_OTHER_WRITABLE, C_STICKY
   };
 
 static const char *const indicator_name[]=
@@ -650,7 +653,9 @@ static const char *const indicator_name[]=
     "bd", "cd", "mi", "or", "ex", "do",
     "re", // AEK C_RECENT
     "co", // AEK C_COMPRESSED
-    "st", // AEK C_STREAMS
+    "xs",
+    "rs", "mh", "su", "sg", "ca",
+    "tw", "ow", "st",
     NULL
   };
 
@@ -680,7 +685,15 @@ static struct bin_str color_indicator[] =
     { LEN_STR_PAIR ("01;35") },     /* do: Door: bright magenta */
     { LEN_STR_PAIR (";04") },       /* re: Recent: underscore - AEK */
     { LEN_STR_PAIR (";01;36") },    /* co: Compressed: bright cyan - AEK */
-    { LEN_STR_PAIR (";01;34") },    /* co: Streams: bright blue - AEK */
+    { LEN_STR_PAIR (";01;34") },    /* xs: Streams: bright blue - AEK */
+    { LEN_STR_PAIR ("0") },         /* rs: Reset */
+    { LEN_STR_PAIR ("0") },         /* mh: Multihardlink: normal */
+    { LEN_STR_PAIR (";37;41") },    /* su: SetUID: white on red */
+    { LEN_STR_PAIR (";30;43") },    /* sg: SetGID: black on yellow */
+    { LEN_STR_PAIR (";30;41") },    /* ca: Capability: black on red */
+    { LEN_STR_PAIR (";30;42") },    /* tw: Sticky, other-writable: black on green */
+    { LEN_STR_PAIR (";01;33;42") }, /* ow: Other-writable: bold yellow on green */
+    { LEN_STR_PAIR (";37;44") },    /* st: Sticky: bright blue */
   };
 
 //
