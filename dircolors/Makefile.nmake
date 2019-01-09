@@ -20,17 +20,17 @@ NAME=dircolors
 DEFS=/D HAVE_CONFIG_H /D _CONSOLE /D WIN32 /D _WIN32_WINNT=0x0500 \
 	 /D STRICT /D _MBCS /D _CRT_SECURE_NO_WARNINGS
 
-INCLUDES=/I. /I..\ls\.
+INCLUDES=/I. /I..\common\.
 
 LIBS=kernel32.lib advapi32.lib shell32.lib
 
-SRCS=*.c *.cpp
+SRCS=*.c *.cpp ..\common\*.c ..\common\*.cpp
 REZS=*.rc
 TESTS=..\tests\*.BAT
 
 ####
 
 ME_FILENAME=Makefile.nmake
-FILE_NMAKE_CORE=..\$(ME_FILENAME).core
+FILE_NMAKE_CORE=..\common\$(ME_FILENAME).core
 
 !INCLUDE "$(FILE_NMAKE_CORE)"

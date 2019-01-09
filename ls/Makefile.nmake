@@ -20,7 +20,7 @@ NAME=ls
 DEFS=/D HAVE_CONFIG_H /D _CONSOLE /D WIN32 /D _WIN32_WINNT=0x0500 \
 	/D STRICT /D _MBCS /D _CRT_SECURE_NO_WARNINGS
 
-INCLUDES=/I.
+INCLUDES=/I. /I..\common\.
 
 LIBS=kernel32.lib advapi32.lib shell32.lib \
 	user32.lib ole32.lib netapi32.lib rpcrt4.lib \
@@ -34,6 +34,6 @@ TESTS=..\tests\*.BAT
 ####
 
 ME_FILENAME=Makefile.nmake
-FILE_NMAKE_CORE=..\$(ME_FILENAME).core
+FILE_NMAKE_CORE=..\common\$(ME_FILENAME).core
 
 !INCLUDE "$(FILE_NMAKE_CORE)"

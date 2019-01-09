@@ -68,7 +68,8 @@
 #include "more.h"
 #include "error.h"
 #include "windows-support.h"
-#include "ls.h" // for tabsize
+#include "tabsize.h"
+// #include "ls.h" // for tabsize
 
 
 #define STDMORE_BUFSIZ 16384
