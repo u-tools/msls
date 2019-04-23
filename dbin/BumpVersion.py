@@ -13,7 +13,7 @@ import time
 
 szManifestFile = '../ls/ls.manifest'
 szRcFile = "../ls/ls.rc"
-szConfigFile = "../ls/config.h"
+szConfigFile = "../common/config.h"
 
 gstrVer = None
 gstrFullVer = None
