@@ -22,7 +22,7 @@ rem
 set OUTDIR_LS=..\#build\ls\%target%.(cl@1200)
 set OUTDIR_DIRCOLORS=..\#build\dircolors\%target%.(cl@1200)
 cd ..
-call build.bat clean 
+call build.bat clean
 if errorlevel 1 goto done
 cd .\dbin
 if errorlevel 1 goto done
@@ -59,17 +59,18 @@ rem
 rem Microsoft pushed a patch in 2014/10 for Win7/W2K8R2 for SHA-2.  Win8+
 rem has it built-in.  They specifically did _not_ patch Vista- or W2K8-.
 rem
-rem WORKAROUND: Double-sign all .EXEs with SHA-1 (primary) and SHA-2 (secondary)
+rem See https://u-tools.com/help/SHA-Update.asp
 rem
-call E:\ae\certvars.bat
+call E:\ae\certvars2.bat
 if errorlevel 1 exit /b 1
 SET TITLE="ls for Windows"
 rem
 set /P PASSPHRASE=Enter the passphrase?
-%SIGNTOOL% sign /v /f %CERTCODEPFX% /fd sha1 /t "http://timestamp.verisign.com/scripts/timestamp.dll" /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %OUTDIR_LS%\ls.exe
+%SIGNTOOL% sign /v /f %CERTCODEPFX% /fd sha1 /t "%TIMESTAMP_SERVER_OLD%" /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %OUTDIR_LS%\ls.exe
 if errorlevel 1 goto done
 sleep 3
-%SIGNTOOL% sign /v /as /f %CERTCODEPFX% /fd sha256 /tr "http://sha256timestamp.ws.symantec.com/sha256/timestamp" /td sha256 /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %OUTDIR_LS%\ls.exe
+Rem Was http://timestamp.digicert.com prior to 2019/10
+%SIGNTOOL% sign /v /as /f %CERTCODEPFX% /fd sha256 /tr "%TIMESTAMP_SERVER_RFC3161%" /td sha256 /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %OUTDIR_LS%\ls.exe
 if errorlevel 1 goto done
 copy /Y %OUTDIR_LS%\ls.exe c:\lbin\ls.exe
 copy /Y %OUTDIR_LS%\ls.exe c:\vmshared\ls.exe
@@ -134,7 +135,7 @@ sleep 3
 %SIGNTOOL% sign /v /f %CERTCODEPFX% /t "http://timestamp.verisign.com/scripts/timestamp.dll" /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %PACKAGE%.exe
 if errorlevel 1 goto done
 sleep 3
-%SIGNTOOL% sign /v /as /f %CERTCODEPFX% /fd sha256 /tr "http://sha256timestamp.ws.symantec.com/sha256/timestamp" /td sha256 /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %PACKAGE%.exe
+%SIGNTOOL% sign /v /as /f %CERTCODEPFX% /fd sha256 /tr "http://timestamp.digicert.com" /td sha256 /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %PACKAGE%.exe
 if errorlevel 1 goto done
 cd ..
 call build.bat clean
