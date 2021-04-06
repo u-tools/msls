@@ -66,20 +66,21 @@ if errorlevel 1 exit /b 1
 SET TITLE="ls for Windows"
 rem
 set /P PASSPHRASE=Enter the passphrase?
-%SIGNTOOL% sign /v /f %CERTCODEPFX% /fd sha1 /t "%TIMESTAMP_SERVER_OLD%" /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %OUTDIR_LS%\ls.exe
+if NOT "%TIMESTAMP_SERVER_OLD%"=="" (
+%SIGNTOOL% sign /v /f %CERTCODEPFX% /fd sha1 /t "%TIMESTAMP_SERVER_OLD%" /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% "%OUTDIR_LS%\ls.exe"
 if errorlevel 1 goto done
 sleep 3
-Rem Was http://timestamp.digicert.com prior to 2019/10
-%SIGNTOOL% sign /v /as /f %CERTCODEPFX% /fd sha256 /tr "%TIMESTAMP_SERVER_RFC3161%" /td sha256 /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %OUTDIR_LS%\ls.exe
+)
+%SIGNTOOL% sign /v /as /f %CERTCODEPFX% /fd sha256 /tr "%TIMESTAMP_SERVER_RFC3161%" /td sha256 /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% "%OUTDIR_LS%\ls.exe"
 if errorlevel 1 goto done
-copy /Y %OUTDIR_LS%\ls.exe c:\lbin\ls.exe
-copy /Y %OUTDIR_LS%\ls.exe c:\vmshared\ls.exe
+copy /Y "%OUTDIR_LS%\ls.exe" c:\lbin\ls.exe
+copy /Y "%OUTDIR_LS%\ls.exe" c:\vmshared\ls.exe
 rem
 rem Make DISTRIB for distribution
 rem
 rm -rf ..\DISTRIB_EXE
 mkdir ..\DISTRIB_EXE
-copy %OUTDIR_LS%\ls.exe ..\DISTRIB_EXE
+copy "%OUTDIR_LS%\ls.exe" ..\DISTRIB_EXE
 copy %OUTDIR_DIRCOLORS%\dircolors.exe ..\DISTRIB_EXE
 copy ..\README.mkd ..\DISTRIB_EXE
 copy ..\LICENSE.txt ..\DISTRIB_EXE
@@ -132,10 +133,12 @@ rem
 rem Sign the self-extracting .EXE with Authenticode Certificate
 rem
 sleep 3
-%SIGNTOOL% sign /v /f %CERTCODEPFX% /t "http://timestamp.verisign.com/scripts/timestamp.dll" /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %PACKAGE%.exe
+if NOT "%TIMESTAMP_SERVER_OLD%"=="" (
+%SIGNTOOL% sign /v /f %CERTCODEPFX% /fd sha1 /t "%TIMESTAMP_SERVER_OLD%" /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %PACKAGE%.exe
 if errorlevel 1 goto done
 sleep 3
-%SIGNTOOL% sign /v /as /f %CERTCODEPFX% /fd sha256 /tr "http://timestamp.digicert.com" /td sha256 /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %PACKAGE%.exe
+)
+%SIGNTOOL% sign /v /as /f %CERTCODEPFX% /fd sha256 /tr "%TIMESTAMP_SERVER_RFC3161%" /td sha256 /d %TITLE% /p %PASSPHRASE% /ac %CERTCODEAC% /du %URL% %PACKAGE%.exe
 if errorlevel 1 goto done
 cd ..
 call build.bat clean
