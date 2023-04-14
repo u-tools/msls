@@ -13,14 +13,12 @@ set VC10Settings=%USERPROFILE%\Local Settings\Application Data\Microsoft\MSBuild
 set VC12Settings=%USERPROFILE%\Local Settings\Application Data\Microsoft\MSBuild\v4.0\
 set VC14Settings=%USERPROFILE%\Local Settings\Application Data\Microsoft\MSBuild\v4.0\
 set VC141Settings=%USERPROFILE%\Local Settings\Application Data\Microsoft\MSBuild\v4.0\
-set VC142Settings=%USERPROFILE%\Local Settings\Application Data\Microsoft\MSBuild\v4.0\
 ) else ( set VC8Settings=%LOCALAPPDATA%\Microsoft\VisualStudio\8.0\
 set VC9Settings=%LOCALAPPDATA%\Microsoft\VisualStudio\9.0\
 set VC10Settings=%LOCALAPPDATA%\Microsoft\MSBuild\v4.0\
 set VC12Settings=%LOCALAPPDATA%\Microsoft\MSBuild\v4.0\
 set VC14Settings=%LOCALAPPDATA%\Microsoft\MSBuild\v4.0\
 set VC141Settings=%LOCALAPPDATA%\Microsoft\MSBuild\v4.0\
-set VC142Settings=%LOCALAPPDATA%\Microsoft\MSBuild\v4.0\
 Rem Note: VC14 has strongly deprecated per-user project sheets.  See
 Rem the Help topic 'Working with Project Properties' in Help 2.3.
 )
@@ -50,8 +48,8 @@ set VCLib=E:\ae\libvc96
 set FrameworkVersion=v3.5
 set FrameworkSDKDir=%DevDrive%\VS2008\SDK\v3.5\
 
-if "%AE_UCRTVER%" == "" set AE_UCRTVER=10.0.18362.0 & echo Defaulting to AE_UCRTVER 10.0.18362.0
-if "%AE_VCTOOLS%" == "" set AE_VCTOOLS=14.21.27702 & echo Defaulting to AE_VCTOOLS 14.21.27702
+if "%AE_UCRTVER%" == "" set AE_UCRTVER=10.0.20348.0 & echo Defaulting to AE_UCRTVER 10.0.20348.0
+if "%AE_VCTOOLS%" == "" set AE_VCTOOLS=14.31.31103 & echo Defaulting to AE_VCTOOLS 14.31.31103
 
 if not "%ProgramFiles(x86)%"=="" ( set REG32=%SystemRoot%\SysWOW64\reg.exe
 ) else ( set REG32=%SystemRoot%\System32\reg.exe
@@ -111,7 +109,9 @@ if "%1"=="vc141" goto vc141
 if "%1"=="vc141x64" goto vc141x64
 if "%1"=="vc142" goto vc142
 if "%1"=="vc142x64" goto vc142x64
-echo Usage: setbuild [vc6,vc8,vc9,vc10,vc12,vc14,vc141,vc142,vc8x64,vc9x64,vc10x64,vc12x64,vc14x64,vc141x64,vc142x64,vc86,vc96,vc86x64,vc96x64,vc106x64,vc10net35,vc10net35x64,vc10net4,vc10net4x64,vc126x64,restore]
+if "%1"=="vc143" goto vc143
+if "%1"=="vc143x64" goto vc143x64
+echo Usage: setbuild [vc6,vc8,vc9,vc10,vc12,vc14,vc141,vc142,vc143,vc8x64,vc9x64,vc10x64,vc12x64,vc14x64,vc141x64,vc142x64,vc143x64,vc86,vc96,vc86x64,vc96x64,vc106x64,vc10net35,vc10net35x64,vc10net4,vc10net4x64,vc126x64,restore]
 goto done
 :restore
 if "%basepath%"=="" goto norestore
@@ -126,13 +126,13 @@ set INCLUDE=%baseinclude%
 set baseinclude=
 set LIB=%baselib%
 set baselib=
+set AMD64=
 rem
 set Framework35Version=
 set FrameworkDir=
 set FrameworkDir32=
 set FrameworkDir64=
 set FrameworkVersion=
-set FrameworkVersion32=
 set FrameworkVersion64=
 set FrameworkSDKDir=
 set Platform=
@@ -142,6 +142,8 @@ set WindowsSdkDir=
 set WindowsSdkDir06=
 set DevEnvDir=
 set LIBPATH=
+set UCRTVersion=
+set VS170COMNTOOLS=
 set VCVARS_ARE_SET=
 :norestore
 goto done
@@ -159,7 +161,6 @@ rem BUG: MSBuild4 passes too many incompatible args via the CL task. Cant use it
 set Framework35Version=v3.5
 set FrameworkSDKDir=
 set FrameworkVersion=v4.0.30319
-set FrameworkVersion32=v4.0.3019
 set FrameworkVersion64=
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework\
 set FrameworkDir32=%SystemRoot%\Microsoft.NET\Framework\
@@ -379,7 +380,6 @@ set AMD64=
 set Framework35Version=v3.5
 set FrameworkSDKDir=
 set FrameworkVersion=v4.0.30319
-set FrameworkVersion32=v4.0.30319
 set FrameworkVersion64=
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework\
 set FrameworkDir32=%SystemRoot%\Microsoft.NET\Framework\
@@ -419,7 +419,6 @@ set VCLib=
 set Framework35Version=v3.5
 set FrameworkSDKDir=
 set FrameworkVersion=v4.0.30319
-set FrameworkVersion32=
 set FrameworkVersion64=v4.0.30319
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework64\
 set FrameworkDir32=
@@ -458,7 +457,6 @@ set AMD64=
 set Framework35Version=
 set FrameworkSDKDir=
 set FrameworkVersion=v3.5
-set FrameworkVersion32=v3.5
 set FrameworkVersion64=
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework\
 set FrameworkDir32=%SystemRoot%\Microsoft.NET\Framework\
@@ -498,7 +496,6 @@ set VCLib=
 set Framework35Version=
 set FrameworkSDKDir=
 set FrameworkVersion=v3.5
-set FrameworkVersion32=
 set FrameworkVersion64=v3.5
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework64\
 set FrameworkDir32=
@@ -540,7 +537,6 @@ set AMD64=
 set Framework35Version=v3.5
 set FrameworkSDKDir=
 set FrameworkVersion=v4.0.30319
-set FrameworkVersion32=v4.0.30319
 set FrameworkVersion64=
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework\
 set FrameworkDir32=%SystemRoot%\Microsoft.NET\Framework\
@@ -586,7 +582,6 @@ set VCLib=
 set Framework35Version=v3.5
 set FrameworkSDKDir=
 set FrameworkVersion=v4.0.30319
-set FrameworkVersion32=
 set FrameworkVersion64=v4.0.30319
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework64\
 set FrameworkDir32=
@@ -632,7 +627,6 @@ set VCLib=
 set Framework35Version=v3.5
 set FrameworkSDKDir=
 set FrameworkVersion=v4.0.30319
-set FrameworkVersion32=
 set FrameworkVersion64=v4.0.30319
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework\
 set FrameworkDir32=%SystemRoot%\Microsoft.NET\Framework\
@@ -913,7 +907,6 @@ rem These env vars are required for msbuild /p:useenv=true
 Rem E:\MSSDK15 is a symlink to C:\Program Files (x86)\Windows Kits\10
 set WindowsSdkDir=C:\Program Files (x86)\Windows Kits\10\
 set FrameworkVersion=v4.0.30319
-set FrameworkVersion32=v4.0.30319
 set FrameworkVersion64=v4.0.30319
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework\
 set FrameworkSDKDir=
@@ -956,7 +949,6 @@ rem These env vars are required for msbuild /p:useenv=true
 Rem E:\MSSDK15 is a symlink to C:\Program Files (x86)\Windows Kits\10
 set WindowsSdkDir=C:\Program Files (x86)\Windows Kits\10\
 set FrameworkVersion=v4.0.30319
-set FrameworkVersion32=v4.0.30319
 set FrameworkVersion64=v4.0.30319
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework64\
 set FrameworkSDKDir=
@@ -988,7 +980,6 @@ REM
 REM To view official settings: vsdevcmd -arch=x86 -host_arch=x86 -app_platform=Desktop
 REM
 set UCRTVersion=%AE_UCRTVER%
-set VCSettings=%VC142Settings%
 set VCName=VS2019
 set VCVersion=16.0
 set VCLib=
@@ -998,7 +989,6 @@ rem These env vars are required for msbuild /p:useenv=true
 Rem E:\MSSDK15 is a symlink to C:\Program Files (x86)\Windows Kits\10
 set WindowsSdkDir=C:\Program Files (x86)\Windows Kits\10\
 set FrameworkVersion=v4.0.30319
-set FrameworkVersion32=v4.0.30319
 set FrameworkVersion64=v4.0.30319
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework\
 set FrameworkSDKDir=
@@ -1008,9 +998,9 @@ set DevEnvDir=%VSInstallDir%Common7\IDE\
 set NETFXTools=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\
 set NETFXSDK=C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\
 rem
-set PATH=%VSInstallDir%MSBuild\Current\Bin\Roslyn;%VSInstallDir%MSBuild\Current\Bin;%VCInstallDir%bin\Hostx86\x86;%DevEnvDir%VC\VCPackages;%WindowsSdkDir%bin\%AE_UCRTVER%\x86;%WindowsSdkDir%bin\x86;%NETFXTools%;%VSInstallDir%Common7\Tools;%DevEnvDir%;C:\Windows\Microsoft.NET\Framework\%FrameworkVersion32%;%PATH%;%DevEnvDir%\CommonExtensions\Microsoft\CMake\CMake\bin;%DevEnvDir%\CommonExtensions\Microsoft\CMake\Ninja
+set PATH=%VSInstallDir%MSBuild\Current\Bin\Roslyn;%VSInstallDir%MSBuild\Current\Bin;%VCInstallDir%bin\Hostx86\x86;%DevEnvDir%VC\VCPackages;%WindowsSdkDir%bin\%AE_UCRTVER%\x86;%WindowsSdkDir%bin\x86;%NETFXTools%;%VSInstallDir%Common7\Tools;%DevEnvDir%;C:\Windows\Microsoft.NET\Framework\%FrameworkVersion%;%PATH%;%DevEnvDir%\CommonExtensions\Microsoft\CMake\CMake\bin;%DevEnvDir%\CommonExtensions\Microsoft\CMake\Ninja
 set LIB=%LIB%;%VCInstallDir%atlmfc\lib\x86;%VCInstallDir%lib\x86;%WindowsSdkDir%lib\%AE_UCRTVER%\ucrt\x86;%WindowsSdkDir%lib\%AE_UCRTVER%\um\x86;%NETFXSDK%Lib\um\x86
-set LIBPATH=%VCInstallDir%atlmfc\lib\x86;%VCInstallDir%lib\x86;%;%WindowsSdkDir%UnionMetadata\%AE_UCRTVER%;%WindowsSdkDir%References\%AE_UCRTVER%;%FrameworkDir%%FrameworkVersion%
+set LIBPATH=%VCInstallDir%atlmfc\lib\x86;%VCInstallDir%lib\x86;%WindowsSdkDir%UnionMetadata\%AE_UCRTVER%;%WindowsSdkDir%References\%AE_UCRTVER%;%FrameworkDir%%FrameworkVersion%
 set INCLUDE=%INCLUDE%;%VCInstallDir%atlmfc\include;%VCInstallDir%include;%NETFXSDK%include\um;%WindowsSdkDir%Include\%AE_UCRTVER%\ucrt;%WindowsSdkDir%include\%AE_UCRTVER%\um;%WindowsSdkDir%include\%AE_UCRTVER%\shared;%WindowsSdkDir%include\%AE_UCRTVER%\winrt;%WindowsSdkDir%include\%AE_UCRTVER%\cppwinrt
 REM
 if not "%silent%"=="yes" echo Environment varibles set for %VCName%, target x86.
@@ -1023,7 +1013,6 @@ REM
 REM To view official settings: vsdevcmd -arch=amd64 -host_arch=amd64 -app_platform=Desktop
 REM
 set UCRTVersion=%AE_UCRTVER%
-set VCSettings=%VC14Settings%
 set VCName=VS2019
 set VCVersion=16.0
 set VCLib=
@@ -1033,7 +1022,6 @@ rem These env vars are required for msbuild /p:useenv=true
 Rem E:\MSSDK15 is a symlink to C:\Program Files (x86)\Windows Kits\10
 set WindowsSdkDir=C:\Program Files (x86)\Windows Kits\10\
 set FrameworkVersion=v4.0.30319
-set FrameworkVersion32=v4.0.30319
 set FrameworkVersion64=v4.0.30319
 set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework64\
 set FrameworkSDKDir=
@@ -1052,6 +1040,80 @@ REM
 if not "%silent%"=="yes" echo Environment varibles set for %VCName%, target x64.
 goto done
 rem --------------------------------------------------------------------------
+:vc143
+REM
+REM Set the build environment for VC143 (Visual Studio 2022) on x86
+REM
+REM To view official settings: \VS2022\Common7\Tools\vsdevcmd -arch=x86 -host_arch=amd64 -app_platform=Desktop
+REM
+set UCRTVersion=%AE_UCRTVER%
+set VCName=VS2022
+set VCVersion=17.0
+set VCLib=
+set VS170COMNTOOLS=E:\VS2022\Common7\Tools\
+set AMD64=
+rem These env vars are required for msbuild /p:useenv=true
+Rem E:\MSSDK15 is a symlink to C:\Program Files (x86)\Windows Kits\10
+set WindowsSdkDir=C:\Program Files (x86)\Windows Kits\10\
+set FrameworkVersion=v4.0.30319
+set FrameworkVersion64=v4.0.30319
+rem Use x64 tools to build for x86
+set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework64\
+set FrameworkDir32=%SystemRoot%\Microsoft.NET\Framework\
+set FrameworkDir64=%SystemRoot%\Microsoft.NET\Framework64\
+set FrameworkSDKDir=
+set VSInstallDir=%DevDrive%\%VCName%\
+set VCInstallDir=%VSInstallDir%VC\Tools\MSVC\%AE_VCTOOLS%\
+set DevEnvDir=%VSInstallDir%Common7\IDE\
+Rem Use x64 tools to build for x86
+set NETFXTools=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64
+set NETFXSDKDir=C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\
+rem
+Rem Use x64 tools to build for x86
+set PATH=%VSInstallDir%MSBuild\Current\Bin\Roslyn;%VSInstallDir%MSBuild\Current\Bin\amd64;%VCInstallDir%bin\Hostx64\x86;%VCInstallDir%bin\Hostx64\x64;%DevEnvDir%VC\VCPackages;%WindowsSdkDir%bin\%AE_UCRTVER%\x64;%WindowsSdkDir%bin\x64;%NETFXTools%;%VSInstallDir%Common7\Tools;%DevEnvDir%;C:\Windows\Microsoft.NET\Framework\%FrameworkVersion%;%PATH%;%DevEnvDir%\CommonExtensions\Microsoft\CMake\CMake\bin;%DevEnvDir%\CommonExtensions\Microsoft\CMake\Ninja
+set LIB=%LIB%;%VCInstallDir%atlmfc\lib\x86;%VCInstallDir%lib\x86;%WindowsSdkDir%lib\%AE_UCRTVER%\ucrt\x86;%WindowsSdkDir%lib\%AE_UCRTVER%\um\x86;%NETFXSDKDir%Lib\um\x86
+set LIBPATH=%VCInstallDir%atlmfc\lib\x86;%VCInstallDir%lib\x86;%WindowsSdkDir%UnionMetadata\%AE_UCRTVER%;%WindowsSdkDir%References\%AE_UCRTVER%;%FrameworkDir%%FrameworkVersion%;%VCInstallDir%lib\x86\store\references
+set INCLUDE=%INCLUDE%;%VCInstallDir%atlmfc\include;%VCInstallDir%include;%WindowsSdkDir%Include\%AE_UCRTVER%\ucrt;%WindowsSdkDir%include\%AE_UCRTVER%\um;%WindowsSdkDir%include\%AE_UCRTVER%\shared;%WindowsSdkDir%include\%AE_UCRTVER%\winrt;%WindowsSdkDir%include\%AE_UCRTVER%\cppwinrt;%NETFXSDKDir%include\um
+REM
+if not "%silent%"=="yes" echo Environment varibles set for %VCName%, target x86.
+goto done
+rem --------------------------------------------------------------------------
+:vc143x64
+REM
+REM Set the build environment for VC143 (Visual Studio 2022) on x64
+REM
+REM To view official settings: \VS2022\Common7\Tools\vsdevcmd -arch=amd64 -host_arch=amd64 -app_platform=Desktop
+REM
+set UCRTVersion=%AE_UCRTVER%
+set VCName=VS2022
+set VCVersion=17.0
+set VCLib=
+set VS170COMNTOOLS=E:\VS2022\Common7\Tools\
+set AMD64=1
+rem These env vars are required for msbuild /p:useenv=true
+Rem E:\MSSDK15 is a symlink to C:\Program Files (x86)\Windows Kits\10
+set WindowsSdkDir=C:\Program Files (x86)\Windows Kits\10\
+set FrameworkVersion=v4.0.30319
+set FrameworkVersion64=v4.0.30319
+set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework64\
+set FrameworkDir32=%SystemRoot%\Microsoft.NET\Framework\
+set FrameworkDir64=%SystemRoot%\Microsoft.NET\Framework64\
+set FrameworkSDKDir=
+set VSInstallDir=%DevDrive%\%VCName%\
+set VCInstallDir=%VSInstallDir%VC\Tools\MSVC\%AE_VCTOOLS%\
+set DevEnvDir=%VSInstallDir%Common7\IDE\
+set NETFXTools=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64
+set NETFXSDKDir=C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\
+rem
+rem Note: Use x64 .NET and NETFX Tools because the default x64 config now does
+set PATH=%VSInstallDir%MSBuild\Current\Bin\Roslyn;%VSInstallDir%MSBuild\Current\Bin\amd64;%VCInstallDir%bin\Hostx64\x64;%DevEnvDir%VC\VCPackages;%WindowsSdkDir%bin\%AE_UCRTVER%\x64;%WindowsSdkDir%bin\x64;%NETFXTools%;%VSInstallDir%Common7\Tools;%DevEnvDir%;C:\Windows\Microsoft.NET\Framework64\%FrameworkVersion64%;%PATH%;%DevEnvDir%\CommonExtensions\Microsoft\CMake\CMake\bin;%DevEnvDir%\CommonExtensions\Microsoft\CMake\Ninja
+set LIB=%LIB%;%VCInstallDir%atlmfc\lib\x64;%VCInstallDir%lib\x64;%WindowsSdkDir%lib\%AE_UCRTVER%\ucrt\x64;%WindowsSdkDir%lib\%AE_UCRTVER%\um\x64;%NETFXSDKDir%Lib\um\x64
+set LIBPATH=%VCInstallDir%atlmfc\lib\x64;%VCInstallDir%lib\x64;%WindowsSdkDir%UnionMetadata\%AE_UCRTVER%;%WindowsSdkDir%References\%AE_UCRTVER%;%FrameworkDir%%FrameworkVersion64%;%VCInstallDir%lib\x64\store\references
+set INCLUDE=%INCLUDE%;%VCInstallDir%atlmfc\include;%VCInstallDir%include;%WindowsSdkDir%Include\%AE_UCRTVER%\ucrt;%WindowsSdkDir%include\%AE_UCRTVER%\um;%WindowsSdkDir%include\%AE_UCRTVER%\shared;%WindowsSdkDir%include\%AE_UCRTVER%\winrt;%WindowsSdkDir%include\%AE_UCRTVER%\cppwinrt;%NETFXSDKDir%include\um
+REM
+if not "%silent%"=="yes" echo Environment varibles set for %VCName%, target x64.
+goto done
+rem --------------------------------------------------------------------------
 :done
 set VC8Settings=
 set VC9Settings=
@@ -1059,27 +1121,26 @@ set VC10Settings=
 set VC12Settings=
 set VC14Settings=
 set VC141Settings=
-set VC142Settings=
 set VCSettings=
 set HomeVC8Settings=
 set HomeVC9Settings=
 set HomeVC10Settings=
 set HomeVC12Settings=
 set HomeVC14Settings=
-set HomeVC141Settings=
-set HomeVC142Settings=
 set HomeVCSettings=
 set WindowsSdkDir06=
 rem set WindowsSdkDir=
 set DevEnvDir=
 set NETFXTools=
 set NETFXSDK=
+set NETFXSDKDir=
 set VCName=
 set VCVersion=
 set VCLib=
 rem set VS140COMNTOOLS=
 rem set VS150COMNTOOLS=
 rem set VS160COMNTOOLS=
+rem set VS170COMNTOOLS=
 set IFCPATH=
 set REG32=
 set DevDrive=
