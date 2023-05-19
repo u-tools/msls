@@ -26,7 +26,7 @@ call build.bat clean
 if errorlevel 1 goto done
 cd .\dbin
 if errorlevel 1 goto done
-if "%BLDTYPE%"=="Release" C:\Python32\python.exe .\BumpVersion.py
+if "%BLDTYPE%"=="Release" C:\Python%PYVER%\python.exe .\BumpVersion.py
 cd ..
 call build.bat
 if errorlevel 1 goto done
